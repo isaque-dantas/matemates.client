@@ -22,14 +22,14 @@ header {
 .navItems a::after {
   content: "";
   position: absolute;
-  border-radius: 5px;
+  border-radius: 20px;
   bottom: 0;
   left: 0;
   background-color: #000;
 }
 
 .navItems a.active::after {
-  height: 2.5px;
+  height: 2.6px;
   width: 100%;
 }
 
