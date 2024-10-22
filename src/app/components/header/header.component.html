@@ -1,17 +1,17 @@
 <header>
-  <nav class="navbar bg-body-tertiary">
+  <nav class="navbar">
     <div class="container">
       <a class="navbar-brand" href="#">
         <img src="logo.svg" class="logo" alt="Bootstrap">
       </a>
-      <ul class="d-flex justify-content-between list-unstyled">
+      <ul class="d-flex list-unstyled navItems">
         <li *ngFor="let item of navItems">
-          <a class="text-decoration-none position-relative"  routerLinkActive="active" [routerLink]="item.link"> {{ item.label }}</a>
+          <a class="text-decoration-none position-relative fs-4"  routerLinkActive="active" [routerLink]="item.link"> {{ item.label }}</a>
         </li>
       </ul>
       <div class="buttons">
-        <button class="btn">Entrar</button>
-        <button class="btn">Registrar</button>
+        <button class="btn btn-login   fs-4">Entrar</button>
+        <button class="btn btn-register fs-4">Registrar</button>
       </div>
     </div>
   </nav>

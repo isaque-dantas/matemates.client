@@ -1,0 +1,50 @@
+header {
+  margin-top: 25px;
+}
+
+.logo {
+  width: 69px;
+}
+
+.navItems {
+  margin: 0;
+}
+
+.navItems li {
+  padding: 10px;
+}
+
+.navItems a {
+  color: var(--text-color-dark);
+  font-weight: 500;
+}
+
+.navItems a::after {
+  content: "";
+  position: absolute;
+  border-radius: 5px;
+  bottom: 0;
+  left: 0;
+  background-color: #000;
+}
+
+.navItems a.active::after {
+  height: 2.5px;
+  width: 100%;
+}
+
+.btn {
+  border-radius: 64px;
+  padding: 3px 23px;
+  font-weight: 500;
+}
+
+.btn-login {
+  border: 2px solid #000;
+  margin-right: 22px;
+}
+
+.btn-register {
+  background-color: var(--page-color-4);
+  color: var(--text-color-light)
+}
