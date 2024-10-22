@@ -14,10 +14,11 @@ import {KeyValuePipe, NgForOf} from "@angular/common";
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
+
 export class HeaderComponent {
   navItems = [
-    {'label': 'Início', 'link': '/dashboard'},
-    {'label': 'Dashboard', 'link': '/buscar'},
-    {'label': 'Lorem', 'link': '/futureupdate'},
+    {'label': 'Início', 'link': ''},
+    {'label': 'Buscar', 'link': 'search'},
+    {'label': 'Lorem', 'link':   'futureupdate'},
   ]
 }
