@@ -6,13 +6,18 @@
 }
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Poppins, sans-serif !important;}
+
+body {
+  margin: 0;
+  font-family: Poppins, sans-serif !important;
+  background-color: var(--background-color);
+  background-image: url("background.png");
+  background-size: cover;
+  background-repeat: repeat;
+  background-blend-mode: overlay;
+}
 
 .container {
   max-width: 1770px;
 }
 
-body {
-  background-color: var(--background-color);
-  background-image: image("../public/background.png");
-}
