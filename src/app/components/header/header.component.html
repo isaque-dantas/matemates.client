@@ -6,7 +6,7 @@
       </a>
       <ul class="d-flex list-unstyled navItems">
         <li *ngFor="let item of navItems">
-          <a class="text-decoration-none position-relative fs-4"  routerLinkActive="active" [routerLink]="item.link"> {{ item.label }}</a>
+          <a class="text-decoration-none position-relative fs-4"  routerLinkActive="active" [routerLink]="item.link" [routerLinkActiveOptions]="{ exact: true }"> {{ item.label }}</a>
         </li>
       </ul>
       <div class="buttons">
