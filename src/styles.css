@@ -1,11 +1,12 @@
---root {
+:root {
   --text-color-dark: #000000;
   --text-color-light: #FFFFFF;
   --background-color: #D6D6D6;
-  --text-size-normal: 24px;
+  --page-color-4: #5483B3;
 }
+
 html, body { height: 100%; }
-body { margin: 0; font-family: Poppins, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Poppins, sans-serif !important;}
 
 .container {
   max-width: 1770px;
