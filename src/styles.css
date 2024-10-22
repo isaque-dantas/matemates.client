@@ -2,13 +2,15 @@
   --text-color-dark: #000000;
   --text-color-light: #FFFFFF;
   --background-color: #D6D6D6;
+  --page-color-1: #FFF;
+  --page-color-2: #3A5572;
+  --page-color-3: #7DA0CA;
   --page-color-4: #5483B3;
 }
 
 html, body { height: 100%; }
 
 body {
-  margin: 0;
   font-family: Poppins, sans-serif !important;
   background-color: var(--background-color);
   background-image: url("background.png");
