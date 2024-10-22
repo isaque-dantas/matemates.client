@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {RouterLink, RouterLinkActive} from "@angular/router";
 import {KeyValuePipe, NgForOf} from "@angular/common";
+import {MatButton} from "@angular/material/button";
 
 @Component({
   selector: 'app-header',
@@ -9,7 +10,8 @@ import {KeyValuePipe, NgForOf} from "@angular/common";
     RouterLinkActive,
     NgForOf,
     RouterLink,
-    KeyValuePipe
+    KeyValuePipe,
+    MatButton
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
