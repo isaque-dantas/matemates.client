@@ -2,6 +2,10 @@ section {
   margin-top: 73.5px;
 }
 
+section .container {
+    max-width: 89%;
+}
+
 .bottom-content {
   padding-bottom: 113px;
 }
