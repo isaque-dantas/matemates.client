@@ -1,0 +1,99 @@
+.background {
+  background-image: url('register-background.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 60px 0 0 60px;
+}
+
+.info {
+  margin-top: 35px;
+}
+
+.forms-container {
+  margin-top: 77px;
+}
+
+.logo {
+  width: 70px;
+  height: 70px;
+  margin-right: 20px;
+}
+
+form {
+  gap: 46px;
+  font-size: 18px;
+  font-weight: 500;
+  color: rgba(2, 16, 36, 0.65);
+}
+
+.text {
+  gap: 6px;
+}
+
+.text h1 {
+  font-size: 40px;
+  width: fit-content;
+}
+
+.text p {
+  font-size: 14px;
+}
+
+.form-input {
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--page-color-2);
+  outline: none;
+  padding-top: 10px;
+}
+
+.form-input::placeholder {
+  font-size: 24px;
+}
+
+.custom-checkbox-label {
+  position: relative;
+  cursor: pointer;
+  padding-left: 25px;
+  display: inline-block;
+  color: var(--page-color-5);
+}
+
+.custom-checkbox-label::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background-color: white;
+}
+
+.custom-checkbox:checked + .custom-checkbox-label::before {
+  background-color: var(--page-color-5);
+}
+
+.custom-checkbox:checked + .custom-checkbox-label::after {
+  content: '✔';
+  position: absolute;
+  left: 5px;
+  top: -1px;
+  color: white;
+  font-size: 16px;
+}
+
+.btn-login {
+  color: #000;
+  border: 2px solid #000;
+  border-radius: 64px;
+  font-size: 24px;
+  font-weight: 500;
+  padding: 3px 23px;
+}
+
+.text-blue {
+  color: #052659;
+  font-weight: 600;
+  cursor: pointer;
+}
