@@ -1,23 +1,29 @@
 import {Component, signal} from '@angular/core';
-import {MatFormField, MatLabel} from "@angular/material/form-field";
-import {MatInputModule} from "@angular/material/input";
 import {MatIcon} from "@angular/material/icon";
-import {
-  MatAccordion, MatExpansionModule,
-  MatExpansionPanel,
-  MatExpansionPanelHeader,
-  MatExpansionPanelTitle
-} from "@angular/material/expansion";
+import {NgForOf} from "@angular/common";
+import {HeaderComponent} from "../../header/header.component";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [
-    MatIcon
+    MatIcon,
+    NgForOf,
+    HeaderComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
-
+  cardValues = [
+    {'value': 'álgebra', 'qnt': 48},
+    {'value': 'Geometria', 'qnt': 56},
+    {'value': 'Lorem', 'qnt': 33},
+    {'value': 'Lorem', 'qnt': 33},
+    {'value': 'Lorem', 'qnt': 33},
+    {'value': 'Lorem', 'qnt': 33},
+    {'value': 'Lorem', 'qnt': 33},
+    {'value': 'Lorem', 'qnt': 33},
+    {'value': 'Lorem', 'qnt': 33}
+  ]
 }
