@@ -21,13 +21,15 @@
             <label for="password">Senha</label>
             <input class="form-input" type="text" id="password" placeholder="...">
           </div>
+          <div class="d-flex justify-content-between">
+            <label class="d-flex align-items-start gap-3">
+              <input class="custom-checkbox d-none" type="checkbox" [checked]="false" name="remember_me" value="true">
+              <span class="custom-checkbox-label">Lembrar de mim</span>
+            </label>
+            <a class="btn btn-login">Entrar</a>
+          </div>
+          <p>Não tenho conta. <span routerLink="/register" class="text-blue">REGISTRAR</span></p>
         </form>
-        <div class="w-75">
-          <label>
-            <input type="checkbox" name="remember_me" value="true"> lembre de mim
-          </label>
-          <a class="btn btn-login">Entrar</a>
-        </div>
       </div>
     </div>
   </div>
