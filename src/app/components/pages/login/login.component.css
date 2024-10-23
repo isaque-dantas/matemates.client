@@ -51,10 +51,49 @@ form {
   font-size: 24px;
 }
 
+.custom-checkbox-label {
+  position: relative;
+  cursor: pointer;
+  padding-left: 25px;
+  display: inline-block;
+  color: var(--page-color-5);
+}
+
+.custom-checkbox-label::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background-color: white;
+}
+
+.custom-checkbox:checked + .custom-checkbox-label::before {
+  background-color: var(--page-color-5);
+}
+
+.custom-checkbox:checked + .custom-checkbox-label::after {
+  content: '✔';
+  position: absolute;
+  left: 5px;
+  top: -1px;
+  color: white;
+  font-size: 16px;
+}
+
 .btn-login {
-  color: #000 !important;
-  border: 2px solid #000 !important;
+  color: #000;
+  border: 2px solid #000;
+  border-radius: 64px;
   font-size: 24px;
   font-weight: 500;
-  padding: 0;
+  padding: 3px 23px;
+}
+
+.text-blue {
+  color: #052659;
+  font-weight: 600;
+  cursor: pointer;
 }
