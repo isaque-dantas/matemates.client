@@ -7,7 +7,7 @@ section {
 }
 
 .background {
-  background-image: url('background-2.jpg');
+  background-image: url('images/background-2.jpg');
   background-size: cover;
   background-repeat: repeat;
   height: 414px;
@@ -112,9 +112,67 @@ section {
 
 #color-3 {background-color: var(--page-color-2)}
 
-.form-select{
-  border: none;
-  width: 284px;
+.right2 h1 {
   font-size: 48px;
+  font-weight: 400;
 }
 
+.col-9 {
+  width: 70%;
+}
+
+.field-container {
+  gap: 59px;
+  padding-bottom: .5px;
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: none;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--page-color-2);
+  border-radius: 10px;
+  border: 3px solid #dcdcdc;
+}
+
+/* Efeito de hover na "thumb" */
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--page-color-3);
+}
+
+.field-card {
+  background-image: url("images/Card_background.png");
+  height: 258px;
+  width: 256px;
+  border-radius: 15px;
+  color: var(--text-color-light);
+}
+
+.field-card h2 {
+  font-size: 32px;
+  font-weight: 400;
+  margin-top: 50px;
+}
+
+.white-ball {
+  width: 127px;
+  height: 127px;
+  background-color: var(--page-color-1);
+  border-radius: 50%;
+  color: var(--text-color-dark);
+  bottom: -29px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.qnt {
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
