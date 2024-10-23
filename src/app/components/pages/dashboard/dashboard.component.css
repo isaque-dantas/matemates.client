@@ -66,8 +66,11 @@ section {
   border-radius: 19px;
 }
 
-.left2 {
+.bottom-content {
   margin-top: 54px;
+}
+
+.left2 {
   gap: 33px;
 }
 
@@ -108,3 +111,10 @@ section {
 }
 
 #color-3 {background-color: var(--page-color-2)}
+
+.form-select{
+  border: none;
+  width: 284px;
+  font-size: 48px;
+}
+
