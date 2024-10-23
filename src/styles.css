@@ -16,7 +16,8 @@ body {
   background-image: url("background.png");
   background-size: cover;
   background-repeat: repeat;
-  background-blend-mode: overlay;
+  background-blend-mode: lighten  ;
+  backdrop-filter: opacity(0.5) blur(10px);
 }
 
 .container {
