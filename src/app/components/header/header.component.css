@@ -8,6 +8,7 @@ header {
 
 .navItems {
   margin: 0;
+  gap: 31px;
 }
 
 .navItems li {

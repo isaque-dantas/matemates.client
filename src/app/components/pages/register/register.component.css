@@ -1,3 +1,7 @@
+body {
+  overflow-y: hidden;
+}
+
 .background {
   background-image: url('register-background.png');
   background-size: cover;
