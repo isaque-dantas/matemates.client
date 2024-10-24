@@ -1,0 +1,72 @@
+.background {
+  background-image: url("background-20.png") !important;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.content-gambiarra {
+  width: 68%;
+  left: 2%;
+}
+
+.content-background {
+  width: 56%;
+  height: 200%;
+  background-color: var(--page-color-1);
+  background-image: url("background.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-blend-mode: multiply;
+  box-shadow: 0 0 11px 21px rgba(0, 0, 0, 0.25) inset;
+  display: inline-flex;
+  transform: rotate(-34.743deg);
+  padding: 55.798px 0px 58.75px 0px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  top: -50%;
+}
+
+.texture-ball {
+  background-color: var(--page-color-1);
+  background-image: url("background.png");
+  background-size: cover;
+  background-blend-mode: multiply;
+  width: 436px;
+  height: 436px;
+  border-radius: 436px;
+  top: 144px;
+  left: 182px;
+}
+
+.texture-ball .profile-image {
+  background-image: url("placeholder-image.png");
+  background-size: cover;
+  width: 362px;
+  height: 362px;
+  border-radius: 362px;
+}
+
+.cruds {
+  height: 567.962px;
+  transform: rotate(-34.512deg);
+  flex-shrink: 0;
+  color: var(--page-color-6);
+  bottom: 0;
+  left: 28%
+}
+
+.crud {
+  font-weight: 400;
+  transform: rotate(34.512deg);
+}
+
+.crud .mat-icon {
+  font-size: 64px !important;
+  width: 64px;
+  height: 64px;
+}
+
+.crud:nth-child(1) {
+  font-size: 18px;
+}
