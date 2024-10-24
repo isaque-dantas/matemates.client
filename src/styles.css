@@ -7,12 +7,13 @@
   --page-color-3: #7DA0CA;
   --page-color-4: #5483B3;
   --page-color-5: #021024;
+  --page-color-6: #052659;
 }
 
 html, body {
   height: 100vh;
   margin: 0;
-  overflow-y: hidden;
+  overflow: hidden;
 }
 
 body {
