@@ -20,7 +20,7 @@ import {MatButton} from "@angular/material/button";
 export class HeaderComponent {
   navItems = [
     {'label': 'Início', 'link': ''},
-    {'label': 'reportar', 'link': 'report'},
-    {'label': 'Lorem', 'link':   'futureupdate'},
+    {'label': 'criar', 'link':   'create'},
+    {'label': 'sugerir alteração', 'link': 'report'},
   ]
 }
