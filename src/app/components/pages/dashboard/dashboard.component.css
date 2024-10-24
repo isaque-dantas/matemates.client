@@ -31,7 +31,7 @@ section .container {
 
 
 .area-field {
-  padding: 10px 20px;
+  padding: 15px 20px;
   border: 2px solid var(--page-color-1);
   border-radius: 15px;
   font-size: 36px;
@@ -177,3 +177,4 @@ section .container {
   left: 50%;
   transform: translateX(-50%);
 }
+
