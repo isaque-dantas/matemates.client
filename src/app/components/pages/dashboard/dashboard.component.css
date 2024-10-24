@@ -14,7 +14,7 @@ section .container {
   background-image: url('images/background-2.jpg');
   background-size: cover;
   background-repeat: repeat;
-  height: 414px;
+  min-height: 414px;
   border-radius: 30px;
   color: var(--text-color-light);
   font-weight: 500;
@@ -24,10 +24,11 @@ section .container {
   width: 50%;
 }
 
-.title {
+.title-container {
   font-weight: 700;
-  gap: 30px;
+  gap: 2rem;
 }
+
 
 .area-field {
   padding: 10px 20px;

@@ -9,14 +9,14 @@
   margin-top: 35px;
 }
 
-.forms-container {
-  margin-top: 77px;
-}
-
 .logo {
   width: 70px;
   height: 70px;
   margin-right: 20px;
+}
+
+.forms-container {
+  margin-top: 77px;
 }
 
 form {

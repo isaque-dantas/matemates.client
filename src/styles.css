@@ -9,7 +9,11 @@
   --page-color-5: #021024;
 }
 
-html, body { height: 100%; }
+html, body {
+  height: 100vh;
+  margin: 0;
+  overflow-y: hidden;
+}
 
 body {
   font-family: Poppins, sans-serif !important;
