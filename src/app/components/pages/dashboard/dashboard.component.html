@@ -42,10 +42,10 @@
       <div class="right2 col-9">
         <h1>Assuntos</h1>
         <ul class="d-flex list-unstyled flex-shrink-0 field-container overflow-x-scroll overflow-y-hidden">
-          <li *ngFor="let item of cardValues" class="field-card overflow-hidden flex-shrink-0 text-center position-relative">
-            <h2>{{ item.value }}</h2>
+          <li *ngFor="let card of knowledgeAreaCards" class="field-card overflow-hidden flex-shrink-0 text-center position-relative">
+            <h2>{{ card.content | capitalize }}</h2>
             <div class="white-ball position-absolute">
-              <h3 class="qnt position-absolute">{{ item.qnt }}</h3>
+              <h3 class="qnt position-absolute">{{ card.amountOfEntries }}</h3>
             </div>
           </li>
         </ul>
