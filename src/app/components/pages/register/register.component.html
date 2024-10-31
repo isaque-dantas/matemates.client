@@ -9,29 +9,41 @@
           <h1 class="m-0">Registro</h1>
           <p>Registre-se para sugerir alterações nos verbetes, favoritar os que você mais gostar e acessar o histórico de acesso aos verbetes.</p>
         </div>
-        <form class="d-flex flex-column w-75" action="">
+        <form [formGroup]="registerForm" class="d-flex flex-column w-75" action="">
           <div class="form-input d-flex flex-column">
             <label for="name">nome</label>
-            <input class="form-input" type="text" id="name" placeholder="...">
+            <input class="form-input" formControlName="name" type="text" id="name" placeholder="...">
+            <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched">
+              Digite seu nome.
+            </div>
           </div>
           <div class="form-input d-flex flex-column">
             <label for="username">username</label>
-            <input class="form-input" type="text" id="username" placeholder="...">
+            <input class="form-input" formControlName="username" type="text" id="username" placeholder="...">
+            <div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched">
+              Seu username precisa ter no mínimo 3 caractéres.
+            </div>
           </div>
           <div class="form-input d-flex flex-column">
             <label for="Email">Email</label>
-            <input class="form-input" type="text" id="Email" placeholder="...">
+            <input class="form-input" type="email" formControlName="email" id="Email" placeholder="...">
+            <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+              Por favor, digite um email válido.
+            </div>
           </div>
           <div class="form-input d-flex flex-column">
             <label for="password">Senha</label>
-            <input class="form-input" type="text" id="password" placeholder="...">
+            <input class="form-input" type="password" formControlName="password" id="password" placeholder="...">
+            <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+              A senha deve ter pelo menos 6 caractéres.
+            </div>
           </div>
           <div class="d-flex justify-content-between">
             <label class="d-flex align-items-center gap-3">
               <input class="custom-checkbox d-none" type="checkbox" [checked]="false" name="remember_me" value="true">
               <span class="custom-checkbox-label">Lembrar de mim</span>
             </label>
-            <a class="btn btn-login">Registrar</a>
+            <button type="submit" [disabled]="registerForm.invalid" class="btn btn-login">Registrar</button>
           </div>
           <p>Já tenha uma conta. <span routerLink="/login" class="text-blue">ENTRAR</span></p>
         </form>
