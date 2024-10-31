@@ -1,6 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {HeaderComponent} from "../../header/header.component";
 import {MatIcon} from "@angular/material/icon";
+
 
 @Component({
   selector: 'app-profile',

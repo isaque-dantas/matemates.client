@@ -2,6 +2,7 @@
   --text-color-dark: #000000;
   --text-color-light: #FFFFFF;
   --background-color: #D6D6D6;
+  --danger-color: #FFD4D4;
   --page-color-1: #FFF;
   --page-color-2: #3A5572;
   --page-color-3: #7DA0CA;
@@ -27,4 +28,8 @@ body {
 
 .container {
   max-width: 94%;
+}
+
+.custom-dialog-container {
+  background-color: red;
 }

@@ -12,3 +12,8 @@ export interface UserToSend {
   username: string;
   profileImageBase64: string | null;
 }
+
+export interface LoginData {
+  email: string,
+  password: string
+}

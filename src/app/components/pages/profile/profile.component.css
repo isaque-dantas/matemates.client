@@ -32,18 +32,18 @@
   background-image: url("background.png");
   background-size: cover;
   background-blend-mode: multiply;
-  width: 436px;
-  height: 436px;
+  width: 16vw;
+  height: 16vw;
   border-radius: 436px;
-  top: 144px;
-  left: 182px;
+  top: 15vh;
+  left: 8vw;
 }
 
 .texture-ball .profile-image {
   background-image: url("placeholder-image.png");
   background-size: cover;
-  width: 362px;
-  height: 362px;
+  width: 13.6vw;
+  height: 13.6vw;
   border-radius: 362px;
 }
 
@@ -61,12 +61,32 @@
   transform: rotate(34.512deg);
 }
 
-.crud .mat-icon {
-  font-size: 64px !important;
-  width: 64px;
-  height: 64px;
+.crud {
+  font-size: .8vw;
+  cursor: pointer;
 }
 
-.crud:nth-child(1) {
-  font-size: 18px;
+.crud, .crud button {
+  transition: color .3s ease-in-out;
+}
+.crud .mat-icon {
+  font-size: 2.5vw !important;
+  width: 2.5vw;
+  height: 2.5vw;
+}
+
+.delete_button:hover,
+.logout_button:hover {
+  color: #FF4C3B;
+  font-weight: bold;
+}
+
+.add_adm_button:hover {
+  color: #3B8DFF;
+  font-weight: bold;
+}
+
+.edit_button:hover {
+  color: #4CFF4C;
+  font-weight: bold;
 }
