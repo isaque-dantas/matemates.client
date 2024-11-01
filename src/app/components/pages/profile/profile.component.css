@@ -59,7 +59,7 @@
 .crud {
   font-weight: 400;
   transform: rotate(34.512deg);
-  font-size: .8vw;
+  font-size: 16px;
   cursor: pointer;
   border: none;
   background: none  ;
@@ -69,9 +69,9 @@
   transition: color .3s ease-in-out;
 }
 .crud .mat-icon {
-  font-size: 2.5vw !important;
-  width: 2.5vw;
-  height: 2.5vw;
+  font-size: 55px !important;
+  width: 55px;
+  height: 55px;
 }
 
 .delete_button:hover,
@@ -88,4 +88,12 @@
 .edit_button:hover {
   color: #4CFF4C;
   font-weight: bold;
+}
+
+.modal-footer .cancel-delete:hover {
+  background-color: #D4FFD4;
+}
+
+.modal-footer .confirm-delete:hover {
+  background-color: var(--danger-color);
 }

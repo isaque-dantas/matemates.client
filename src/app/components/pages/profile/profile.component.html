@@ -19,17 +19,17 @@
         <mat-icon>logout</mat-icon>
         <p>Sair</p>
       </button>
-      <button class="d-flex flex-column delete_button align-items-center crud">
+      <button class="d-flex flex-column delete_button align-items-center crud" data-bs-toggle="modal" data-bs-target="#deleteAccount">
         <mat-icon>delete</mat-icon>
         <p>Deletar</p>
       </button>
     </div>
 
-    <div class="modal fade" id="addAdmModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addAdmModal" tabindex="-1" aria-labelledby="admModal" aria-hidden="true">
       <div class="modal-dialog w-100 h-100 p-0 m-0">
         <div class="modal-content d-flex flex-column w-100 h-100">
           <div class="modal-header d-block w-100 text-center border-0 p-0">
-            <h1 class="modal-title" id="exampleModalLabel">Promover um usuário para administrador</h1>
+            <h1 class="modal-title" id="admModal">Promover um usuário para administrador</h1>
           </div>
           <div class="modal-body">
             <form action="" class="d-flex flex-column">
@@ -46,6 +46,32 @@
           <div class="modal-footer border-0 d-flex justify-content-between">
             <button type="button" class="cancel" data-bs-dismiss="modal">Cancelar</button>
             <button type="button" class="confirm" data-bs-dismiss="modal">Confirmar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="deleteAccount" tabindex="-1" aria-labelledby="deleteModal" aria-hidden="true">
+      <div class="modal-dialog w-100 h-100 p-0 m-0">
+        <div class="modal-content d-flex flex-column w-100 h-100">
+          <div class="modal-header d-block w-100 text-center border-0 p-0">
+            <h1 class="modal-title" id="deleteModal">Promover um usuário para administrador</h1>
+          </div>
+          <div class="modal-body">
+            <form action="" class="d-flex flex-column">
+              <div class="d-flex gap-p flex-column">
+                <label for="email2">Email</label>
+                <input type="text" id="email2">
+              </div>
+              <div class="d-flex gap-p flex-column">
+                <label for="password">Senha</label>
+                <input type="email" id="password">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer border-0 d-flex justify-content-between">
+            <button type="button" class="cancel-delete" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="confirm-delete" data-bs-dismiss="modal">Confirmar</button>
           </div>
         </div>
       </div>
