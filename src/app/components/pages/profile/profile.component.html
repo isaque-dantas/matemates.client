@@ -15,7 +15,7 @@
         <mat-icon>edit</mat-icon>
         <p>Editar</p>
       </div>
-      <div class="d-flex flex-column logout_button align-items-center crud">
+      <div (click)="authService.logout()" class="d-flex flex-column logout_button align-items-center crud">
         <mat-icon>logout</mat-icon>
         <p>Sair</p>
       </div>
