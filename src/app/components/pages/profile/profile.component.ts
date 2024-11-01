@@ -1,6 +1,8 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {HeaderComponent} from "../../header/header.component";
 import {MatIcon} from "@angular/material/icon";
+import {AuthService} from "../../../services/auth.service";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -14,6 +16,10 @@ import {MatIcon} from "@angular/material/icon";
   styleUrl: './profile.component.css'
 })
 export class ProfileComponent implements OnInit, OnDestroy {
+
+  constructor(public authService: AuthService, private router: Router) {
+  }
+
   ngOnInit() {
     document.body.style.overflow = 'hidden';
   }
