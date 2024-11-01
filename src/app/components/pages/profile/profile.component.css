@@ -97,3 +97,71 @@
 .modal-footer .confirm-delete:hover {
   background-color: var(--danger-color);
 }
+
+.user_info {
+  left: 60%;
+  top: 60%;
+  transform: translate(-50%, -50%);
+  gap: 32px;
+  width: 40%;
+}
+
+.info {
+  gap: 8px;
+  width: 100%;
+}
+
+.info label {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.info input {
+  width: 65%;
+  height: 60px;
+  background-color: #d3d3d3;
+  border-radius: 20px 0 0 20px;
+  border: 3px solid var(--page-color-6);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  position: relative;
+  padding: 0 10px;
+  transition: box-shadow .3s ease-in-out;
+}
+
+.info input:focus {
+  outline: none;
+  border-color: var(--page-color-2);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+}
+.info:nth-child(2) {
+  margin-left: 100px;
+}
+
+.info:nth-child(3) {
+  margin-left: 200px;
+}
+
+.info:nth-child(4) {
+  margin-left: 300px;
+}
+
+.role_show {
+  width: 95px;
+  height: 138px;
+  background-image: url('adm_banner.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  right: 120px;
+}
+
+.adm-picture {
+  width: 70px;
+  height: 70px;
+  border-radius: 100px;
+  background-image: url('placeholder-image.png');
+  background-size: cover;
+  left: 50%;
+  top: 35%;
+  transform: translate(-50%, -50%);
+  border: 2px solid var(--page-color-6);
+}
