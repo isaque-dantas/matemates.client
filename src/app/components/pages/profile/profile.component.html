@@ -7,22 +7,22 @@
       <div class="profile-image"></div>
     </div>
     <div class="cruds d-inline-flex position-absolute flex-column justify-content-between align-items-start">
-      <div class="d-flex flex-column add_adm_button align-items-center crud">
+      <button class="d-flex flex-column add_adm_button align-items-center crud">
         <mat-icon>add</mat-icon>
         <p>Add adm</p>
-      </div>
-      <div class="d-flex flex-column edit_button align-items-center crud">
+      </button>
+      <button class="d-flex flex-column edit_button align-items-center crud">
         <mat-icon>edit</mat-icon>
         <p>Editar</p>
-      </div>
-      <div (click)="authService.logout()" class="d-flex flex-column logout_button align-items-center crud">
+      </button>
+      <button (click)="authService.logout()" class="d-flex flex-column logout_button align-items-center crud">
         <mat-icon>logout</mat-icon>
         <p>Sair</p>
-      </div>
-      <div class="d-flex flex-column delete_button align-items-center crud">
+      </button>
+      <button class="d-flex flex-column delete_button align-items-center crud">
         <mat-icon>delete</mat-icon>
         <p>Deletar</p>
-      </div>
+      </button>
     </div>
   </section>
 </div>
