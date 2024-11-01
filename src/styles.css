@@ -32,3 +32,108 @@ body {
 .custom-dialog-container {
   background-color: red;
 }
+
+.modal-backdrop {
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(14.300000190734863px);
+
+}
+
+.modal.fade .modal-dialog {
+  transition: transform .4s ease-out;
+  transform: translateY(-50%);
+}
+
+.modal.show .modal-dialog {
+  transform: translateY(0);
+}
+
+.modal-backdrop.show {
+  opacity: 7;
+}
+
+.modal {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.modal-dialog {
+  max-width: 100%;
+}
+
+.modal-header {
+  margin-top: 44px;
+}
+
+.modal-title{
+  font-size: 40px !important;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.modal-content {
+  padding: 0 100px;
+  background: rgba(255, 255, 255, 0.90);
+}
+
+.modal-body {
+  flex: 0;
+}
+
+.modal {
+  width: 1118px;
+  height: 636px;
+}
+
+.modal form {
+  gap: 44px;
+}
+
+.modal label {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.modal input {
+  border-radius: 20px;
+  border: 3px solid var(--page-color-6);
+  background-color: var(--page-color-1);
+  height: 71px;
+  padding-left: 10px;
+}
+
+.modal-footer {
+  margin-bottom: 44px;
+  margin-top: 44px;
+}
+
+.modal button {
+  padding: 3px 23px;
+  background: none;
+  border-radius: 64px;
+  border: 2px solid var(--page-color-6);
+  color: var(--page-color-6);
+  height: 70px;
+  width: 211px;
+  font-size: 24px;
+  transition: background-color .3s ease-in-out;
+}
+
+.gap-p {
+  gap: 6px;
+}
+
+.modal-footer .cancel:hover {
+  background-color: var(--danger-color);
+}
+
+.modal-footer .confirm:hover {
+  background-color: #D4FFD4;
+}
+
+@media (max-width: 768px) {
+  .modal-dialog {
+    max-width: 90%; /* Wider on smaller screens */
+  }
+}

@@ -62,7 +62,7 @@
   font-size: .8vw;
   cursor: pointer;
   border: none;
-  background: none;
+  background: none  ;
 }
 
 .crud, .crud button {
