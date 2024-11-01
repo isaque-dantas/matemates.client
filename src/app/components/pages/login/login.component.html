@@ -34,8 +34,8 @@
             </label>
             <button type="submit" [disabled]="loginForm.invalid" class="btn btn-login">Entrar</button>
           </div>
+          <p>Não tenho conta. <span routerLink="/register" class="text-blue">REGISTRAR</span></p>
         </form>
-        <p>Não tenho conta. <span routerLink="/register" class="text-blue">REGISTRAR</span></p>
         <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
       </div>
     </div>
