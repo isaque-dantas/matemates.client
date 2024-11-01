@@ -18,10 +18,11 @@ import {NgIf} from "@angular/common";
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  errorMessage: string | null = null;
 
   constructor(private fb: FormBuilder, private authService: AuthService) {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      username: ['', [Validators.required, Validators.minLength(3)]],
       password: ['', [Validators.required, Validators.minLength(1)] ],
       rememberMe: [false]
     })
@@ -29,14 +30,19 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      this.authService.login(this.loginForm.value).subscribe(
-        (response) => {
-          console.log('Login successful', response)
-        },
-        (error) => {
-          console.error('Login failed', error)
-        }
-      )
+      this.errorMessage = null
+
+      this.authService.login(this.loginForm.value).subscribe({
+      next: (response) => {
+        console.log('Login successful', response)
+      },
+      error: (error) => {
+        console.error('Login failed', error)
+        this.errorMessage = 'Credenciais inválidas. Tente novamente';
+      }
+      });
+    } else {
+      this.errorMessage = 'Preencha os dados do formulário corretamente.'
     }
   }
 

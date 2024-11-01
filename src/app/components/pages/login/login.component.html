@@ -14,8 +14,8 @@
         </div>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="d-flex flex-column w-75" action="">
           <div class="form-input d-flex flex-column">
-            <label for="Email">Email</label>
-            <input class="form-input" type="email" id="Email" formControlName="email" placeholder="...">
+            <label for="username">Username</label>
+            <input class="form-input" type="text" id="username" formControlName="username" placeholder="...">
             <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
               Por favor entre com um email válido.
             </div>
@@ -35,6 +35,7 @@
             <button type="submit" [disabled]="loginForm.invalid" class="btn btn-login">Entrar</button>
           </div>
         </form>
+        <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
         <p>Não tenho conta. <span routerLink="/register" class="text-blue">REGISTRAR</span></p>
       </div>
     </div>
