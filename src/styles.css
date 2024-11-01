@@ -18,11 +18,10 @@ html, body {
 
 body {
   font-family: Poppins, sans-serif !important;
-  background-color: var(--background-color);
+  background-color: var(--page-color-1);
   background-image: url("background.png");
   background-size: cover;
   background-repeat: repeat;
-  background-blend-mode: lighten;
   backdrop-filter: opacity(0.5) blur(10px);
 }
 
