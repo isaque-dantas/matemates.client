@@ -47,6 +47,18 @@
       <div class="adm-picture position-absolute"></div>
     </div>
 
+    <div class="toast-container position-fixed top-0 end-0 p-3">
+      <div *ngIf="errorMessage" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+          <strong class="me-auto">Erro</strong>
+          <button type="button" class="btn-close" (click)="errorMessage = null" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+          {{ errorMessage }}
+        </div>
+      </div>
+    </div>
+
     <!--modals-->
     <div class="modal fade" id="addAdmModal" tabindex="-1" aria-labelledby="admModal" aria-hidden="true">
       <div class="modal-dialog w-100 h-100 p-0 m-0">
@@ -106,7 +118,7 @@
               </div>
               <div class="modal-footer border-0 d-flex justify-content-between">
                 <button type="button" class="cancel-delete" data-bs-dismiss="modal">Cancelar</button>
-                <button type="submit" class="confirm-delete">Confirmar</button>
+                <button type="submit" class="confirm-delete" [disabled]="deleteForm.invalid" data-bs-dismiss="modal">Confirmar</button>
               </div>
             </form>
           </div>

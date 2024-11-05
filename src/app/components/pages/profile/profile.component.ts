@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import {UserService} from "../../../services/user.service";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Subject, takeUntil} from "rxjs";
+import {NgIf} from "@angular/common";
 
 
 @Component({
@@ -14,7 +15,8 @@ import {Subject, takeUntil} from "rxjs";
   imports: [
     HeaderComponent,
     MatIcon,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgIf
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
@@ -23,6 +25,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   deleteForm: FormGroup;
   private destroy$ = new Subject<void>();
   private userId: number;
+  errorMessage: string | null = null;
 
   constructor(public authService: AuthService,
               private router: Router,
@@ -44,14 +47,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
           (response) => {
             if (response.access) {
               this.deleteAccount();
+              this.errorMessage = null;
             } else {
-              console.log('Invalid username or password.');
+              this.errorMessage = 'Nome de usuário ou senha inválidos.';
             }
           },
           (error) => {
             console.error('Authentication failed:', error);
+            this.errorMessage = 'Ocorreu um erro na autenticação. Tente novamente.'; // General error message
           }
         );
+    } else {
+      this.errorMessage = 'Por favor, preencha todos os campos corretamente.'; // Set error for invalid form
     }
   }
 
