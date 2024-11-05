@@ -3,6 +3,9 @@ import {HeaderComponent} from "../../header/header.component";
 import {MatIcon} from "@angular/material/icon";
 import {AuthService} from "../../../services/auth.service";
 import {Router} from "@angular/router";
+import {UserService} from "../../../services/user.service";
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {Subject, takeUntil} from "rxjs";
 
 
 @Component({
@@ -10,14 +13,59 @@ import {Router} from "@angular/router";
   standalone: true,
   imports: [
     HeaderComponent,
-    MatIcon
+    MatIcon,
+    ReactiveFormsModule
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
 export class ProfileComponent implements OnInit, OnDestroy {
+  deleteForm: FormGroup;
+  private destroy$ = new Subject<void>();
+  private userId: number;
 
-  constructor(public authService: AuthService, private router: Router) {
+  constructor(public authService: AuthService,
+              private router: Router,
+              private userService: UserService,
+              private fb: FormBuilder) {
+    this.deleteForm = this.fb.group({
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required]]
+    });
+    this.userId = Number(localStorage.getItem('userId')) || 0
+  }
+
+  confirmDeletion(): void {
+    if (this.deleteForm.valid) {
+      const { username, password } = this.deleteForm.value;
+      this.authService.login({ username, password })
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(
+          (response) => {
+            if (response.access) {
+              this.deleteAccount();
+            } else {
+              console.log('Invalid username or password.');
+            }
+          },
+          (error) => {
+            console.error('Authentication failed:', error);
+          }
+        );
+    }
+  }
+
+  private deleteAccount(): void {
+    this.userService.deleteUser(this.userId).subscribe(
+      () => {
+        console.log('User deleted successfully');
+        this.authService.logout();
+        this.router.navigate(['login']);
+      },
+      error => {
+        console.error('error deleting user:', error);
+      }
+    );
   }
 
   ngOnInit() {
@@ -26,5 +74,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     document.body.style.overflow = '';
+    this.destroy$.next()
+    this.destroy$.complete()
   }
 }

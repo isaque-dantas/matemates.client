@@ -80,18 +80,6 @@
           <div class="modal-header d-block w-100 text-center border-0 p-0">
             <h1 class="modal-title" id="exitM">Tem certeza que deseja sair?</h1>
           </div>
-<!--          <div class="modal-body">-->
-<!--            <form action="" class="d-flex flex-column">-->
-<!--              <div class="d-flex gap-p flex-column">-->
-<!--                <label for="name3">Nome</label>-->
-<!--                <input type="text" id="name3">-->
-<!--              </div>-->
-<!--              <div class="d-flex gap-p flex-column">-->
-<!--                <label for="email3">Email</label>-->
-<!--                <input type="email" id="email3">-->
-<!--              </div>-->
-<!--            </form>-->
-<!--          </div>-->
           <div class="modal-footer border-0 d-flex justify-content-between">
             <button type="button" class="cancel" data-bs-dismiss="modal">Cancelar</button>
             <button type="button" class="confirm" data-bs-dismiss="modal" (click)="authService.logout()">Confirmar</button>
@@ -107,20 +95,20 @@
             <h1 class="modal-title" id="deleteModal">excluir sua conta? <br>(Essa ação é irreversível)</h1>
           </div>
           <div class="modal-body">
-            <form action="" class="d-flex flex-column">
+            <form [formGroup]="deleteForm" (ngSubmit)="confirmDeletion()" class="d-flex flex-column">
               <div class="d-flex gap-p flex-column">
-                <label for="email2">E-mail</label>
-                <input type="text" id="email2">
+                <label for="username">username</label>
+                <input type="text" id="username" formControlName="username" autocomplete="username">
               </div>
               <div class="d-flex gap-p flex-column">
                 <label for="password">Senha</label>
-                <input type="email" id="password">
+                <input type="password" id="password" formControlName="password" autocomplete="current-password">
+              </div>
+              <div class="modal-footer border-0 d-flex justify-content-between">
+                <button type="button" class="cancel-delete" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="confirm-delete">Confirmar</button>
               </div>
             </form>
-          </div>
-          <div class="modal-footer border-0 d-flex justify-content-between">
-            <button type="button" class="cancel-delete" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="confirm-delete" data-bs-dismiss="modal" >Confirmar</button>
           </div>
         </div>
       </div>
