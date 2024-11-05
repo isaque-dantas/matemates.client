@@ -83,7 +83,11 @@ body {
 
 .modal {
   width: 1118px;
-  height: 636px;
+  max-height: 636px;
+}
+
+.modal-short {
+  height: fit-content;
 }
 
 .modal form {
