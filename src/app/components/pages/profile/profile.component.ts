@@ -24,8 +24,11 @@ import {NgIf} from "@angular/common";
 export class ProfileComponent implements OnInit, OnDestroy {
   deleteForm: FormGroup;
   private destroy$ = new Subject<void>();
-  private userId: number;
   errorMessage: string | null = null;
+  userData: any;
+  token: any;
+  isEditable: boolean = false;
+  userDataShow: FormGroup;
 
   constructor(public authService: AuthService,
               private router: Router,
@@ -35,7 +38,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
       username: ['', [Validators.required]],
       password: ['', [Validators.required]]
     });
-    this.userId = Number(localStorage.getItem('userId')) || 0
+    this.token = localStorage.getItem('access');
+    this.userDataShow = this.fb.group({
+      name: [{value: '', disabled: !this.isEditable}],
+      username: [{value: '', disabled: !this.isEditable}],
+      email: [{value: '', disabled: !this.isEditable}]
+    });
   }
 
   confirmDeletion(): void {
@@ -63,7 +71,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   private deleteAccount(): void {
-    this.userService.deleteUser(this.userId).subscribe(
+    this.userService.deleteUser(this.token).subscribe(
       () => {
         console.log('User deleted successfully');
         this.authService.logout();
@@ -77,6 +85,47 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     document.body.style.overflow = 'hidden';
+    this.userService.getUserData(this.token).subscribe(
+      (data) => {
+        this.userData = data;
+        console.log('User Data:', this.userData);
+        this.userDataShow.patchValue({
+          name: this.userData.name,
+          username: this.userData.username,
+          email: this.userData.email
+        })
+      },
+      (error) => {
+        console.error('Error fetching user data:', error);
+      }
+    );
+  }
+
+  toggleEdit() {
+    this.isEditable = !this.isEditable;
+    if (this.isEditable) {
+      this.userDataShow.enable()
+    } else {
+      this.userDataShow.disable()
+    }
+  }
+
+  saveChanges() {
+    if (this.userDataShow.valid) {
+      const updateData = this.userDataShow.value;
+      this.userService.updateUser(this.token, updateData).subscribe(
+        (response) => {
+          console.log('User data update successfuly', response)
+          this.toggleEdit()
+        },
+        (error) => {
+          console.error('error updating data', error)
+          this.errorMessage = 'Erro ao salvar os dados. Tente novamente'
+        }
+      )
+    } else {
+      this.errorMessage = 'Preencha todos os dados corretamente antes de salvar'
+    }
   }
 
   ngOnDestroy() {
