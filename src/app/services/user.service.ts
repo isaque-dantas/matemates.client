@@ -30,4 +30,10 @@ export class UserService {
       })
     );
   }
+
+  turnAdmin(data: {email: string}) {
+    return this.http.post(`${this.baseUrl}/turn-admin`, data).pipe(
+      tap(() => console.log(`User turn admin successfully`))
+    )
+  }
 }

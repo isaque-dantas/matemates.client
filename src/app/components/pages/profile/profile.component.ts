@@ -24,11 +24,12 @@ import {NgIf} from "@angular/common";
 export class ProfileComponent implements OnInit, OnDestroy {
   deleteForm: FormGroup;
   private destroy$ = new Subject<void>();
-  errorMessage: string | null = null;
+  logMessage: string | null = null;
   userData: any;
   token: any;
   isEditable: boolean = false;
   userDataShow: FormGroup;
+  turnAdminForm: FormGroup;
 
   constructor(public authService: AuthService,
               private router: Router,
@@ -38,12 +39,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
       username: ['', [Validators.required]],
       password: ['', [Validators.required]]
     });
+
     this.token = localStorage.getItem('access');
+
     this.userDataShow = this.fb.group({
       name: [{value: '', disabled: !this.isEditable}],
       username: [{value: '', disabled: !this.isEditable}],
       email: [{value: '', disabled: !this.isEditable}]
     });
+
+    this.turnAdminForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]]
+    })
   }
 
   confirmDeletion(): void {
@@ -55,18 +62,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
           (response) => {
             if (response.access) {
               this.deleteAccount();
-              this.errorMessage = null;
+              this.logMessage = null;
             } else {
-              this.errorMessage = 'Nome de usuário ou senha inválidos.';
+              this.logMessage = 'Nome de usuário ou senha inválidos.';
             }
           },
           (error) => {
             console.error('Authentication failed:', error);
-            this.errorMessage = 'Ocorreu um erro na autenticação. Tente novamente.'; // General error message
+            this.logMessage = 'Ocorreu um erro na autenticação. Tente novamente.'; // General error message
           }
         );
     } else {
-      this.errorMessage = 'Por favor, preencha todos os campos corretamente.'; // Set error for invalid form
+      this.logMessage = 'Por favor, preencha todos os campos corretamente.'; // Set error for invalid form
     }
   }
 
@@ -120,11 +127,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
         },
         (error) => {
           console.error('error updating data', error)
-          this.errorMessage = 'Erro ao salvar os dados. Tente novamente'
+          this.logMessage = 'Erro ao salvar os dados. Tente novamente'
         }
       )
     } else {
-      this.errorMessage = 'Preencha todos os dados corretamente antes de salvar'
+      this.logMessage = 'Preencha todos os dados corretamente antes de salvar'
     }
   }
 
@@ -132,5 +139,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
     document.body.style.overflow = '';
     this.destroy$.next()
     this.destroy$.complete()
+  }
+
+  sendTurnAdminForm() {
+    const data = this.turnAdminForm.value
+    this.userService.turnAdmin(data).subscribe(
+      (response) => {
+        this.logMessage = `Convite foi enviado com sucesso para o email ${data.email}`
+      }
+    )
   }
 }
