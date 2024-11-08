@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {catchError, Observable, tap, throwError} from "rxjs";
 
 @Injectable({
@@ -10,9 +10,20 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  deleteUser(userId: number): Observable<any> {
+  getUserData(token: any): Observable<any> {
+    const headers = new HttpHeaders().set('Authorization', `bearer ${token}`);
+    return this.http.get(`${this.baseUrl}`, {headers});
+  }
+
+  updateUser(token:string, userData: any): Observable<any> {
+    return this.http.put(`${this.baseUrl}`, userData, {
+      headers: { Authorization: `bearer ${token}`}
+    });
+  };
+
+  deleteUser(token: any): Observable<any> {
     return this.http.delete(`${this.baseUrl}`).pipe(
-      tap(() => console.log(`User ${userId} deleted successfully`)),
+      tap(() => console.log(`User deleted successfully`)),
       catchError(error => {
         console.error('error deleting user:', error);
         return throwError(error);
