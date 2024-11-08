@@ -24,7 +24,6 @@ export class AuthService {
         }
       })
     );
-
   }
 
   register(user: UserToSend): Observable<any> {
