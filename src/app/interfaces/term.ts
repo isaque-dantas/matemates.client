@@ -5,5 +5,5 @@ export interface Term {
   gender: string,
   grammatical_category: string,
   is_main_term: boolean,
-  syllables: Syllable[]
+  syllables: string[]
 }

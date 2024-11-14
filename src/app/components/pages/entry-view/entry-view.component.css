@@ -1,0 +1,74 @@
+.definitions-and-images {
+  /*gap: 120px;*/
+}
+
+main * {
+  font-family: Poppins, sans-serif !important;
+  color: #052659;
+}
+
+.badge-knowledge-area {
+  font-size: 28px;
+  border-radius: 16px;
+  border-width: 2px;
+}
+
+.badge-knowledge-area-sm {
+  font-size: 12px;
+  font-weight: 400;
+  border-radius: 8px;
+  border-width: 1px;
+  padding: 2px 8px;
+
+  border-color: #606060;
+  color: #606060 !important;
+}
+
+.badge-knowledge-area, .badge-knowledge-area-sm {
+  border-style: solid;
+  height: fit-content;
+}
+
+.carousel {
+  border: 1px solid #052659;
+  padding: 16px;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.carousel .carousel-inner {
+  width: auto;
+}
+
+.carousel-item, .carousel-item > img {
+  max-width: 400px;
+  height: auto;
+}
+
+.carousel .carousel-control-icon-container {
+  width: 48px;
+  height: 48px;
+  padding-top: 8px;
+
+  background: #052659;
+  border-radius: 50%;
+
+  top: 50%;
+  transform: translateY(-50%);
+
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.examples {
+  margin-top: 72px;
+}
+
+.examples .example {
+  border-radius: 16px;
+  border: 1px solid #052659;
+  padding: 16px;
+}
