@@ -39,7 +39,7 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    return this.doesAccessTokenExist() && !this.isAccessTokenExpired()
+    return this.doesAccessTokenExist() && this.isAccessTokenExpired()
   }
 
   isAccessTokenExpired(): boolean {
@@ -55,7 +55,7 @@ export class AuthService {
     const expirationDate = new Date(exp * 1000).getTime()
     const currentDate = new Date().getTime()
 
-    return currentDate >= expirationDate
+    return currentDate < expirationDate
   }
 
   doesAccessTokenExist() {
