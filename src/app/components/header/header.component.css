@@ -3,12 +3,13 @@ header {
 }
 
 .logo {
-  width: 69px;
+  width: 60px;
 }
 
 .navItems {
   margin: 0;
   gap: 31px;
+  font-size: 20px;
 }
 
 .navItems li {
@@ -37,6 +38,7 @@ header {
 .btn {
   border-radius: 64px;
   font-weight: 500;
+  font-size: 20px;
 }
 
 .btn-login {
