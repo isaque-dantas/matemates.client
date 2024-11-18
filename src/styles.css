@@ -12,17 +12,21 @@
 }
 
 html, body {
-  height: 100vh;
   margin: 0;
 }
 
 body {
-  font-family: Poppins, sans-serif !important;
   background-color: var(--page-color-1);
   background-image: url("background.png");
   background-size: cover;
   background-repeat: repeat;
   backdrop-filter: opacity(0.5) blur(10px);
+}
+
+.mat-typography,
+.mat-typography h1,
+.mat-typography h2{
+  font-family: Poppins, sans-serif !important;
 }
 
 .container {

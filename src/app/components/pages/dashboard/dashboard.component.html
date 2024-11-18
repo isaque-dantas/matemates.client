@@ -9,10 +9,10 @@
               <div class="carousel-item active d-flex justify-content-between">
                 <div class="left d-flex flex-column justify-content-between">
                   <div class="title-container d-flex align-items-center">
-                    <h1 class="m-0 title">Lorem</h1>
-                    <div class="m-0 area-field">Geometria</div>
+                    <h1 class="m-0 title fw-bold">Alfa</h1>
+                    <div class="m-0 area-field">Álgebra</div>
                   </div>
-                  <p class="definition">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent mattis elementum tortor id consectetur...</p>
+                  <p class="definition">Alfa (Α ou α; em grego: άλφα, transl.: álpha) é a primeira letra do alfabeto grego e tem um valor numérico de 1. Ela é derivada da letra fení...</p>
                   <div class="w-100 d-flex justify-content-end">
                     <p class="about position-relative">LER MAIS</p>
                   </div>
@@ -49,27 +49,33 @@
         </div>
       </div>
     </div>
-    <div class="row justify-content-between bottom-content">
-      <div class="col-3 left2 d-flex flex-column">
+    <div class="row justify-content-between align-items-end bottom-content">
+      <div class="col-3">
         <div class="search d-flex justify-content-between align-items-center">
-          <input class="fs-4 w-100" placeholder="Clique para pesquisar">
+          <input class="w-100" placeholder="Clique para pesquisar">
           <mat-icon aria-hidden="false" aria-label="icon" fontIcon="search"></mat-icon>
         </div>
+      </div>
+      <div class="col-9">
+        <h1 class="contents m-0">Assuntos</h1>
+      </div>
+    </div>
+    <div class="row justify-content-between">
+      <div class="col-3 left2 d-flex flex-column">
         <div class="search-example d-flex align-items-center">
           <mat-icon aria-hidden="false" class="search-icon" aria-label="icon" fontIcon="search"></mat-icon>
-          <p class="fs-4 m-0">Lorem ipsum</p>
+          <p class="m-0 knowledge-area">Lorem ipsum</p>
         </div>
         <div id="color-2" class="search-example d-flex align-items-center">
           <mat-icon aria-hidden="false" class="search-icon" aria-label="icon" fontIcon="search"></mat-icon>
-          <p class="fs-4 m-0">Lorem ipsum</p>
+          <p class="m-0 knowledge-area">Lorem ipsum</p>
         </div>
         <div id="color-3" class="search-example d-flex align-items-center">
           <mat-icon aria-hidden="false" class="search-icon" aria-label="icon" fontIcon="search"></mat-icon>
-          <p class="fs-4 m-0">Lorem ipsum</p>
+          <p class="m-0 knowledge-area">Lorem ipsum</p>
         </div>
       </div>
       <div class="right2 col-9">
-        <h1>Assuntos</h1>
         <ul class="d-flex list-unstyled flex-shrink-0 field-container overflow-x-scroll overflow-y-hidden">
           <li *ngFor="let card of knowledgeAreaCards" class="field-card overflow-hidden flex-shrink-0 text-center position-relative">
             <h2>{{ card.content | capitalize }}</h2>
