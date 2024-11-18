@@ -6,10 +6,17 @@ header {
   width: 60px;
 }
 
+.navbar-brand {
+  flex: 0 0 auto
+}
+
 .navItems {
   margin: 0;
-  gap: 31px;
+  gap: 28px;
   font-size: 20px;
+  justify-items: center;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .navItems li {
@@ -35,9 +42,14 @@ header {
   width: 100%;
 }
 
+.buttons {
+  flex: 0 0 auto;
+}
+
 .btn {
   border-radius: 64px;
   font-weight: 500;
+  font-family: Poppins, sans-serif !important;
   font-size: 20px;
 }
 
