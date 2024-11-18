@@ -1,14 +1,10 @@
-.definitions-and-images {
-  /*gap: 120px;*/
-}
-
 main * {
   font-family: Poppins, sans-serif !important;
   color: #052659;
 }
 
 .badge-knowledge-area {
-  font-size: 28px;
+  font-size: 24px;
   border-radius: 16px;
   border-width: 2px;
 }
@@ -29,38 +25,12 @@ main * {
   height: fit-content;
 }
 
-.carousel {
-  border: 1px solid #052659;
-  padding: 16px;
-  border-radius: 16px;
-  display: flex;
-  justify-content: center;
-  align-content: center;
+.definition-content {
+  font-size: 20px
 }
 
-.carousel .carousel-inner {
-  width: auto;
-}
-
-.carousel-item, .carousel-item > img {
-  max-width: 400px;
-  height: auto;
-}
-
-.carousel .carousel-control-icon-container {
-  width: 48px;
-  height: 48px;
-  padding-top: 8px;
-
-  background: #052659;
-  border-radius: 50%;
-
-  top: 50%;
-  transform: translateY(-50%);
-
-  display: flex;
-  justify-content: center;
-  align-content: center;
+.carousel-border {
+  border-color: #052659 !important;
 }
 
 .examples {
@@ -71,4 +41,27 @@ main * {
   border-radius: 16px;
   border: 1px solid #052659;
   padding: 16px;
+}
+
+.entry-image {
+  max-width: 320px;
+  max-height: 320px;
+}
+
+.carousel-caption {
+  top: 100%;
+  padding-top: 8px;
+}
+
+main.background-esquisito-cortado::after {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  background-image: url("/bg-esquisito-cortado.png");
+  background-size: cover;
+  z-index: 9999999999;
 }

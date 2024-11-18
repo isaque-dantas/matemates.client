@@ -1,3 +1,6 @@
+@import "mdb-angular-ui-kit/assets/scss/mdb.scss";
+@import '@fortawesome/fontawesome-free/css/all.css';
+
 :root {
   --text-color-dark: #000000;
   --text-color-light: #FFFFFF;
@@ -16,10 +19,11 @@ html, body {
   margin: 0;
 }
 
+
 body {
   font-family: Poppins, sans-serif !important;
   background-color: var(--page-color-1);
-  background-image: url("background.png");
+  background-image: url("../public/background.png");
   background-size: cover;
   background-repeat: repeat;
   backdrop-filter: opacity(0.5) blur(10px);
@@ -140,4 +144,13 @@ body {
   .modal-dialog {
     max-width: 90%; /* Wider on smaller screens */
   }
+}
+
+.carousel-control-next-icon::after, .carousel-control-prev-icon::after {
+  color: #000000 !important;
+  /*border: 1px solid red;*/
+}
+
+.carousel, .carousel * {
+  overflow: visible;
 }

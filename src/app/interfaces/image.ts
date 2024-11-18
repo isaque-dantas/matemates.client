@@ -1,4 +1,4 @@
 export interface Image {
-  caption: string;
-  content: string | null;
+  id: number;
+  caption: string | null;
 }
