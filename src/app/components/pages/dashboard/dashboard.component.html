@@ -1,18 +1,20 @@
 <app-header></app-header>
-<div class="container">
+<div class="container overflow-y-hidden">
   <section>
     <div class="row">
       <div class="d-flex align-items-center background w-100">
         <div class="container">
           <div class="carousel slide carousel-fade" data-bs-ride="carousel" id="term-carousel">
             <div class="carousel-inner">
-              <div class="carousel-item active d-flex justify-content-between">
+              <div class="carousel-item active d-flex justify-content-between align-items-center">
                 <div class="left d-flex flex-column justify-content-between">
-                  <div class="title-container d-flex align-items-center">
-                    <h1 class="m-0 title fw-bold">Alfa</h1>
-                    <div class="m-0 area-field">Álgebra</div>
+                  <div class="title_and_definition">
+                    <div class="title-container d-flex align-items-center">
+                      <h1 class="m-0 title fw-bold">Alfa</h1>
+                      <div class="m-0 area-field">Álgebra</div>
+                    </div>
+                    <p class="definition">Alfa (Α ou α; em grego: άλφα, transl.: álpha) é a primeira letra do alfabeto grego e tem um valor numérico de 1. Ela é derivada da letra fení...</p>
                   </div>
-                  <p class="definition">Alfa (Α ou α; em grego: άλφα, transl.: álpha) é a primeira letra do alfabeto grego e tem um valor numérico de 1. Ela é derivada da letra fení...</p>
                   <div class="w-100 d-flex justify-content-end">
                     <p class="about position-relative">LER MAIS</p>
                   </div>
@@ -21,13 +23,15 @@
                   <div class="placeholder"></div>
                 </div>
               </div>
-              <div class="carousel-item d-flex justify-content-between">
+              <div class="carousel-item d-flex justify-content-between align-items-center">
                 <div class="left d-flex flex-column justify-content-between">
-                  <div class="title-container d-flex align-items-center">
-                    <h1 class="m-0 title">Lorem</h1>
-                    <div class="m-0 area-field">Álgebra</div>
+                  <div class="title_and_definition">
+                    <div class="title-container d-flex align-items-center">
+                      <h1 class="m-0 title">Lorem</h1>
+                      <div class="m-0 area-field">Álgebra</div>
+                    </div>
+                    <p class="definition">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent mattis elementum tortor id consectetur...</p>
                   </div>
-                  <p class="definition">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent mattis elementum tortor id consectetur...</p>
                   <div class="w-100 d-flex justify-content-end">
                     <p class="about position-relative">LER MAIS</p>
                   </div>
@@ -37,14 +41,14 @@
                 </div>
               </div>
             </div>
-            <button class="carousel-control-prev carousel-control" type="button" data-bs-target="#term-carousel" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next carousel-control" type="button" data-bs-target="#term-carousel" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
+<!--            <button class="carousel-control-prev carousel-control" type="button" data-bs-target="#term-carousel" data-bs-slide="prev">-->
+<!--              <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
+<!--              <span class="visually-hidden">Previous</span>-->
+<!--            </button>-->
+<!--            <button class="carousel-control-next carousel-control" type="button" data-bs-target="#term-carousel" data-bs-slide="next">-->
+<!--              <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
+<!--              <span class="visually-hidden">Next</span>-->
+<!--            </button>-->
           </div>
         </div>
       </div>
@@ -76,7 +80,7 @@
         </div>
       </div>
       <div class="right2 col-9">
-        <ul class="d-flex list-unstyled flex-shrink-0 field-container overflow-x-scroll overflow-y-hidden">
+        <ul class="d-flex list-unstyled flex-shrink-0 field-container overflow-x-scroll'">
           <li *ngFor="let card of knowledgeAreaCards" class="field-card overflow-hidden flex-shrink-0 text-center position-relative">
             <h2>{{ card.content | capitalize }}</h2>
             <div class="white-ball position-absolute">

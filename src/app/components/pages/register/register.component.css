@@ -9,19 +9,16 @@ body {
   border-radius: 60px 0 0 60px;
 }
 
-.info {
-  margin-top: 35px;
-}
-
 .logo {
   width: 70px;
   height: 70px;
   margin-right: 20px;
   cursor: pointer;
+  margin-top: 46px;
 }
 
 .forms-container {
-  margin-top: 77px;
+  margin-top: 50px;
 }
 
 form {
