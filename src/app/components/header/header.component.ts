@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
-import {KeyValuePipe, NgForOf, NgIf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {MatButton} from "@angular/material/button";
 import {AuthService} from "../../services/auth.service";
 
@@ -11,7 +11,6 @@ import {AuthService} from "../../services/auth.service";
     RouterLinkActive,
     NgForOf,
     RouterLink,
-    KeyValuePipe,
     MatButton,
     NgIf
   ],
@@ -24,12 +23,12 @@ export class HeaderComponent {
 
   navItems = [
     {'label': 'Início', 'link': ''},
-    {'label': 'Criar Verbete', 'link':   'create'},
+    {'label': 'Criar Verbete', 'link': 'create_entry'},
     {'label': 'Sugerir Alteração', 'link': 'report'},
   ]
 
   constructor(public authService: AuthService, private router: Router) {
-    this.router.events.subscribe(() =>{
+    this.router.events.subscribe(() => {
       const excludedRoutes = ['profile'];
       this.showElement = !excludedRoutes.includes(this.router.url);
     });

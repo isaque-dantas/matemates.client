@@ -1,0 +1,250 @@
+main {
+  margin-top: 64px;
+}
+
+main * {
+  font-family: Poppins, sans-serif !important;
+  color: #052659;
+}
+
+main button.btn {
+  text-transform: none;
+  border-color: #052659 !important;
+}
+
+.add-definition {
+  border-radius: 40px;
+}
+
+.definition-card {
+  background-image: url("/definition-card-background.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+  padding: 48px 64px;
+  border-radius: 24px;
+}
+
+.definition-card .definition-actions {
+  position: absolute;
+  top: 0;
+  right: 10%;
+}
+
+.definition-card .definition-actions button.btn {
+  padding: 8px 20px;
+  background: #FFFFFF;
+  border: none;
+  border-radius: 0 0 48px 48px;
+
+  opacity: .8;
+  transition: opacity ease-in-out .1s;
+}
+
+.definition-card .definition-actions button.btn:hover {
+  opacity: .9;
+}
+
+.definition-card .definition-actions * {
+  border: none;
+  padding: 0;
+  height: fit-content;
+}
+
+input#entryContent {
+  border: 2px solid #052659;
+  color: #052659;
+  border-radius: 16px;
+  background: transparent;
+  padding: 4px 8px;
+}
+
+.definition-card select[formControlName="knowledgeAreaContent"] {
+  max-width: 240px;
+  background-color: transparent;
+  background-image: url("/chevron-down.svg");
+  background-size: 24px;
+  border-width: 2px;
+  border-color: #FFFFFF;
+  border-radius: 24px;
+  padding-left: 16px;
+  color: #FFFFFF;
+}
+
+.definition-card input[formControlName="content"] {
+  border-radius: 24px;
+  border-width: 3px;
+  border-color: #FFF;
+  background: rgba(5, 38, 89, .4);
+  color: #FFFFFF;
+}
+
+.definition-card input[formControlName="content"]::placeholder {
+  color: #D0D0D0;
+}
+
+.definition-card .definition-number {
+  padding: 0px 12px;
+  border-radius: 16px;
+  background: #F0F0F0;
+}
+
+.definition-card .carousel-control-next-icon,
+.definition-card .carousel-control-prev-icon {
+  height: 24px;
+  width: 24px;
+  justify-self: flex-start;
+}
+
+.definition-card .carousel-control-next-icon::after,
+.definition-card .carousel-control-prev-icon::after {
+  color: #052659 !important;
+  font-weight: bold !important;
+  font-size: 28px;
+}
+
+.definition-card .carousel-control-prev-icon::after {
+  content: "<";
+}
+
+.definition-card .carousel-control-next-icon::after {
+  content: ">";
+}
+
+.definition-card button.carousel-control-prev {
+  position: absolute;
+  left: 0 !important;
+  transform: translateX(calc(-100% - 32px)) translateY(-50%);
+  border-bottom-right-radius: 48px;
+  border-top-right-radius: 48px;
+}
+
+.definition-card button.carousel-control-next {
+  position: absolute;
+  right: 0 !important;
+  transform: translateX(calc(100% + 32px)) translateY(-50%);
+  border-bottom-left-radius: 48px;
+  border-top-left-radius: 48px;
+}
+
+.definition-card button.carousel-control-next,
+.definition-card button.carousel-control-prev {
+  width: 32px !important;
+  height: 64px !important;
+  background: #FFF;
+  opacity: .8;
+  top: 50%;
+}
+
+.definition-card button.carousel-control-next:hover,
+.definition-card button.carousel-control-prev:hover {
+  opacity: .9
+}
+
+.definition-card button.carousel-control-next:disabled,
+.definition-card button.carousel-control-prev:disabled {
+  opacity: .5
+}
+
+.image-card .image-content-input:empty {
+  border: 1px solid red;
+}
+
+.image-card .buttons-bar {
+  background-color: #052659;
+  border-radius: 40px;
+  border: none;
+  color: #FFFFFF;
+  padding: 4px 24px;
+}
+
+.image-card .buttons-bar button.btn {
+  border: none;
+  color: #FFFFFF;
+}
+
+.image-card .buttons-bar button.btn img {
+  color: #FFFFFF;
+}
+
+.image-card .carousel-control-next,
+.image-card .carousel-control-prev {
+  color: #FFFFFF !important;
+  width: 32px !important;
+  height: 32px !important;
+  position: static !important;
+  opacity: .8;
+}
+
+.image-card .carousel-control-next:hover,
+.image-card .carousel-control-prev:hover {
+  opacity: .9
+}
+
+.image-card .carousel-control-next:disabled,
+.image-card .carousel-control-prev:disabled {
+  opacity: .5
+}
+
+.image-card .carousel-control-next-icon,
+.image-card .carousel-control-prev-icon {
+  background: none;
+  position: relative;
+}
+
+.image-card .carousel-control-next-icon::after,
+.image-card .carousel-control-prev-icon::after {
+  color: #FFFFFF !important;
+  font-weight: bold !important;
+  font-size: 48px;
+
+  position: absolute;
+  transform: translateY(-50%) translateX(-50%);
+  top: 50%;
+  left: 50%;
+}
+
+.image-card .carousel-control-prev-icon::after {
+  content: "<";
+}
+
+.image-card .carousel-control-next-icon::after {
+  content: ">";
+}
+
+.image-card .image-content-label {
+  width: 47.5%;
+  border: 3px solid #052659;
+  border-radius: 20px;
+  height: 200px;
+
+  cursor: pointer;
+}
+
+.image-card textarea[formControlName="caption"] {
+  width: 47.5%;
+  border: 2px solid #052659;
+  border-radius: 24px;
+  padding: 16px;
+}
+
+.image-card textarea[formControlName="caption"]::placeholder {
+  color: #6c6c6c;
+}
+
+.image-card textarea[formControlName="caption"]:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.image-card .carousel-item {
+  /*min-height: 240px;*/
+}
+
+.carousel-border {
+  border-color: #052659 !important;
+}
+
+.cursor-not-allowed {
+  cursor: not-allowed;
+}

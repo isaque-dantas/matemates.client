@@ -4,7 +4,6 @@ import {HeaderComponent} from "../../header/header.component";
 import {Entry} from "../../../interfaces/entry";
 import {EntryService} from "../../../services/entry.service";
 import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
-import {MdbCarouselModule} from "mdb-angular-ui-kit/carousel";
 
 @Component({
   selector: 'app-entry-view',
@@ -13,7 +12,6 @@ import {MdbCarouselModule} from "mdb-angular-ui-kit/carousel";
     HeaderComponent,
     NgForOf,
     NgIf,
-    MdbCarouselModule,
     NgOptimizedImage
   ],
   templateUrl: './entry-view.component.html',

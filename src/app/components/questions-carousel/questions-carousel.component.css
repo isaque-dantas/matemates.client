@@ -1,0 +1,90 @@
+.horizontal-scrollable {
+  padding: 0 40px;
+}
+
+.row {
+  margin: 0;
+  padding: 20px 0;
+  position: absolute;
+  top: 0;
+
+  transition: left ease .4s;
+}
+
+.row > .col-3 {
+  margin-top: 0 !important;
+}
+
+.row .custom-card {
+  height: 160px;
+  width: 100%;
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 8px;
+}
+
+.row .custom-card::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  height: calc(100% + 4px);
+  width: calc(100% + 4px);
+  background: linear-gradient(0, #007EFF, #052659);
+  z-index: -1;
+  border-radius: 18px;
+}
+
+button.prev, button.next {
+  border-radius: 50%;
+  border: 1px solid #052659;
+  line-height: 100%;
+  z-index: 1;
+  background: #FFF;
+}
+
+button.prev .icon,
+button.next .icon {
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 100%;
+}
+
+.actions {
+  bottom: 0;
+  right: 0;
+  transform: translateY(8px) translateX(8px);
+  background: #052659;
+  border-radius: 8px;
+  padding: 2px 4px;
+}
+
+.add {
+  bottom: 0;
+  left: 0;
+  transform: translateY(100%);
+  border: 1px solid #052659;
+}
+
+.delete {
+  transition: opacity ease-in-out .1s;
+}
+
+.modal {
+  height: 70vh;
+  min-height: 520px;
+  overflow: hidden;
+}
+
+.modal .modal-header {
+  margin-top: 24px;
+}
+
+.modal .modal-footer {
+  margin-top: 24px;
+}
+
+.modal .modal-body input {
+  padding: 16px 16px !important;
+  height: auto
+}

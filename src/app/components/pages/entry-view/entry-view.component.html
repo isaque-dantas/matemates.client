@@ -37,22 +37,22 @@
       </div>
     </div>
     <div class="col-3">
-      <ng-container *ngIf="this.entryData">
-        <div class="p-3 border border-2 rounded-4 carousel-border">
-          <mdb-carousel [controls]="true" [animation]="'fade'">
-            <mdb-carousel-item *ngFor="let image of this.entryData.images">
-              <div class="d-flex justify-content-center">
-                <img src="http://localhost:8000/api/entry_image/{{image.id}}" class="img-fluid entry-image">
-              </div>
-              <ng-container *ngIf="image.caption">
-                <div class="carousel-caption">
-                  <p class="mt-3 mb-0">{{ image.caption }}</p>
-                </div>
-              </ng-container>
-            </mdb-carousel-item>
-          </mdb-carousel>
-        </div>
-      </ng-container>
+<!--      <ng-container *ngIf="this.entryData">-->
+<!--        <div class="p-3 border border-2 rounded-4 carousel-border">-->
+<!--          <mdb-carousel [controls]="true" [animation]="'fade'">-->
+<!--            <mdb-carousel-item *ngFor="let image of this.entryData.images">-->
+<!--              <div class="d-flex justify-content-center">-->
+<!--                <img src="http://localhost:8000/api/entry_image/{{image.id}}" class="img-fluid entry-image">-->
+<!--              </div>-->
+<!--              <ng-container *ngIf="image.caption">-->
+<!--                <div class="carousel-caption">-->
+<!--                  <p class="mt-3 mb-0">{{ image.caption }}</p>-->
+<!--                </div>-->
+<!--              </ng-container>-->
+<!--            </mdb-carousel-item>-->
+<!--          </mdb-carousel>-->
+<!--        </div>-->
+<!--      </ng-container>-->
     </div>
   </section>
 

@@ -6,12 +6,21 @@
       </a>
       <ul class="d-flex list-unstyled navItems">
         <li *ngFor="let item of navItems">
-          <a class="text-decoration-none position-relative fs-4"  routerLinkActive="active" [routerLink]="item.link" [routerLinkActiveOptions]="{ exact: true }"> {{ item.label }}</a>
+          <a class="text-decoration-none position-relative fs-4"
+             routerLinkActive="active"
+             [routerLink]="item.link"
+             [routerLinkActiveOptions]="{ exact: true }">
+            {{ item.label }}
+          </a>
         </li>
       </ul>
       <div *ngIf="showElement" class="buttons">
-        <button *ngIf="!authService.isAuthenticated()" routerLink="login" mat-stroked-button class="btn btn-login fs-4">Entrar</button>
-        <button *ngIf="!authService.isAuthenticated()" routerLink="register" mat-flat-button class="btn btn-register fs-4">Registrar</button>
+        <button *ngIf="!authService.isAuthenticated()" routerLink="login" mat-stroked-button class="btn btn-login fs-4">
+          Entrar
+        </button>
+        <button *ngIf="!authService.isAuthenticated()" routerLink="register" mat-flat-button
+                class="btn btn-register fs-4">Registrar
+        </button>
         <button *ngIf="authService.isAuthenticated()" class="bg-transparent user-tab" routerLink="profile"></button>
       </div>
     </div>
