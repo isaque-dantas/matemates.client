@@ -27,8 +27,8 @@
 }
 
 form {
-  gap: 46px;
-  font-size: 18px;
+  gap: 36px;
+  font-size: 16px;
   font-weight: 500;
   color: rgba(2, 16, 36, 0.65);
 }
@@ -38,12 +38,13 @@ form {
 }
 
 .text h1 {
-  font-size: 40px;
+  font-size: 35px;
   width: fit-content;
 }
 
 .text p {
-  font-size: 14px;
+  font-size: 10px;
+  line-height: normal;
 }
 
 .form-input {
@@ -51,56 +52,38 @@ form {
   border: none;
   border-bottom: 1px solid var(--page-color-2);
   outline: none;
-  padding-top: 10px;
+  padding-top: 8px;
 }
 
-.form-input::placeholder {
-  font-size: 24px;
-}
-
-.custom-checkbox-label {
-  position: relative;
+.custom-checkbox {
   cursor: pointer;
-  padding-left: 25px;
+  padding-left: 12px;
+  font-size: 14px;
   display: inline-block;
   color: var(--page-color-5);
 }
 
-.custom-checkbox-label::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 20px;
-  height: 20px;
-  border-radius: 4px;
-  background-color: white;
-}
-
-.custom-checkbox:checked + .custom-checkbox-label::before {
-  background-color: var(--page-color-5);
-}
-
-.custom-checkbox:checked + .custom-checkbox-label::after {
-  content: '✔';
-  position: absolute;
-  left: 5px;
-  top: -1px;
-  color: white;
-  font-size: 16px;
-}
-
 .btn-login {
-  color: #000;
-  border: 2px solid #000;
+  color: var(--page-color-6);
+  border: 2px solid var(--page-color-6);
   border-radius: 64px;
-  font-size: 24px;
+  font-size: 16px;
   font-weight: 500;
-  padding: 3px 23px;
+  padding: 2px 18px;
+}
+
+.redirect {
+  font-size: 14px;
 }
 
 .text-blue {
   color: #052659;
   font-weight: 600;
   cursor: pointer;
+}
+
+@media (min-width: 1201px) {
+  .forms-container {
+    margin-top: 20px;
+  }
 }
