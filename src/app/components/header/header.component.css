@@ -1,14 +1,22 @@
 header {
-  margin-top: 25px;
+  margin-top: 15px;
 }
 
 .logo {
-  width: 69px;
+  width: 45px;
+}
+
+.navbar-brand {
+  flex: 0 0 auto
 }
 
 .navItems {
   margin: 0;
-  gap: 31px;
+  gap: 28px;
+  font-size: 18px;
+  justify-items: center;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .navItems li {
@@ -34,19 +42,28 @@ header {
   width: 100%;
 }
 
+.buttons {
+  flex: 0 0 auto;
+}
+
 .btn {
   border-radius: 64px;
   font-weight: 500;
+  font-family: Poppins, sans-serif !important;
+  font-size: 18px;
+  padding: 2px 23px;
 }
 
 .btn-login {
   margin-right: 22px;
-  color: var(--text-color-dark) !important;
+  color: var(--page-color-6) !important;
+  border: 2px solid var(--page-color-6);
 }
 
 .btn-register {
   background-color: var(--page-color-4);
-  color: var(--text-color-light)
+  color: var(--text-color-light);
+  font-weight: 500;
 }
 
 .user-tab {

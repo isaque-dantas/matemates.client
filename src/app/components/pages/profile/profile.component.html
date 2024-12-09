@@ -1,4 +1,4 @@
-<div class="background d-flex justify-content-center position-relative h-100 w-100">
+<div class="background d-flex justify-content-center position-relative vh-100 w-100">
   <div class="content-background position-absolute">
   </div>
   <section>
@@ -7,7 +7,7 @@
       <div class="profile-image"></div>
     </div>
     <div class="cruds d-inline-flex position-absolute flex-column justify-content-between align-items-start">
-      <button class="d-flex flex-column add_adm_button align-items-center crud" data-bs-toggle="modal" data-bs-target="#addAdmModal">
+      <button *ngIf="this.userData.is_staff" class="d-flex flex-column add_adm_button align-items-center crud" data-bs-toggle="modal" data-bs-target="#addAdmModal">
         <mat-icon>add</mat-icon>
         <p>Add adm</p>
       </button>
@@ -44,14 +44,15 @@
       <div class="adm-picture position-absolute"></div>
     </div>
 
-    <div class="toast-container position-fixed top-0 end-0 p-3">
-      <div *ngIf="logMessage" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+      <div *ngIf="errorMessage" class="toast show toast-error" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
-          <strong class="me-auto">Erro</strong>
-          <button type="button" class="btn-close" (click)="logMessage = null" aria-label="Close"></button>
+          <img src="logo.svg" class="rounded me-2 toast-image" alt="...">
+          <strong class="me-auto">Matematês erro</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" (click)="errorMessage = null" aria-label="Close"></button>
         </div>
         <div class="toast-body">
-          {{ logMessage }}
+          {{errorMessage}}
         </div>
       </div>
     </div>
@@ -66,6 +67,10 @@
           <div class="modal-body">
             <form action="" class="d-flex flex-column">
               <div class="d-flex gap-p flex-column">
+                <label for="name">Nome</label>
+                <input type="text" id="name">
+              </div>
+              <div class="d-flex gap-p flex-column">
                 <label for="email">Email</label>
                 <input type="email" id="email">
               </div>
@@ -73,7 +78,7 @@
           </div>
           <div class="modal-footer border-0 d-flex justify-content-between">
             <button type="button" class="cancel" data-bs-dismiss="modal">Cancelar</button>
-            <button (click)="sendTurnAdminForm()" type="button" class="confirm" data-bs-dismiss="modal">Confirmar</button>
+            <button type="button" class="confirm" data-bs-dismiss="modal">Confirmar</button>
           </div>
         </div>
       </div>

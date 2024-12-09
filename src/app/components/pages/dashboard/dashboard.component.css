@@ -1,20 +1,16 @@
 section {
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 section .container {
     max-width: 89%;
 }
 
-.bottom-content {
-  padding-bottom: 113px;
-}
-
 .background {
   background-image: url('images/background-2.jpg');
   background-size: cover;
   background-repeat: no-repeat;
-  min-height: 414px;
+  height: 400px;
   border-radius: 30px;
   color: var(--text-color-light);
   font-weight: 500;
@@ -29,12 +25,15 @@ section .container {
   gap: 2rem;
 }
 
-
 .area-field {
   padding: 15px 20px;
   border: 2px solid var(--page-color-1);
   border-radius: 15px;
-  font-size: 36px;
+  font-size: 34px;
+}
+
+.title {
+  font-size: 60px;
 }
 
 .definition {
@@ -45,7 +44,7 @@ section .container {
 }
 
 .about {
-  font-size: 30px;
+  font-size: 24px;
 }
 
 .about::after {
@@ -62,13 +61,19 @@ section .container {
 .placeholder {
   background-color: var(--page-color-1);
   opacity: 1;
-  height: 312px;
-  width: 312px;
+  height: 300px;
+  width: 300px;
   border-radius: 19px;
 }
 
 .bottom-content {
   margin-top: 54px;
+  margin-bottom: 33px;
+}
+
+.bottom-content .contents {
+  font-size: 48px;
+  font-weight: 400;
 }
 
 .left2 {
@@ -86,6 +91,7 @@ section .container {
   border: none;
   outline: none;
   font-weight: 500;
+  font-size: 20px;
 }
 
 .search input::placeholder {
@@ -102,9 +108,9 @@ section .container {
 }
 
 .search-example .search-icon {
-  font-size: 48px;
-  width: 48px;
-  height: 48px;
+  font-size: 44px;
+  width: 44px;
+  height: 44px;
 }
 
 #color-2 {
@@ -113,19 +119,19 @@ section .container {
 
 #color-3 {background-color: var(--page-color-2)}
 
-.right2 h1 {
-  font-size: 48px;
-  font-weight: 400;
-}
-
 .col-9 {
-  width: 70%;
+  width: 68.5%;
 }
 
 .field-container {
   gap: 59px;
-  padding-bottom: .5px;
+  padding-bottom: 10px;
+  margin: 0;
   box-sizing: border-box;
+}
+
+.knowledge-area {
+  font-size: 20px;
 }
 
 ::-webkit-scrollbar {
@@ -149,8 +155,9 @@ section .container {
 
 .field-card {
   background-image: url("images/Card_background.png");
+  background-repeat: no-repeat;
   height: 258px;
-  width: 256px;
+  width: 258px;
   border-radius: 15px;
   color: var(--text-color-light);
 }
@@ -178,3 +185,97 @@ section .container {
   transform: translateX(-50%);
 }
 
+@media (min-width: 1201px) {
+
+  .qnt {
+    font-size: 30px;
+  }
+
+  .background {
+    height: 300px;
+  }
+
+  .placeholder {
+    width: 200px;
+    height: 200px;
+  }
+
+  .title-container {
+    font-weight: 700;
+    gap: 1.2rem;
+  }
+
+  .bottom-content .contents {
+    font-size: 40px;
+    font-weight: 400;
+  }
+
+  .area-field {
+    padding: 5px 10px;
+    font-size: 20px;
+  }
+
+  .title {
+    font-size: 45px;
+  }
+
+  .definition {
+    font-size: 16px;
+  }
+
+  .search-example .search-icon {
+    font-size: 30px;
+    width: 30px;
+    height: 30px;
+  }
+
+  .knowledge-area {
+    font-size: 16px;
+  }
+
+  .bottom-content {
+    margin-top: 10px;
+    margin-bottom: 22px;
+  }
+
+  .search input {
+    font-size: 16px;
+  }
+
+  .field-card {
+    height: 200px;
+    width: 200px;
+  }
+
+  .field-card h2 {
+    font-size: 26px;
+  }
+
+  .white-ball {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+@media (min-width: 993px) and (max-width: 1200px) {
+  .background {
+    height: 150px;
+  }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  nav ul {
+    display: block;
+    text-align: center;
+  }
+}
+
+@media (max-width: 767px) {
+  nav ul {
+    display: block;
+    padding: 0;
+  }
+
+  nav li {
+    margin-bottom: 10px;
+  }
+}

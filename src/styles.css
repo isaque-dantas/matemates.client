@@ -1,6 +1,6 @@
 :root {
   --text-color-dark: #000000;
-  --text-color-light: #FFFFFF;
+  --text-color-light: #FFF;
   --background-color: #D6D6D6;
   --danger-color: #FFD4D4;
   --page-color-1: #FFF;
@@ -12,17 +12,21 @@
 }
 
 html, body {
-  height: 100vh;
   margin: 0;
 }
 
 body {
-  font-family: Poppins, sans-serif !important;
   background-color: var(--page-color-1);
   background-image: url("background.png");
   background-size: cover;
   background-repeat: repeat;
   backdrop-filter: opacity(0.5) blur(10px);
+}
+
+.mat-typography,
+.mat-typography h1,
+.mat-typography h2{
+  font-family: Poppins, sans-serif !important;
 }
 
 .container {
@@ -138,6 +142,25 @@ body {
 
 @media (max-width: 768px) {
   .modal-dialog {
-    max-width: 90%; /* Wider on smaller screens */
+    max-width: 90%;
   }
+}
+
+.toast-error {
+  background-color: #ff6b6b;
+  backdrop-filter: opacity(75%) blur(10px);
+  color: #ffffff;
+}
+
+.toast-error .toast-header {
+  background-color: var(--page-color-1);
+}
+
+.toast-error .btn-close {
+  color: black;
+}
+
+.toast-image {
+  height: 20px;
+  width: 20px;
 }
