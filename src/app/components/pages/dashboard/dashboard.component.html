@@ -1,5 +1,5 @@
 <app-header></app-header>
-<div class="container overflow-y-hidden">
+<div class="container">
   <section>
     <div class="row">
       <div class="d-flex align-items-center background w-100">
@@ -80,7 +80,7 @@
         </div>
       </div>
       <div class="right2 col-9">
-        <ul class="d-flex list-unstyled flex-shrink-0 field-container overflow-x-scroll'">
+        <ul class="d-flex list-unstyled flex-shrink-0 field-container overflow-x-scroll">
           <li *ngFor="let card of knowledgeAreaCards" class="field-card overflow-hidden flex-shrink-0 text-center position-relative">
             <h2>{{ card.content | capitalize }}</h2>
             <div class="white-ball position-absolute">

@@ -10,8 +10,8 @@
         </li>
       </ul>
       <div *ngIf="showElement" class="buttons">
-        <button *ngIf="!authService.isAuthenticated()" routerLink="login" mat-stroked-button class="btn btn-login">Entrar</button>
-        <button *ngIf="!authService.isAuthenticated()" routerLink="register" mat-flat-button class="btn btn-register">Registrar</button>
+        <button *ngIf="!authService.isAuthenticated()" routerLink="login" class="btn btn-login">Entrar</button>
+        <button *ngIf="!authService.isAuthenticated()" routerLink="register" class="btn btn-register">Registrar</button>
         <button *ngIf="authService.isAuthenticated()" class="bg-transparent user-tab" routerLink="profile"></button>
       </div>
     </div>

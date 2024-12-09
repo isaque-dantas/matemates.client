@@ -1,5 +1,5 @@
 section {
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 section .container {
@@ -125,7 +125,7 @@ section .container {
 
 .field-container {
   gap: 59px;
-  padding-bottom: .5px;
+  padding-bottom: 10px;
   margin: 0;
   box-sizing: border-box;
 }
@@ -211,30 +211,30 @@ section .container {
   }
 
   .area-field {
-    padding: 10px 15px;
-    font-size: 28px;
+    padding: 5px 10px;
+    font-size: 20px;
   }
 
   .title {
-    font-size: 55px;
+    font-size: 45px;
   }
 
   .definition {
-    font-size: 24px;
-  }
-
-  .search-example {
-    padding: 4px 15px;
+    font-size: 16px;
   }
 
   .search-example .search-icon {
-    font-size: 40px;
-    width: 40px;
-    height: 40px;
+    font-size: 30px;
+    width: 30px;
+    height: 30px;
+  }
+
+  .knowledge-area {
+    font-size: 16px;
   }
 
   .bottom-content {
-    margin-top: 40px;
+    margin-top: 10px;
     margin-bottom: 22px;
   }
 
@@ -243,8 +243,8 @@ section .container {
   }
 
   .field-card {
-    height: 220px;
-    width: 220px;
+    height: 200px;
+    width: 200px;
   }
 
   .field-card h2 {
@@ -255,7 +255,6 @@ section .container {
     width: 100px;
     height: 100px;
   }
-
 }
 
 @media (min-width: 993px) and (max-width: 1200px) {
