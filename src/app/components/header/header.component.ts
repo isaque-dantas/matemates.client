@@ -24,7 +24,7 @@ export class HeaderComponent {
 
   navItems = [
     {'label': 'Início', 'link': ''},
-    {'label': 'Criar Verbete', 'link':   'create'},
+    {'label': 'Criar', 'link':   'create'},
     {'label': 'Sugerir Alteração', 'link': 'report'},
   ]
 
