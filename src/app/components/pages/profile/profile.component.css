@@ -5,28 +5,40 @@
 }
 
 .content-gambiarra {
-  width: 68%;
-  left: 2%;
+  width: 58%;
+  left: 1%;
+}
+
+::ng-deep .navItems {
+  position: static;
+  transform: none !important;
+}
+
+::ng-deep .navItems li {
+  width: max-content;
 }
 
 .forms-container {
-  top: 50%;
-  left: 20%;
+  top: 60%;
+  left: 12%;
   transform: translateY(-50%);
 }
 
 .cruds {
   flex-shrink: 0;
+  width: 32%;
   color: var(--page-color-6);
   bottom: 0;
+  margin-top: 25px;
 }
 
 .crud {
   font-weight: 400;
-  font-size: 16px;
+  font-size: 14px;
   cursor: pointer;
   border: none;
-  background: none  ;
+  background: none;
+  color: var(--page-color-6);
 }
 
 .crud, .crud button {
@@ -34,9 +46,9 @@
 }
 
 .crud .mat-icon {
-  font-size: 55px !important;
-  width: 55px;
-  height: 55px;
+  font-size: 35px !important;
+  width: 35px;
+  height: 35px;
 }
 
 .delete_button:hover,
@@ -65,7 +77,7 @@
 
 .user_info {
   gap: 32px;
-  width: 40%;
+  width: 43%;
 }
 
 .info {
@@ -74,18 +86,21 @@
 }
 
 .info label {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 500;
+  color: var(--page-color-6);
 }
 
 .info input {
-  width: 65%;
-  height: 60px;
-  background-color: #d3d3d3;
-  border-radius: 20px 0 0 20px;
-  border: 3px solid var(--page-color-6);
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  height: 45px;
+  width: 100%;
+  background-image: url("form-background.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-color: transparent;
+  border: none;
   position: relative;
+  font-size: 14px;
   padding: 0 10px;
   transition: box-shadow .3s ease-in-out;
 }
