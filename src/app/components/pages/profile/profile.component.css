@@ -56,7 +56,8 @@
 }
 
 .delete_button:hover,
-.logout_button:hover {
+.logout_button:hover,
+.cancel_button:hover {
   color: #FF4C3B;
   font-weight: bold;
 }
