@@ -35,19 +35,23 @@
         </div>
       </form>
       <div class="cruds d-inline-flex justify-content-between align-items-start">
-        <button *ngIf="this.userData.is_staff" class="d-flex flex-column add_adm_button align-items-center crud" data-bs-toggle="modal" data-bs-target="#addAdmModal">
+        <button *ngIf="this.userData.is_staff && !isEditable" class="d-flex flex-column add_adm_button align-items-center crud" data-bs-toggle="modal" data-bs-target="#addAdmModal">
           <mat-icon>add</mat-icon>
           <p>Add adm</p>
         </button>
         <button class="d-flex flex-column edit_button align-items-center crud" (click)="isEditable? saveChanges() : toggleEdit()">
-          <mat-icon>{{isEditable? 'save' : 'edit'}}</mat-icon>
+          <mat-icon>{{isEditable? 'check' : 'edit'}}</mat-icon>
           <p>{{isEditable? 'Salvar': 'Editar'}}</p>
         </button>
-        <button class="d-flex flex-column logout_button align-items-center crud" data-bs-toggle="modal" data-bs-target="#exitModal">
+        <button *ngIf="isEditable" class="d-flex flex-column cancel_button align-items-center crud" (click)="cancelEdit()">
+          <mat-icon>close</mat-icon>
+          <p>cancelar</p>
+        </button>
+        <button class="d-flex flex-column logout_button align-items-center crud" *ngIf="!isEditable" data-bs-toggle="modal" data-bs-target="#exitModal">
           <mat-icon>logout</mat-icon>
           <p>Sair</p>
         </button>
-        <button class="d-flex flex-column delete_button align-items-center crud" data-bs-toggle="modal" data-bs-target="#deleteAccount">
+        <button class="d-flex flex-column delete_button align-items-center crud" *ngIf="!isEditable" data-bs-toggle="modal" data-bs-target="#deleteAccount">
           <mat-icon>delete</mat-icon>
           <p>Deletar</p>
         </button>

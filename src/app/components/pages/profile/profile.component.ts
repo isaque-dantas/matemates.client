@@ -135,6 +135,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
   }
 
+  cancelEdit() {
+    this.isEditable = !this.isEditable;
+    this.userDataShow.disable()
+    this.userDataShow.patchValue({
+      name: this.userData.name,
+      username: this.userData.username,
+      email: this.userData.email
+    })
+  }
+
   ngOnDestroy() {
     document.body.style.overflow = '';
     this.destroy$.next()
