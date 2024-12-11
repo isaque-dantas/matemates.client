@@ -1,48 +1,47 @@
-<div class="background d-flex justify-content-center position-relative vh-100 w-100">
-  <div class="content-background position-absolute">
+<div class="background vw-100 vh-100">
+  <div class="content-background">
   </div>
   <section>
     <app-header class="content-gambiarra container position-absolute"></app-header>
-    <div class="texture-ball position-absolute d-flex justify-content-center align-items-center">
-      <div class="profile-image"></div>
-    </div>
-    <div class="cruds d-inline-flex position-absolute flex-column justify-content-between align-items-start">
-      <button *ngIf="this.userData.is_staff" class="d-flex flex-column add_adm_button align-items-center crud" data-bs-toggle="modal" data-bs-target="#addAdmModal">
-        <mat-icon>add</mat-icon>
-        <p>Add adm</p>
-      </button>
-      <button class="d-flex flex-column edit_button align-items-center crud" (click)="isEditable? saveChanges() : toggleEdit()">
-        <mat-icon>{{isEditable? 'save' : 'edit'}}</mat-icon>
-        <p>{{isEditable? 'Salvar': 'Editar'}}</p>
-      </button>
-      <button class="d-flex flex-column logout_button align-items-center crud" data-bs-toggle="modal" data-bs-target="#exitModal">
-        <mat-icon>logout</mat-icon>
-        <p>Sair</p>
-      </button>
-      <button class="d-flex flex-column delete_button align-items-center crud" data-bs-toggle="modal" data-bs-target="#deleteAccount">
-        <mat-icon>delete</mat-icon>
-        <p>Deletar</p>
-      </button>
+    <div class="container forms-container position-absolute">
+      <form [formGroup]="userDataShow" class="user_info d-flex flex-column">
+        <div class="info d-flex flex-column">
+          <label for="name_show">Nome</label>
+          <input type="text" formControlName="name" id="name_show">
+        </div>
+        <div class="info d-flex flex-column">
+          <label for="user_show">Username</label>
+          <input type="text" formControlName="username" id="user_show">
+        </div>
+        <div class="info d-flex flex-column">
+          <label for="email_show">Email</label>
+          <input type="text" formControlName="email" id="email_show">
+        </div> <div class="info d-flex flex-column">
+          <label for="password_show">Senha</label>
+          <input type="text" formControlName="email" id="password_show">
+        </div>
+      </form>
+      <div class="cruds d-inline-flex justify-content-between align-items-start">
+        <button *ngIf="this.userData.is_staff" class="d-flex flex-column add_adm_button align-items-center crud" data-bs-toggle="modal" data-bs-target="#addAdmModal">
+          <mat-icon>add</mat-icon>
+          <p>Add adm</p>
+        </button>
+        <button class="d-flex flex-column edit_button align-items-center crud" (click)="isEditable? saveChanges() : toggleEdit()">
+          <mat-icon>{{isEditable? 'save' : 'edit'}}</mat-icon>
+          <p>{{isEditable? 'Salvar': 'Editar'}}</p>
+        </button>
+        <button class="d-flex flex-column logout_button align-items-center crud" data-bs-toggle="modal" data-bs-target="#exitModal">
+          <mat-icon>logout</mat-icon>
+          <p>Sair</p>
+        </button>
+        <button class="d-flex flex-column delete_button align-items-center crud" data-bs-toggle="modal" data-bs-target="#deleteAccount">
+          <mat-icon>delete</mat-icon>
+          <p>Deletar</p>
+        </button>
+      </div>
     </div>
 
-    <form [formGroup]="userDataShow" class="user_info d-flex flex-column position-absolute">
-      <div class="info d-flex flex-column">
-        <label for="name_show">Nome</label>
-        <input type="text" formControlName="name" id="name_show">
-      </div>
-      <div class="info d-flex flex-column">
-        <label for="user_show">Username</label>
-        <input type="text" formControlName="username" id="user_show">
-      </div>
-      <div class="info d-flex flex-column">
-        <label for="email_show">Email</label>
-        <input type="text" formControlName="email" id="email_show">
-      </div>
-    </form>
-
-    <div class="role_show position-absolute">
-      <div class="adm-picture position-absolute"></div>
-    </div>
+    <div class="adm-picture position-absolute"></div>
 
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
       <div *ngIf="logMessage" class="toast show toast-error" role="alert" aria-live="assertive" aria-atomic="true">

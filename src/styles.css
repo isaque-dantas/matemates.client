@@ -17,7 +17,7 @@ html, body {
 
 body {
   background-color: var(--page-color-1);
-  background-image: url("background.png");
+  background-image: url("app/components/pages/profile/background.png");
   background-size: cover;
   background-repeat: repeat;
   backdrop-filter: opacity(0.5) blur(10px);
