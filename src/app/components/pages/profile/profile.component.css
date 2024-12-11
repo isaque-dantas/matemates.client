@@ -9,6 +9,10 @@
   left: 1%;
 }
 
+::ng-deep .logo {
+  width: 40px !important;
+}
+
 ::ng-deep .navItems {
   position: static;
   transform: none !important;
@@ -19,7 +23,7 @@
 }
 
 .forms-container {
-  top: 60%;
+  top: 58%;
   left: 12%;
   transform: translateY(-50%);
 }
@@ -65,6 +69,11 @@
 .edit_button:hover {
   color: #4CFF4C;
   font-weight: bold;
+}
+
+.modal-footer {
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .modal-footer .cancel-delete:hover {

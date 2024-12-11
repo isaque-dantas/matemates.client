@@ -63,7 +63,7 @@
           <div class="modal-header d-block w-100 text-center border-0 p-0">
             <h1 class="modal-title" id="admModal">Promover um usuário para administrador</h1>
           </div>
-          <div class="modal-body">
+          <div class="modal-body px-0">
             <form action="" class="d-flex flex-column">
               <div class="d-flex gap-p flex-column">
                 <label for="name">Nome</label>
@@ -101,7 +101,7 @@
       <div class="modal-dialog w-100 h-100 p-0 m-0">
         <div class="modal-content d-flex flex-column w-100 h-100">
           <div class="modal-header d-block w-100 text-center border-0 p-0">
-            <h1 class="modal-title" id="deleteModal">excluir sua conta? <br>(Essa ação é irreversível)</h1>
+            <h1 class="modal-title" id="deleteModal">excluir sua conta? (Essa ação é irreversível)</h1>
           </div>
           <div class="modal-body">
             <form [formGroup]="deleteForm" (ngSubmit)="confirmDeletion()" class="d-flex flex-column">
