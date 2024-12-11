@@ -85,13 +85,21 @@
 }
 
 .user_info {
-  gap: 32px;
+  gap: 28px;
   width: 43%;
 }
 
 .info {
   gap: 8px;
-  width: 100%;
+  width: 78%;
+}
+
+.validation {
+  border-radius: 50%;
+  width: 13px;
+  height: 13px;
+  margin-top: 25px;
+  background-color: #94FFB0;
 }
 
 .info label {

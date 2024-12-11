@@ -5,20 +5,33 @@
     <app-header class="content-gambiarra container position-absolute"></app-header>
     <div class="container forms-container position-absolute">
       <form [formGroup]="userDataShow" class="user_info d-flex flex-column">
-        <div class="info d-flex flex-column">
-          <label for="name_show">Nome</label>
-          <input type="text" formControlName="name" id="name_show">
+        <div class="d-flex align-items-center">
+          <div class="info d-flex flex-column">
+            <label for="name_show">Nome</label>
+            <input type="text" formControlName="name" id="name_show">
+          </div>
+          <div class="validation"></div>
         </div>
-        <div class="info d-flex flex-column">
-          <label for="user_show">Usuário</label>
-          <input type="text" formControlName="username" id="user_show">
+        <div class="d-flex align-items-center">
+          <div class="info d-flex flex-column">
+            <label for="user_show">Usuário</label>
+            <input type="text" formControlName="username" id="user_show">
+          </div>
+          <div class="validation"></div>
         </div>
-        <div class="info d-flex flex-column">
-          <label for="email_show">Email</label>
-          <input type="text" formControlName="email" id="email_show">
-        </div> <div class="info d-flex flex-column">
-          <label for="password_show">Senha</label>
-          <input type="text" formControlName="email" id="password_show">
+        <div class="d-flex align-items-center">
+          <div class="info d-flex flex-column">
+            <label for="email_show">E-mail</label>
+            <input type="text" formControlName="email" id="email_show">
+          </div>
+          <div class="validation"></div>
+        </div>
+        <div class="d-flex align-items-center">
+          <div class="info d-flex flex-column">
+            <label for="password_show">Senha</label>
+            <input type="text" formControlName="email" id="password_show">
+          </div>
+          <div class="validation"></div>
         </div>
       </form>
       <div class="cruds d-inline-flex justify-content-between align-items-start">
