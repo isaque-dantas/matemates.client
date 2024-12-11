@@ -43,9 +43,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.token = localStorage.getItem('access');
 
     this.userDataShow = this.fb.group({
-      name: [{value: '', disabled: !this.isEditable}],
-      username: [{value: '', disabled: !this.isEditable}],
-      email: [{value: '', disabled: !this.isEditable}]
+      name: [
+        {value: '', disabled: !this.isEditable},
+        [Validators.required, Validators.minLength(3)]
+      ],
+      username: [
+        {value: '', disabled: !this.isEditable},
+        [Validators.required, Validators.minLength(3)]
+      ],
+      email: [
+        {value: '', disabled: !this.isEditable},
+        [Validators.required, Validators.email]
+      ]
     });
 
     this.turnAdminForm = this.fb.group({
@@ -127,11 +136,35 @@ export class ProfileComponent implements OnInit, OnDestroy {
         },
         (error) => {
           console.error('error updating data', error)
-          this.logMessage = 'Erro ao salvar os dados. Tente novamente'
+          this.logMessage = 'Erro interno, por favor, tente novamente.'
         }
-      )
+      );
     } else {
-      this.logMessage = 'Preencha todos os dados corretamente antes de salvar'
+      this.logMessage = '';
+
+      if (this.userDataShow.get('name')?.hasError('required')) {
+        this.logMessage = 'O nome é obrigatório'
+      } else if (this.userDataShow.get('name')?.hasError('minlenght')) {
+        this.logMessage = 'O nome precisa ter pelo menos 3 caracteres'
+      }
+
+      else if (this.userDataShow.get('email')?.hasError('required')) {
+        this.logMessage = 'Um email é obrigatório'
+      } else if (this.userDataShow.get('email')?.hasError('email')) {
+        this.logMessage = 'Email inválido'
+      }
+
+      else if (this.userDataShow.get('username')?.hasError('required')) {
+        this.logMessage = 'Um nome de usuário é obrigatório'
+      } else if (this.userDataShow.get('username')?.hasError('minlenght')) {
+        this.logMessage = 'O usuário precisa ter no mínimo 2 caracteres'
+      }
+
+      else if (this.userDataShow.get('password')?.hasError('required')) {
+        this.logMessage = 'A senha é obrigatória'
+      } else if (this.userDataShow.get('password')?.hasError('minlenght')) {
+        this.logMessage = 'A senha precisa ter pelo menos 4 caracteres'
+      }
     }
   }
 
