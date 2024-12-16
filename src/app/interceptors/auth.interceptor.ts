@@ -5,6 +5,8 @@ import {AuthService} from "../services/auth.service";
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
 
+  console.log(authService.isAuthenticated())
+
   if (!authService.isAuthenticated()) {
     return next(req)
   }

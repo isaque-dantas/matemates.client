@@ -1,0 +1,67 @@
+main * {
+  font-family: Poppins, sans-serif !important;
+  color: #052659;
+}
+
+.badge-knowledge-area {
+  font-size: 24px;
+  border-radius: 16px;
+  border-width: 2px;
+}
+
+.badge-knowledge-area-sm {
+  font-size: 12px;
+  font-weight: 400;
+  border-radius: 8px;
+  border-width: 1px;
+  padding: 2px 8px;
+
+  border-color: #606060;
+  color: #606060 !important;
+}
+
+.badge-knowledge-area, .badge-knowledge-area-sm {
+  border-style: solid;
+  height: fit-content;
+}
+
+.definition-content {
+  font-size: 20px
+}
+
+.carousel-border {
+  border-color: #052659 !important;
+}
+
+.examples {
+  margin-top: 72px;
+}
+
+.examples .example {
+  border-radius: 16px;
+  border: 1px solid #052659;
+  padding: 16px;
+}
+
+.entry-image {
+  max-width: 320px;
+  max-height: 320px;
+}
+
+.carousel-caption {
+  top: 100%;
+  padding-top: 8px;
+}
+
+main.background-esquisito-cortado::after {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  background-image: url("/bg-esquisito-cortado.png");
+  background-size: cover;
+  z-index: 9999999999;
+}

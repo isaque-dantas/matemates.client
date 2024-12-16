@@ -1,0 +1,144 @@
+<ng-container [formGroup]="form">
+  <div
+    formArrayName="questions"
+    class="mt-5"
+    id="questions-container"
+    data-bs-spy="scroll"
+    data-bs-target="#carousel"
+    data-bs-smooth-scroll="true"
+  >
+    <div id="carousel" class="position-relative d-flex gap-2 align-items-center w-100 overflow-y-visible">
+      <button
+        [className]="questions.length <= 1 ? 'cursor-not-allowed prev btn' : 'prev btn'"
+        [disabled]="questions.length <= 1"
+        type="button"
+        (click)="goToPrevItems()"
+      ><span class="icon"><</span>
+      </button>
+      <div class="px-3 w-100 position-relative overflow-x-hidden overflow-y-visible">
+        <div class="items-height"></div>
+        <div class="items row g-3 overflow-x-visible flex-nowrap w-100">
+          @for (questionForm of questions.controls; let i = $index; track i) {
+            <div [formGroupName]="i" class="col-3">
+              <div class="custom-card position-relative d-flex" id="question{{i}}">
+                @if (questionForm.value!.statement || questionForm.value!.answer) {
+                  <div class="btn border-0 justify-self-center align-self-center px-4 py-3 user-select-none">
+                    <p class="fs-5 fw-medium mb-2 text-start">{{ questionForm.value!.statement }}</p>
+                    <p class="mb-0 text-start">{{ questionForm.value!.answer }}</p>
+                  </div>
+                } @else {
+                  <button
+                    type="button"
+                    data-bs-target="#editQuestionModalContainer"
+                    data-bs-toggle="modal"
+                    (click)="setCurrentEditingQuestionIndex(i)"
+                    class="btn w-100 fs-5 fw-medium text-center border-0">
+                    <p class="w-75 mb-0 mx-auto">Clique para inserir os dados</p>
+                  </button>
+                }
+                <div class="d-flex gap-4 actions position-absolute">
+                  <button
+                    class="delete btn p-0"
+                    (click)="delete(i)"
+                    type="button"
+                    [disabled]="questions.length <= 1"
+                  >
+                    <img ngSrc="delete.svg" alt="excluir" width="20" height="20">
+                  </button>
+                  <button
+                    class="edit btn p-0"
+                    type="button"
+                    data-bs-target="#editQuestionModalContainer"
+                    data-bs-toggle="modal"
+                    (click)="setCurrentEditingQuestionIndex(i)"
+                  >
+                    <img ngSrc="edit-white.svg" alt="editar" width="20" height="20">
+                  </button>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+      <button
+        [className]="questions.length <= 1 ? 'cursor-not-allowed next btn' : 'next btn'"
+        [disabled]="questions.length <= 1"
+        type="button"
+        (click)="goToNextItems()"
+      ><span class="icon">></span>
+      </button>
+      <div id="addQuestion" class="add position-absolute mt-3 d-flex gap-3 rounded-5">
+        <button
+          class="btn fs-6 fw-medium py-1 d-flex gap-2 align-items-center"
+          (click)="resetForm()"
+          data-bs-target="#addQuestionModalContainer"
+          data-bs-toggle="modal"
+          type="button"><span>Novo exemplo</span><span class="fw-bold fs-5">+</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</ng-container>
+
+<div class="modal fade" id="addQuestionModalContainer" tabindex="-1" aria-labelledby="addQuestionModal"
+     aria-hidden="true">
+  <div class="modal-dialog w-100 h-100 p-0 m-0">
+    <form [formGroup]="questionForm">
+      <div class="modal-content d-flex flex-column w-100 h-100 justify-content-between">
+        <div class="modal-header d-block w-100 text-center border-0 p-0">
+          <h1 class="modal-title mb-0" id="addQuestionModal">Novo exemplo</h1>
+        </div>
+        <div class="modal-body">
+          <div class="d-flex gap-4 flex-column">
+            <div class="d-flex flex-column gap-2">
+              <label for="statement">Enunciado</label>
+              <input type="text" formControlName="statement">
+            </div>
+
+            <div class="d-flex flex-column gap-2">
+              <label for="answer">Resposta</label>
+              <input type="text" formControlName="answer">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer border-0 d-flex justify-content-between">
+          <button type="button" class="cancel" data-bs-dismiss="modal">Cancelar</button>
+          <button (click)="submitNewQuestion()" type="button" class="confirm" data-bs-dismiss="modal">Confirmar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal fade" id="editQuestionModalContainer" tabindex="-1" aria-labelledby="editQuestionModal"
+     aria-hidden="true">
+  <div class="modal-dialog w-100 h-100 p-0 m-0">
+    <form [formGroup]="questionForm">
+      <div class="modal-content d-flex flex-column w-100 h-100 justify-content-between">
+        <div class="modal-header d-block w-100 text-center border-0 p-0">
+          <h1 class="modal-title mb-0" id="editQuestionModal">Editando exemplo #{{ currentEditingQuestionIndex }}</h1>
+        </div>
+        <div class="modal-body">
+          <div class="d-flex gap-4 flex-column">
+            <div class="d-flex flex-column gap-2">
+              <label for="statement">Enunciado</label>
+              <input type="text" id="statement" formControlName="statement">
+            </div>
+
+            <div class="d-flex flex-column gap-2">
+              <label for="answer">Resposta</label>
+              <input type="text" id="answer" formControlName="answer">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer border-0 d-flex justify-content-between">
+          <button type="button" class="cancel" data-bs-dismiss="modal">Cancelar</button>
+          <button (click)="edit(currentEditingQuestionIndex!)" type="button" class="confirm" data-bs-dismiss="modal">
+            Confirmar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

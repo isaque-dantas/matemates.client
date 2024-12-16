@@ -5,6 +5,8 @@ import {RegisterComponent} from "./components/pages/register/register.component"
 import {ImageTestComponent} from "./components/pages/image-test/image-test.component";
 import {ProfileComponent} from "./components/pages/profile/profile.component";
 import {authGuard} from "./auth/auth.guard";
+import {EntryViewComponent} from "./components/pages/entry-view/entry-view.component";
+import {EntryFormComponent} from "./components/pages/entry-form/entry-form.component";
 
 export const routes: Routes = [
   {path: '', component: DashboardComponent},
@@ -12,4 +14,6 @@ export const routes: Routes = [
   {path: 'register', component: RegisterComponent},
   {path: 'test-image', component: ImageTestComponent},
   {path: 'profile', component: ProfileComponent, canActivate: [authGuard]},
+  {path: 'entry/:id', component: EntryViewComponent},
+  {path: 'create_entry', component: EntryFormComponent},
 ];
