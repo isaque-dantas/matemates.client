@@ -11,7 +11,6 @@ import {AuthService} from "../../services/auth.service";
     RouterLinkActive,
     NgForOf,
     RouterLink,
-    KeyValuePipe,
     MatButton,
     NgIf
   ],
