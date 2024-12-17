@@ -23,7 +23,7 @@
 }
 
 .forms-container {
-  margin-top: 77px;
+  margin-top: 20px;
 }
 
 form {
@@ -45,6 +45,8 @@ form {
 .text p {
   font-size: 11px;
   line-height: normal;
+  font-weight: 500;
+  color: #5B6471;
 }
 
 .form-input {
@@ -75,6 +77,12 @@ form {
   font-size: 16px;
   font-weight: 500;
   padding: 2px 18px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.btn-login:hover {
+  background-color: var(--page-color-5);
+  color: var(--text-color-light);
 }
 
 .redirect {
@@ -87,8 +95,49 @@ form {
   cursor: pointer;
 }
 
-@media (min-width: 1201px) {
+@media (min-width: 1080px) {
+  .logo {
+    height: 80px;
+    width: 80px;
+  }
+
+  .text {
+    margin-bottom: 20px;
+  }
+
+  .text h1 {
+    font-size: 40px;
+  }
+
+  form {
+    gap: 46px;
+  }
+
+  .text p {
+    font-size: 16px;
+  }
+
+  .form-input {
+    font-size: 19px;
+  }
+
+  .form-input input {
+    font-size: 16px;
+  }
+
+  .redirect {
+    font-size: 18px;
+  }
+
+  .custom-checkbox {
+    font-size: 18px;
+  }
+
   .forms-container {
-    margin-top: 20px;
+    margin-top: 77px;
+  }
+
+  .btn-login {
+    font-size: 24px;
   }
 }

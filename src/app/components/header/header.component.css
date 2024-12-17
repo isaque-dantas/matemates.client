@@ -70,3 +70,22 @@
   background-size: cover;
   border: 2px solid var(--page-color-6);
 }
+
+@media (min-width: 1080px) {
+  .logo {
+    width: 60px;
+  }
+
+  .navItems {
+    font-size: 24px;
+  }
+
+  .btn {
+    font-size: 24px;
+  }
+
+  .user-tab {
+    width: 80px;
+    height: 80px;
+  }
+}

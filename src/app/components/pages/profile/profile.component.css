@@ -132,3 +132,40 @@
   left: 75%;
   transform: translateY(-50%);
 }
+
+@media (min-width: 1080px) {
+  ::ng-deep .logo {
+    width: 60px !important;
+  }
+
+  .info input {
+    background-size: cover;
+    height: 6.4vh;
+  }
+
+  .crud .mat-icon {
+    font-size: 64px !important;
+    width: 64px;
+    height: 64px;
+  }
+
+  .user_info {
+    gap: 30px;
+  }
+
+  .cruds {
+    margin-top: 20px;
+  }
+
+  .info {
+    gap: 15px;
+  }
+
+  .info label {
+    font-size: 32px;
+  }
+
+  .info input {
+    font-size: 18px;
+  }
+}

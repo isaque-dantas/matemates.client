@@ -10,7 +10,7 @@ section .container {
   background-image: url('images/background-2.jpg');
   background-size: cover;
   background-repeat: no-repeat;
-  height: 400px;
+  height: 300px;
   border-radius: 30px;
   color: var(--text-color-light);
   font-weight: 500;
@@ -22,22 +22,24 @@ section .container {
 
 .title-container {
   font-weight: 700;
-  gap: 2rem;
+  gap: 1.2rem;
 }
 
 .area-field {
-  padding: 15px 20px;
+  padding: 5px 10px;
   border: 2px solid var(--page-color-1);
   border-radius: 15px;
-  font-size: 34px;
+  font-size: 20px;
+  font-family: poppins, serif;
+  font-weight: 500;
 }
 
 .title {
-  font-size: 60px;
+  font-size: 45px;
 }
 
 .definition {
-  font-size: 30px;
+  font-size: 16px;
   max-width: 774px;
   line-height: normal;
   margin-top: 15px;
@@ -61,18 +63,18 @@ section .container {
 .placeholder {
   background-color: var(--page-color-1);
   opacity: 1;
-  height: 300px;
-  width: 300px;
+  height: 200px;
+  width: 200px;
   border-radius: 19px;
 }
 
 .bottom-content {
-  margin-top: 54px;
-  margin-bottom: 33px;
+  margin-top: 10px;
+  margin-bottom: 22px;
 }
 
 .bottom-content .contents {
-  font-size: 48px;
+  font-size: 40px;
   font-weight: 400;
 }
 
@@ -91,7 +93,7 @@ section .container {
   border: none;
   outline: none;
   font-weight: 500;
-  font-size: 20px;
+  font-size: 16px;
 }
 
 .search input::placeholder {
@@ -108,9 +110,9 @@ section .container {
 }
 
 .search-example .search-icon {
-  font-size: 44px;
-  width: 44px;
-  height: 44px;
+  font-size: 30px;
+  width: 30px;
+  height: 30px;
 }
 
 #color-2 {
@@ -131,7 +133,7 @@ section .container {
 }
 
 .knowledge-area {
-  font-size: 20px;
+  font-size: 16px;
 }
 
 ::-webkit-scrollbar {
@@ -156,21 +158,21 @@ section .container {
 .field-card {
   background-image: url("images/Card_background.png");
   background-repeat: no-repeat;
-  height: 258px;
-  width: 258px;
+  height: 190px;
+  width: 190px;
   border-radius: 15px;
   color: var(--text-color-light);
 }
 
 .field-card h2 {
-  font-size: 32px;
+  font-size: 26px;
   font-weight: 400;
   margin-top: 50px;
 }
 
 .white-ball {
-  width: 127px;
-  height: 127px;
+  width: 80px;
+  height: 80px;
   background-color: var(--page-color-1);
   border-radius: 50%;
   color: var(--text-color-dark);
@@ -183,77 +185,58 @@ section .container {
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
+  font-size: 24px;
 }
 
-@media (min-width: 1201px) {
-
-  .qnt {
-    font-size: 24px;
-  }
-
+@media (min-width: 1080px) {
   .background {
-    height: 300px;
-  }
-
-  .placeholder {
-    width: 200px;
-    height: 200px;
-  }
-
-  .title-container {
-    font-weight: 700;
-    gap: 1.2rem;
-  }
-
-  .bottom-content .contents {
-    font-size: 40px;
-    font-weight: 400;
-  }
-
-  .area-field {
-    padding: 5px 10px;
-    font-size: 20px;
-  }
-
-  .title {
-    font-size: 45px;
-  }
-
-  .definition {
-    font-size: 16px;
-  }
-
-  .search-example .search-icon {
-    font-size: 30px;
-    width: 30px;
-    height: 30px;
-  }
-
-  .knowledge-area {
-    font-size: 16px;
-  }
-
-  .bottom-content {
-    margin-top: 10px;
-    margin-bottom: 22px;
-  }
-
-  .search input {
-    font-size: 16px;
+    height: 414px;
   }
 
   .field-card {
-    height: 190px;
-    width: 190px;
-  }
-
-  .field-card h2 {
-    font-size: 26px;
+    height: 256px;
+    width: 256px;
   }
 
   .white-ball {
-    width: 80px;
-    height: 80px;
+    width: 116px;
+    height: 116px;
+  }
+
+  .qnt {
+    font-size: 44px;
+  }
+
+  .knowledge-area {
+    font-size: 24px;
+  }
+
+  .search-example .search-icon {
+    font-size: 48px;
+    height: 48px;
+    width: 48px;
+  }
+
+  .placeholder {
+    width: 300px;
+    height: 300px;
+  }
+
+  .definition {
+    font-size: 24px;
+  }
+
+  .title {
+    font-size: 64px;
+  }
+
+  .bottom-content {
+    margin-top: 44px;
+  }
+
+  .area-field {
+    font-size: 36px;
+    padding: 15px 10px;
   }
 }
 

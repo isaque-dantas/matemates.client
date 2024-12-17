@@ -63,6 +63,10 @@ h3 {
   border-radius: 19px;
 }
 
+#entryCarousel img {
+  border-radius: 19px;
+}
+
 .carousel-caption {
   top: 100%;
   padding-top: 8px;
@@ -74,4 +78,29 @@ h3 {
   background-image: url("bg-esquisito-cortado.png");
   background-size: cover;
   z-index: 9999999999;
+}
+
+@media (min-width: 1080px) {
+  .title {
+    font-size: 40px !important;
+  }
+
+  .examples h3 {
+    font-size: 40px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .definition-content {
+    font-size: 24px;
+    margin-top: 15px !important;
+  }
+
+  #entryCarousel {
+    width: 501px;
+    height: 501px;
+  }
+
+  .badge-knowledge-area-sm {
+    font-size: 20px;
+  }
 }

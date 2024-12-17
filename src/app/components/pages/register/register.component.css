@@ -1,12 +1,18 @@
-body {
-  overflow-y: hidden;
-}
-
 .background {
   background-image: url('register-background.png');
   background-size: cover;
   background-repeat: no-repeat;
-  border-radius: 60px 0 0 60px;
+  border-radius: 0 60px 60px 0;
+  min-height: 100vh;
+  height: 100%;
+}
+
+.info {
+  margin-top: 35px;
+}
+
+.forms-container {
+  margin-top: 77px;
 }
 
 .logo {
@@ -14,15 +20,14 @@ body {
   height: 70px;
   margin-right: 20px;
   cursor: pointer;
-  margin-top: 46px;
 }
 
 .forms-container {
-  margin-top: 50px;
+  margin-top: 20px;
 }
 
 form {
-  gap: 20px;
+  gap: 36px;
   font-size: 16px;
   font-weight: 500;
   color: rgba(2, 16, 36, 0.65);
@@ -40,6 +45,8 @@ form {
 .text p {
   font-size: 11px;
   line-height: normal;
+  font-weight: 500;
+  color: #5B6471;
 }
 
 .form-input {
@@ -70,6 +77,16 @@ form {
   font-size: 16px;
   font-weight: 500;
   padding: 2px 18px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.btn-login:hover {
+  background-color: var(--page-color-5);
+  color: var(--text-color-light);
+}
+
+.redirect {
+  font-size: 14px;
 }
 
 .text-blue {
@@ -78,12 +95,49 @@ form {
   cursor: pointer;
 }
 
-.redirect {
-  font-size: 14px;
-}
+@media (min-width: 1080px) {
+  .logo {
+    height: 80px;
+    width: 80px;
+  }
 
-@media (min-width: 1201px) {
+  .text {
+    margin-bottom: 20px;
+  }
+
+  .text h1 {
+    font-size: 40px;
+  }
+
+  form {
+    gap: 46px;
+  }
+
+  .text p {
+    font-size: 16px;
+  }
+
+  .form-input {
+    font-size: 19px;
+  }
+
+  .form-input input {
+    font-size: 16px;
+  }
+
+  .redirect {
+    font-size: 18px;
+  }
+
+  .custom-checkbox {
+    font-size: 18px;
+  }
+
   .forms-container {
-    margin-top: 20px;
+    margin-top: 77px;
+  }
+
+  .btn-login {
+    font-size: 24px;
   }
 }
