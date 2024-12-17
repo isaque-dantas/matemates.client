@@ -138,6 +138,10 @@
     width: 60px !important;
   }
 
+  .forms-container {
+    top: 56%;
+  }
+
   .info input {
     background-size: cover;
     height: 6.4vh;
@@ -150,7 +154,7 @@
   }
 
   .user_info {
-    gap: 30px;
+    gap: 45px;
   }
 
   .cruds {
