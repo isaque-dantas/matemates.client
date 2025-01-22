@@ -63,6 +63,11 @@ h3 {
   border-radius: 19px;
 }
 
+button {
+  width: 32px;
+  height: 32px;
+}
+
 #entryCarousel img {
   border-radius: 19px;
 }
@@ -80,7 +85,7 @@ h3 {
   z-index: 9999999999;
 }
 
-@media (min-width: 1080px) {
+@media (min-height: 1080px) {
   .title {
     font-size: 40px !important;
   }

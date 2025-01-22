@@ -188,7 +188,7 @@ section .container {
   font-size: 24px;
 }
 
-@media (min-width: 1080px) {
+@media (min-height: 1080px) {
   .background {
     height: 414px;
   }

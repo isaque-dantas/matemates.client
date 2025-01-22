@@ -16,4 +16,5 @@ export const routes: Routes = [
   {path: 'profile', component: ProfileComponent, canActivate: [authGuard]},
   {path: 'entry/:id', component: EntryViewComponent},
   {path: 'create_entry', component: EntryFormComponent},
+  {path: 'edit_entry/:id', component: EntryFormComponent}
 ];

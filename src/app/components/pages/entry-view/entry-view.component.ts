@@ -1,9 +1,10 @@
 import {Component} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {HeaderComponent} from "../../header/header.component";
 import {Entry} from "../../../interfaces/entry";
 import {EntryService} from "../../../services/entry.service";
 import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'app-entry-view',
@@ -12,7 +13,8 @@ import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
     HeaderComponent,
     NgForOf,
     NgIf,
-    NgOptimizedImage
+    NgOptimizedImage,
+    MatIcon
   ],
   templateUrl: './entry-view.component.html',
   styleUrl: './entry-view.component.css'
@@ -23,7 +25,7 @@ export class EntryViewComponent {
   parsedEntryContent!: string
   knowledgeAreas!: string[]
 
-  constructor(private route: ActivatedRoute, private entryService: EntryService) {
+  constructor(private route: ActivatedRoute, private entryService: EntryService, private router: Router) {
     route.params.subscribe(async (params) => {
       this.entryId = +params["id"];
     })
@@ -49,4 +51,7 @@ export class EntryViewComponent {
     })
   }
 
+  redirectToEdit(): void {
+    this.router.navigate(['edit_entry/1'])
+  }
 }

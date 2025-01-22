@@ -6,6 +6,9 @@ import {KnowledgeArea} from "../../../interfaces/knowledge-area";
 import {NgOptimizedImage} from "@angular/common";
 import {QuestionsCarouselComponent} from "../../questions-carousel/questions-carousel.component";
 import {Question} from "../../../interfaces/question";
+import {ActivatedRoute} from "@angular/router";
+import {EntryService} from "../../../services/entry.service";
+import {Entry} from "../../../interfaces/entry";
 
 @Component({
   selector: 'app-entry-form',
@@ -16,6 +19,9 @@ import {Question} from "../../../interfaces/question";
 })
 export class EntryFormComponent {
   knowledgeAreas?: KnowledgeArea[]
+  entryId: number = 10;
+  token: any;
+  entryData: any;
   private fb = inject(FormBuilder);
   form = this.fb.group({
     content: ['', Validators.required],
@@ -27,7 +33,11 @@ export class EntryFormComponent {
   private notSetUpImagesIndexes: number[] = []
   private notSelectedLastEntriesNames: string[] = []
 
-  constructor(knowledgeAreaService: KnowledgeAreaService) {
+  constructor(knowledgeAreaService: KnowledgeAreaService, private route: ActivatedRoute, private entryService: EntryService) {
+    route.params.subscribe(async (params) => {
+      this.entryId = +params["id"];
+    })
+
     knowledgeAreaService.getAll().subscribe((knowledgeAreas) => {
       this.knowledgeAreas = knowledgeAreas
     })
@@ -154,6 +164,13 @@ export class EntryFormComponent {
 
       this.addImageHandlingToIndex(0)
     })
+
+    if (this.entryId) {
+      this.entryService.get(this.entryId).subscribe((entry: Entry) => {
+        this.form.patchValue(entry)
+        console.log(entry)
+      })
+    }
   }
 
   addImageHandlingToIndex(index: number) {

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Entry} from "../interfaces/entry";
 import {Definition} from "../interfaces/definition";
@@ -28,4 +28,10 @@ export class EntryService {
       (value, index) => knowledgeAreas.indexOf(value) === index
     )
   }
+
+  updateEntry(token: string, entry: Entry): Observable<any> {
+    return this.http.put(`${this.baseUrl}/`, entry, {
+      headers: { Authorization: `bearer ${token}`}
+    });
+  };
 }
