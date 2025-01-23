@@ -1,5 +1,18 @@
+.background {
+  background-image: url('background-entry.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  z-index: -100;
+  position: fixed;
+  left: 0;
+  height: 104.5%;
+  width: 100%;
+}
+
+
 main {
-  margin-top: 64px;
+  margin-top: 25px;
 }
 
 main * {
@@ -23,6 +36,7 @@ main button.btn {
   position: relative;
   padding: 48px 64px;
   border-radius: 24px;
+  height: 250px;
 }
 
 .definition-card .definition-actions {
@@ -36,7 +50,6 @@ main button.btn {
   background: #FFFFFF;
   border: none;
   border-radius: 0 0 48px 48px;
-
   opacity: .8;
   transition: opacity ease-in-out .1s;
 }
@@ -72,8 +85,7 @@ input#entryContent {
 }
 
 .definition-card input[formControlName="content"] {
-  border-radius: 24px;
-  border-width: 3px;
+  border-radius: 15px;
   border-color: #FFF;
   background: rgba(5, 38, 89, .4);
   color: #FFFFFF;
@@ -197,7 +209,6 @@ input#entryContent {
   color: #FFFFFF !important;
   font-weight: bold !important;
   font-size: 48px;
-
   position: absolute;
   transform: translateY(-50%) translateX(-50%);
   top: 50%;
@@ -213,14 +224,47 @@ input#entryContent {
 }
 
 .image-card .image-content-label {
-  width: 47.5%;
+  width: 40%;
+  padding: 0 !important;
   border: 3px solid #052659;
   border-radius: 20px;
-  height: 200px;
-
+  max-height: fit-content;
   cursor: pointer;
 }
 
+.image-card .preview-image {
+  border-radius: 17px;
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+  height: 100%;
+}
+
+.image-card .add-button {
+  right: 50%;
+  transform: translate(50%);
+}
+
+.image-card textarea {
+  width: 55% !important;
+  min-height: 190px !important;
+}
+
+.textarea-formControl {
+  background: none;
+  color: #FFFFFF !important;
+  border: 2px solid #FFFFFF;
+  height: 100px;
+  border-radius: 15px;
+}
+
+.textarea-formControl::placeholder {
+  color: #FFFFFF !important;
+}
+
+.textarea-formControl[formControlName="caption"]::placeholder {
+  color: #6c6c6c;
+}
 .image-card textarea[formControlName="caption"] {
   width: 47.5%;
   border: 2px solid #052659;
@@ -247,6 +291,16 @@ input#entryContent {
 
 .cursor-not-allowed {
   cursor: not-allowed;
+}
+
+.btn-next {
+  border-radius: 48px !important;
+  border: 3px solid #FFF;
+  background: transparent;
+  color: #FFFFFF !important;
+  font-size: 24px;
+  padding: 5px 15px;
+  text-transform: uppercase;
 }
 
 @media (min-width: 1080px) {

@@ -24,7 +24,7 @@ export class HeaderComponent {
   navItems = [
     {'label': 'Início', 'link': ''},
     {'label': 'Criar', 'link': '/create_entry'},
-    {'label': 'Sugerir Alteração', 'link': '/create_entry'},
+    {'label': 'Sugerir Alteração', 'link': '/nae'},
   ]
 
   constructor(public authService: AuthService, private router: Router) {

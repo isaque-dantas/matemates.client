@@ -1,7 +1,8 @@
+<div class="background"></div>
 <app-header></app-header>
-<main class="container pb-5">
+<main class="container">
   <form (ngSubmit)="onSubmit()" [formGroup]="form">
-    <div class="row">
+    <div class="row align-items-end">
       <div class="col-7">
         <input formControlName="content" type="text" name="entryContent" id="entryContent" placeholder="Nome do verbete"
                class="fs-4 ps-3">
@@ -10,28 +11,29 @@
             <div class="carousel-inner">
               @for (definitionForm of definitions.controls; let i = $index; track i) {
                 <div class="carousel-item" id="definition-{{i}}">
-                  <div [formGroupName]="i" class="px-3">
-                    <select name="knowledgeArea-{{i}}"
-                            id="knowledgeArea{{i}}"
-                            formControlName="knowledgeAreaContent"
-                            class="form-select"
-                            [value]="definitions.at(i).value.knowledgeAreaContent"
-                    >
-                      <option value="" selected disabled>Selecionar área</option>
-                      @for (area of this.knowledgeAreas; track $index) {
-                        <option [value]="area.content">{{ area.content }}</option>
-                      }
-                    </select>
-
-                    <div class="d-flex gap-3 mt-3">
+                  <div [formGroupName]="i" class="">
+                    <div class="d-flex align-items-center gap-2">
+                      <select name="knowledgeArea-{{i}}"
+                              id="knowledgeArea{{i}}"
+                              formControlName="knowledgeAreaContent"
+                              class="form-select"
+                              [value]="definitions.at(i).value.knowledgeAreaContent"
+                      >
+                        <option value="" selected disabled>Selecionar área</option>
+                        @for (area of this.knowledgeAreas; track $index) {
+                          <option [value]="area.content">{{ area.content }}</option>
+                        }
+                      </select>
                       <h3 class="fs-6 definition-number fw-medium">#{{ i + 1 }}</h3>
-                      <input formControlName="content"
+                    </div>
+                    <div class="d-flex gap-3 mt-3">
+                      <textarea formControlName="content"
                              [value]="definitions.at(i).value.content"
                              type="text"
                              name="definitionContent-{{i}}"
                              id="definitionContent{{i}}"
                              placeholder="Insira a definição"
-                             class="ps-3 form-control fs-5">
+                                class="ps-3 form-control textarea-formControl fs-5 overflow-y-scroll"></textarea>
                     </div>
                   </div>
                 </div>
@@ -62,16 +64,15 @@
           </div>
           <div class="definition-actions d-flex gap-4">
             <button class="btn" (click)="deleteActiveDefinition()" type="button">
-              <img ngSrc="delete-primary.svg" alt="excluir" width="20" height="20">
+              <img ngSrc="delete-primary.svg" alt="excluir" width="20" height="26">
             </button>
             <button class="btn fs-3 fw-bold" (click)="addDefinition()" type="button">
               <p class="m-0 lh-1">+</p>
             </button>
           </div>
         </div>
-
       </div>
-      <div class="col-4 offset-1">
+      <div class="col">
         <div formArrayName="images" class="image-card mt-4 position-relative">
           <div id="imagesCarousel" class="carousel slide">
             <div class="carousel-inner">
@@ -81,15 +82,15 @@
                     <div class="d-flex justify-content-between">
                       <input type="file" id="imageContent{{i}}" class="d-none">
                       <label for="imageContent{{i}}"
-                             class="image-content-label d-flex justify-content-center align-items-center p-2">
+                             class="image-content-label d-flex justify-content-center align-items-center p-2 position-relative">
                         <span
-                          [className]="imageForm.value.base64Image == '' ? 'fw-bold fs-2' : 'fw-bold fs-2 d-none'">+</span>
-                        <img [src]="imageForm.value.base64Image" alt="" class="mw-100 mh-100">
+                          [className]="imageForm.value.base64Image == '' ? 'fw-bold fs-2 position-absolute add-button' : 'fw-bold fs-2 d-none'">+</span>
+                        <img [src]="imageForm.value.base64Image" alt="" class="mw-100 mh-100 preview-image">
                       </label>
                       <textarea name="imageCaption-{{i}}"
                                 id="imageCaption{{i}}"
                                 formControlName="caption"
-                                class="bg-transparent form-control"
+                                class="bg-transparent"
                                 placeholder="Insira a legenda aqui..."
                                 [value]="imageForm.value.caption"
                       ></textarea>
@@ -111,7 +112,7 @@
               </button>
               <div class="d-flex gap-3">
                 <button class="btn" (click)="deleteActiveImage()" type="button">
-                  <img ngSrc="delete.svg" alt="add" width="24" height="24">
+                  <img ngSrc="delete.svg" alt="delete" width="20" height="26">
                 </button>
                 <button class="btn fw-bold fs-2 lh-sm py-0" (click)="addImage()" type="button">+</button>
               </div>
@@ -129,7 +130,9 @@
           </div>
         </div>
       </div>
-      <div class="col-12">
+    </div>
+    <div class="row">
+      <div class="col">
         <app-questions-carousel
           [form]="form"
           [questions]="questions"
@@ -139,9 +142,9 @@
         >
         </app-questions-carousel>
       </div>
-      <div class="d-flex justify-content-end">
-        <input type="submit" value="Enviar" class="btn px-4 border border-primary" (click)="onSubmit()">
-      </div>
+    </div>
+    <div class="d-flex justify-content-end mt-3">
+      <input type="submit" value="Enviar" class="btn-next" (click)="onSubmit()">
     </div>
   </form>
 </main>
