@@ -95,7 +95,7 @@ form {
   cursor: pointer;
 }
 
-@media (min-height: 1080px) {
+@media (min-width: 1920px) {
   .logo {
     height: 80px;
     width: 80px;

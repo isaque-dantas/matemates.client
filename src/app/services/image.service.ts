@@ -10,6 +10,6 @@ export class ImageService {
   constructor(private http: HttpClient) {}
 
   get(id: number) {
-    return this.http.get<any>(`http://localhost:8000/api/entry_image/${id}`)
+    return this.http.get<any>(`http://127.0.0.1:8000/api/entry_image/${id}`)
   }
 }

@@ -2,7 +2,7 @@
   background-image: url('background-entry.png');
   background-size: contain;
   background-repeat: no-repeat;
-  background-position: bottom;
+  background-position: bottom right;
   z-index: -100;
   position: fixed;
   left: 0;
@@ -230,6 +230,7 @@ input#entryContent {
   border-radius: 20px;
   max-height: fit-content;
   cursor: pointer;
+  height: 280px;
 }
 
 .image-card .preview-image {
@@ -303,6 +304,21 @@ input#entryContent {
   text-transform: uppercase;
 }
 
-@media (min-width: 1080px) {
+@media (min-width: 1920px) {
+  .background {
+    height: 108%;
+    width: 100%;
+  }
 
+  .col-4 {
+    width: 40% !important;
+  }
+
+  .textarea-formControl {
+    height: 200px;
+  }
+
+  .definition-card {
+    height: 350px;
+  }
 }

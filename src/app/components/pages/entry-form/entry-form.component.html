@@ -2,7 +2,7 @@
 <app-header></app-header>
 <main class="container">
   <form (ngSubmit)="onSubmit()" [formGroup]="form">
-    <div class="row align-items-end">
+    <div class="row align-items-end justify-content-between">
       <div class="col-7">
         <input formControlName="content" type="text" name="entryContent" id="entryContent" placeholder="Nome do verbete"
                class="fs-4 ps-3">
@@ -72,7 +72,7 @@
           </div>
         </div>
       </div>
-      <div class="col">
+      <div class="col-4">
         <div formArrayName="images" class="image-card mt-4 position-relative">
           <div id="imagesCarousel" class="carousel slide">
             <div class="carousel-inner">
@@ -143,7 +143,7 @@
         </app-questions-carousel>
       </div>
     </div>
-    <div class="d-flex justify-content-end mt-3">
+    <div class="d-flex justify-content-end mt-5">
       <input type="submit" value="Enviar" class="btn-next" (click)="onSubmit()">
     </div>
   </form>

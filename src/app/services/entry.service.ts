@@ -8,7 +8,7 @@ import {Definition} from "../interfaces/definition";
   providedIn: 'root'
 })
 export class EntryService {
-  private baseUrl = 'http://127.0.0.1:8000/api/entry'
+  private baseUrl = 'http://127.0.0.1:8000/api/'
 
   constructor(private http: HttpClient) {
   }

@@ -7,7 +7,6 @@
   padding: 20px 0;
   position: absolute;
   top: 0;
-
   transition: left ease .4s;
 }
 
@@ -16,7 +15,8 @@
 }
 
 .row .custom-card {
-  height: 160px;
+  height: 276px;
+  max-height: 276px;
   width: 100%;
   background: #FFFFFF;
   border-radius: 16px;

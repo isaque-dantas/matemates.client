@@ -11,7 +11,7 @@ export class KnowledgeAreaService {
   constructor(private http: HttpClient) { }
 
   getAll() {
-    return this.http.get<KnowledgeArea[]>("http://localhost:8000/api/knowledge_area")
+    return this.http.get<KnowledgeArea[]>("http://127.0.0.1:8000/api/knowledge_area")
       .pipe(
         catchError(this.handleError)
       )
