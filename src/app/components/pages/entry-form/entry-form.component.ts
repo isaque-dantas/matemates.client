@@ -8,7 +8,9 @@ import {QuestionsCarouselComponent} from "../../questions-carousel/questions-car
 import {Question} from "../../../interfaces/question";
 import {ActivatedRoute} from "@angular/router";
 import {EntryService} from "../../../services/entry.service";
-import {Entry} from "../../../interfaces/entry";
+import {Entry, EntryToSend} from "../../../interfaces/entry";
+import {Definition} from "../../../interfaces/definition";
+import {Image} from "../../../interfaces/image";
 
 @Component({
   selector: 'app-entry-form',
@@ -19,15 +21,24 @@ import {Entry} from "../../../interfaces/entry";
 })
 export class EntryFormComponent {
   knowledgeAreas?: KnowledgeArea[]
-  entryId: number = 10;
-  token: any;
-  entryData: any;
+  entryId: number | null = null;
+
   private fb = inject(FormBuilder);
   form = this.fb.group({
     content: ['', Validators.required],
+    main_term_gender: ['', Validators.required],
+    main_term_grammatical_category: ['', Validators.required],
     definitions: this.fb.array([this.definitionGroupFactory()]),
     images: this.fb.array([this.imageGroupFactory()]),
-    questions: this.fb.array([this.questionGroupFactory(), this.questionGroupFactory(), this.questionGroupFactory(), this.questionGroupFactory(), this.questionGroupFactory(), this.questionGroupFactory(), this.questionGroupFactory(), this.questionGroupFactory()]),
+    questions: this.fb.array(
+      [
+        this.questionGroupFactory(),
+        this.questionGroupFactory(),
+        this.questionGroupFactory(),
+        this.questionGroupFactory(),
+        this.questionGroupFactory(),
+      ]
+    ),
   });
 
   private notSetUpImagesIndexes: number[] = []
@@ -73,21 +84,50 @@ export class EntryFormComponent {
     return this.form.get('questions') as FormArray;
   }
 
-  definitionGroupFactory() {
-    return this.fb.group({content: [''], knowledgeAreaContent: ['']})
+  definitionGroupFactory(definition: Definition | null = null) {
+    let group = this.fb.group({content: [''], knowledge_area__content: ['']})
+    if (definition !== null)
+      group = this.fb.group({
+        content: [definition.content],
+        knowledge_area__content: [definition.knowledge_area.content]
+      })
+
+    return group
   }
 
-  imageGroupFactory() {
-    return this.fb.group({caption: [''], base64Image: [''], format: ['']})
+  imageGroupFactory(image: Image | null = null) {
+    let group = this.fb.group({caption: [''], base64_image: [''], id: [null]})
+
+    if (image !== null)
+      group = this.fb.group({
+        caption: [image.caption],
+        base64_image: [image.url],
+        id: [null]
+      })
+
+    return group
   }
 
   questionGroupFactory(question: Question | null = null) {
-    const group = this.fb.group({statement: [''], answer: ['']})
-    if (question !== null) group.setValue(question)
+    let group = this.fb.group({statement: [''], answer: ['']})
+
+    if (question !== null) {
+      group = this.fb.group({
+        statement: [question.statement],
+        answer: [question.answer]
+      })
+      console.log("question not null!")
+    } else {
+      console.log("question!")
+    }
+    console.log(question)
+    console.log(group)
+    console.log()
     return group
   }
 
   addDefinition() {
+    console.log("addDefinition foi chamada!")
     this.definitions.push(this.definitionGroupFactory())
     this.notSelectedLastEntriesNames.push("definition")
   }
@@ -167,10 +207,79 @@ export class EntryFormComponent {
 
     if (this.entryId) {
       this.entryService.get(this.entryId).subscribe((entry: Entry) => {
-        this.form.patchValue(entry)
-        console.log(entry)
+
+        const mainTerm = this.entryService.getMainTermFromTerms(entry.terms)
+        this.form.get("main_term_gender")!.setValue(mainTerm.gender)
+        this.form.get("main_term_grammatical_category")!.setValue(mainTerm.grammatical_category)
+
+        this.setInstanceQuestionsToForm(entry)
+        console.log("Acabou questions")
+
+        this.setInstanceDefinitionsToForm(entry)
+        console.log("Acabou definitions")
+
+        this.setInstanceImagesToForm(entry)
+        console.log("Setou foi tudo!")
+
+        this.form.get("content")!.setValue(this.entryService.parseEditableContent(entry))
       })
     }
+  }
+
+  setInstanceQuestionsToForm(entry: Entry) {
+    if (entry.questions.length == 0) return null
+
+    const questions = []
+    for (let i = 0; i < this.questions.length; i++) {
+      if (entry.questions.length <= i) {
+        questions.push({statement: "", answer: ""})
+      } else {
+        questions.push({
+          statement: entry.questions.at(i)!.statement,
+          answer: entry.questions.at(i)!.answer
+        })
+      }
+    }
+
+    this.questions.setValue(questions)
+    return null
+  }
+
+  setInstanceDefinitionsToForm(entry: Entry) {
+    if (entry.definitions.length == 0) return null
+
+    const definitions = entry.definitions.map(data => new Object(
+      {
+        content: data.content,
+        knowledge_area__content: data.knowledge_area.content
+      }
+    ))
+
+    definitions.slice(0, -1).forEach(() => {this.addDefinition()})
+
+    console.log("definitions lenght: ", entry.definitions.length)
+    console.log(definitions)
+
+    this.definitions.setValue(definitions)
+    return null
+  }
+
+  setInstanceImagesToForm(entry: Entry) {
+    if (entry.images.length == 0) return null
+
+    console.log(entry.images)
+    const images = entry.images.map(data => new Object(
+      {
+        caption: data.caption,
+        base64_image: data.url,
+        id: data.id
+      }
+    ))
+
+    images.slice(0, -1).forEach(() => {this.addImage()})
+    this.images.setValue(images)
+
+    return null
   }
 
   addImageHandlingToIndex(index: number) {
@@ -185,7 +294,7 @@ export class EntryFormComponent {
       reader.onloadend = () => {
         const base64String = reader.result! as string
         this.images.controls.at(index)!.setValue({
-          ...this.images.controls.at(index)!.value, base64Image: base64String
+          ...this.images.controls.at(index)!.value, base64_image: base64String
         })
       };
 
@@ -208,5 +317,26 @@ export class EntryFormComponent {
 
   onSubmit() {
     console.log(this.form.value)
+    const entryData = this.form.value as EntryToSend
+
+    if (this.entryId) {
+      entryData.images = entryData.images.map((image, i) => {
+        console.log(image)
+        if (image.base64_image && image.base64_image!.includes("http")) {
+          image.base64_image = ""
+        }
+        return image
+      })
+
+      this.entryService.put(this.entryId, entryData).subscribe(() => {
+        console.log("sent succesfully!")
+      })
+    } else {
+      this.entryService.post(entryData).subscribe((data) => {
+        console.log("sent succesfully!")
+        console.log(data)
+      })
+    }
+
   }
 }

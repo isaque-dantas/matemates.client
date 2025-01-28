@@ -1,5 +1,5 @@
 export interface ImageToSend {
-  caption: string | null,
-  base64Image: string | null,
-  format: string,
+  base64_image: string | null;
+  caption: string | null;
+  id: number | null;
 }

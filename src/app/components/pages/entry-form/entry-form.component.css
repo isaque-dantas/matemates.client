@@ -52,14 +52,27 @@ main button.btn {
 }
 
 input#entryContent {
-  border: 2px solid #052659;
-  color: #052659;
+  border-width: 2px;
   border-radius: 16px;
+}
+
+select[formControlName="main_term_gender"],
+select[formControlName="main_term_grammatical_category"] {
+  border-width: 1px;
+  border-radius: 8px;
+}
+
+input#entryContent,
+select[formControlName="main_term_gender"],
+select[formControlName="main_term_grammatical_category"] {
+  border-style: solid;
+  border-color: #052659;
+  color: #052659;
   background: transparent;
   padding: 4px 8px;
 }
 
-.definition-card select[formControlName="knowledgeAreaContent"] {
+.definition-card select[formControlName="knowledge_area__content"] {
   max-width: 240px;
   background-color: transparent;
   background-image: url("/chevron-down.svg");

@@ -31,6 +31,7 @@ export class EntryViewComponent {
     })
 
     this.entryService.get(this.entryId).subscribe((entry: Entry) => {
+      console.log(entry)
       this.entryData = entry
       this.parsedEntryContent = this.entryService.parseContent(entry)
       this.knowledgeAreas = entryService.getKnowledgeAreasFromDefinitions(entry.definitions)
