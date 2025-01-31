@@ -26,6 +26,10 @@ export class EntryService {
     return this.http.put(`${this.baseUrl}/${id}`, data)
   }
 
+  delete(id: number) {
+    return this.http.delete(`${this.baseUrl}/${id}`)
+  }
+
   parseContent(entryData: Entry): string {
     const parsedTerms: string[] = entryData.terms.map(term => term.syllables.join("."))
     return parsedTerms.join(' ')

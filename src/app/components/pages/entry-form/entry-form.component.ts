@@ -1,9 +1,9 @@
 import {afterRender, Component, inject} from '@angular/core';
 import {HeaderComponent} from "../../header/header.component";
-import {FormArray, FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {KnowledgeAreaService} from "../../../services/knowledge-area.service";
 import {KnowledgeArea} from "../../../interfaces/knowledge-area";
-import {NgOptimizedImage} from "@angular/common";
+import {NgIf, NgOptimizedImage} from "@angular/common";
 import {QuestionsCarouselComponent} from "../../questions-carousel/questions-carousel.component";
 import {Question} from "../../../interfaces/question";
 import {ActivatedRoute} from "@angular/router";
@@ -11,11 +11,12 @@ import {EntryService} from "../../../services/entry.service";
 import {Entry, EntryToSend} from "../../../interfaces/entry";
 import {Definition} from "../../../interfaces/definition";
 import {Image} from "../../../interfaces/image";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-entry-form',
   standalone: true,
-  imports: [HeaderComponent, ReactiveFormsModule, FormsModule, NgOptimizedImage, QuestionsCarouselComponent],
+  imports: [HeaderComponent, ReactiveFormsModule, FormsModule, NgOptimizedImage, QuestionsCarouselComponent, NgIf],
   templateUrl: './entry-form.component.html',
   styleUrl: './entry-form.component.css'
 })
@@ -28,7 +29,7 @@ export class EntryFormComponent {
     content: ['', Validators.required],
     main_term_gender: ['', Validators.required],
     main_term_grammatical_category: ['', Validators.required],
-    definitions: this.fb.array([this.definitionGroupFactory()]),
+    definitions: this.fb.array([this.definitionGroupFactory()], [Validators.min(1)]),
     images: this.fb.array([this.imageGroupFactory()]),
     questions: this.fb.array(
       [
@@ -45,7 +46,7 @@ export class EntryFormComponent {
   private notSelectedLastEntriesNames: string[] = []
 
   constructor(knowledgeAreaService: KnowledgeAreaService, private route: ActivatedRoute, private entryService: EntryService) {
-    route.params.subscribe(async (params) => {
+    this.route.params.subscribe(async (params) => {
       this.entryId = +params["id"];
     })
 
@@ -85,7 +86,7 @@ export class EntryFormComponent {
   }
 
   definitionGroupFactory(definition: Definition | null = null) {
-    let group = this.fb.group({content: [''], knowledge_area__content: ['']})
+    let group = this.fb.group({content: ['', Validators.required], knowledge_area__content: ['', Validators.required]})
     if (definition !== null)
       group = this.fb.group({
         content: [definition.content],
@@ -116,10 +117,12 @@ export class EntryFormComponent {
         statement: [question.statement],
         answer: [question.answer]
       })
-      console.log("question not null!")
-    } else {
-      console.log("question!")
+      // console.log("question not null!")
     }
+    // else {
+    // console.log("question!")
+    // }
+
     console.log(question)
     console.log(group)
     console.log()
@@ -255,7 +258,9 @@ export class EntryFormComponent {
       }
     ))
 
-    definitions.slice(0, -1).forEach(() => {this.addDefinition()})
+    definitions.slice(0, -1).forEach(() => {
+      this.addDefinition()
+    })
 
     console.log("definitions lenght: ", entry.definitions.length)
     console.log(definitions)
@@ -276,7 +281,9 @@ export class EntryFormComponent {
       }
     ))
 
-    images.slice(0, -1).forEach(() => {this.addImage()})
+    images.slice(0, -1).forEach(() => {
+      this.addImage()
+    })
     this.images.setValue(images)
 
     return null
@@ -316,13 +323,19 @@ export class EntryFormComponent {
   }
 
   onSubmit() {
-    console.log(this.form.value)
     const entryData = this.form.value as EntryToSend
+
+    if (this.form.invalid) {
+      console.log("INVALID!")
+      console.log(this.form.get('content')!.errors)
+      console.log(this.getFormValidationErrors(this.form))
+      return null
+    }
 
     if (this.entryId) {
       entryData.images = entryData.images.map((image, i) => {
         console.log(image)
-        if (image.base64_image && image.base64_image!.includes("http")) {
+        if (image.base64_image && image.base64_image!.includes("http://")) {
           image.base64_image = ""
         }
         return image
@@ -332,11 +345,37 @@ export class EntryFormComponent {
         console.log("sent succesfully!")
       })
     } else {
-      this.entryService.post(entryData).subscribe((data) => {
-        console.log("sent succesfully!")
-        console.log(data)
+      this.entryService.post(entryData).subscribe({
+        next: (data) => {
+          console.log("sent succesfully!")
+          console.log(data)
+        },
+        error: (error: HttpErrorResponse) => {
+          console.log(error)
+        }
       })
     }
 
+    console.log(entryData)
+    return null
+  }
+
+  getFormValidationErrors(form: FormGroup | FormArray): any {
+    const errors: any = {}
+
+    Object.keys(form.controls).forEach(key => {
+      const control = form.get(key)
+
+      if (control instanceof FormGroup || control instanceof FormArray) {
+        const childErrors = this.getFormValidationErrors(control)
+        if (Object.keys(childErrors).length) {
+          errors[key] = childErrors
+        }
+      } else if (control?.errors) {
+        errors[key] = control.errors
+      }
+    })
+
+    return errors
   }
 }

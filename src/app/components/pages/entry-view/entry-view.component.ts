@@ -5,6 +5,7 @@ import {Entry} from "../../../interfaces/entry";
 import {EntryService} from "../../../services/entry.service";
 import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {MatIcon} from "@angular/material/icon";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-entry-view',
@@ -30,16 +31,21 @@ export class EntryViewComponent {
       this.entryId = +params["id"];
     })
 
-    this.entryService.get(this.entryId).subscribe((entry: Entry) => {
-      console.log(entry)
-      this.entryData = entry
-      this.parsedEntryContent = this.entryService.parseContent(entry)
-      this.knowledgeAreas = entryService.getKnowledgeAreasFromDefinitions(entry.definitions)
+    this.entryService.get(this.entryId).subscribe({
+      next: (entry: Entry) => {
+        console.log(entry)
+        this.entryData = entry
+        this.parsedEntryContent = this.entryService.parseContent(entry)
+        this.knowledgeAreas = entryService.getKnowledgeAreasFromDefinitions(entry.definitions)
 
-      const firstImage = document.querySelector(".carousel li.carousel-item")
-      console.log(firstImage)
-      if (firstImage) {
-        firstImage.classList.add("active")
+        const firstImage = document.querySelector(".carousel li.carousel-item")
+        console.log(firstImage)
+        if (firstImage) {
+          firstImage.classList.add("active")
+        }
+      },
+      error: (response: HttpErrorResponse) => {
+        console.log(response)
       }
     })
 
@@ -53,6 +59,10 @@ export class EntryViewComponent {
   }
 
   redirectToEdit(): void {
-    this.router.navigate(['edit_entry/1'])
+    this.router.navigate([`edit_entry/${this.entryId}`])
+  }
+
+  deleteEntry(): void {
+    this.entryService.delete(this.entryId).subscribe()
   }
 }
