@@ -18,6 +18,19 @@ export class ToastMessagesComponent {
 
   constructor(private toastService: ToastService) {
     this.toastService.subscribe(this.setToasts.bind(this))
+    this.toastService.showToasts([
+      {title: "foo", body: "foo foo foof o ofo o", type: "info", id: null},
+      {title: "foo", body: "foo foo foof o ofo o", type: "warning", id: null},
+      {title: "foo", body: "foo foo foof o ofo o", type: "warning", id: null},
+      {title: "foo", body: "foo foo foof o ofo o", type: "warning", id: null},
+      {title: "foo", body: "foo foo foof o ofo o", type: "warning", id: null},
+      {title: "foo", body: "foo foo foof o ofo o", type: "warning", id: null},
+      {title: "foo", body: "foo foo foof o ofo o", type: "warning", id: null},
+      {title: "foo", body: "foo foo foof o ofo o", type: "warning", id: null},
+      {title: "foo", body: "foo foo foof o ofo o", type: "warning", id: null},
+      {title: "foo", body: "foo foo foof o ofo o", type: "error", id: null},
+      {title: "foo", body: "foo foo foof o ofo o", type: "success", id: null},
+    ])
   }
 
   setToasts(toasts: Toast[]) {

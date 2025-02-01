@@ -173,20 +173,6 @@ body {
   }
 }
 
-.toast-error {
-  background-color: #ff6b6b;
-  backdrop-filter: opacity(75%) blur(10px);
-  color: #ffffff;
-}
-
-.toast-error .toast-header {
-  background-color: var(--page-color-1);
-}
-
-.toast-error .btn-close {
-  color: black;
-}
-
 .toast-image {
   height: 20px;
   width: 20px;
