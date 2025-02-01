@@ -262,6 +262,21 @@ select[formControlName="main_term_grammatical_category"] {
   cursor: not-allowed;
 }
 
+input[type="submit"] {
+  border: 2px solid #052659;
+  transition: border-color .5s ease, color .5s ease;
+  border-radius: 16px;
+  padding: 8px 40px;
+  background: none;
+  font-weight: 500;
+}
+
+input[type="submit"]:disabled {
+  border: 2px solid #8a8a8a;
+  color: #8a8a8a;
+  cursor: not-allowed;
+}
+
 @media (min-width: 1080px) {
 
 }

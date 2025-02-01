@@ -3,7 +3,7 @@ import {HeaderComponent} from "../../header/header.component";
 import {FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {KnowledgeAreaService} from "../../../services/knowledge-area.service";
 import {KnowledgeArea} from "../../../interfaces/knowledge-area";
-import {NgIf, NgOptimizedImage} from "@angular/common";
+import {NgOptimizedImage} from "@angular/common";
 import {QuestionsCarouselComponent} from "../../questions-carousel/questions-carousel.component";
 import {Question} from "../../../interfaces/question";
 import {ActivatedRoute} from "@angular/router";
@@ -12,17 +12,22 @@ import {Entry, EntryToSend} from "../../../interfaces/entry";
 import {Definition} from "../../../interfaces/definition";
 import {Image} from "../../../interfaces/image";
 import {HttpErrorResponse} from "@angular/common/http";
+import {ToastService} from "../../../services/toast.service";
+import {Toast} from "../../../interfaces/toast";
+
+const keysOfRelatedEntities = ['definitions', 'images', 'questions']
 
 @Component({
   selector: 'app-entry-form',
   standalone: true,
-  imports: [HeaderComponent, ReactiveFormsModule, FormsModule, NgOptimizedImage, QuestionsCarouselComponent, NgIf],
+  imports: [HeaderComponent, ReactiveFormsModule, FormsModule, NgOptimizedImage, QuestionsCarouselComponent],
   templateUrl: './entry-form.component.html',
   styleUrl: './entry-form.component.css'
 })
 export class EntryFormComponent {
   knowledgeAreas?: KnowledgeArea[]
   entryId: number | null = null;
+  toastsFromForm: Toast[] = []
 
   private fb = inject(FormBuilder);
   form = this.fb.group({
@@ -45,7 +50,12 @@ export class EntryFormComponent {
   private notSetUpImagesIndexes: number[] = []
   private notSelectedLastEntriesNames: string[] = []
 
-  constructor(knowledgeAreaService: KnowledgeAreaService, private route: ActivatedRoute, private entryService: EntryService) {
+  constructor(
+    private knowledgeAreaService: KnowledgeAreaService,
+    private route: ActivatedRoute,
+    private entryService: EntryService,
+    private toastService: ToastService
+  ) {
     this.route.params.subscribe(async (params) => {
       this.entryId = +params["id"];
     })
@@ -71,6 +81,8 @@ export class EntryFormComponent {
         return null;
       }
     })
+
+    this.form.valueChanges.subscribe(this.checkFormValidity.bind(this))
   }
 
   get images() {
@@ -323,7 +335,8 @@ export class EntryFormComponent {
   }
 
   onSubmit() {
-    const entryData = this.form.value as EntryToSend
+    const entryData =
+      this.removeEmptyDataFromForm(this.form.value as EntryToSend)
 
     if (this.form.invalid) {
       console.log("INVALID!")
@@ -333,7 +346,7 @@ export class EntryFormComponent {
     }
 
     if (this.entryId) {
-      entryData.images = entryData.images.map((image, i) => {
+      entryData.images = entryData.images.map((image) => {
         console.log(image)
         if (image.base64_image && image.base64_image!.includes("http://")) {
           image.base64_image = ""
@@ -367,7 +380,7 @@ export class EntryFormComponent {
       const control = form.get(key)
 
       if (control instanceof FormGroup || control instanceof FormArray) {
-        const childErrors = this.getFormValidationErrors(control)
+        const childErrors = this.getFormValidationErrors(control as FormGroup | FormArray)
         if (Object.keys(childErrors).length) {
           errors[key] = childErrors
         }
@@ -377,5 +390,97 @@ export class EntryFormComponent {
     })
 
     return errors
+  }
+
+  checkFormValidity(): void {
+    const formErrors = this.getFormValidationErrors(this.form)
+    const newToasts = this.getToastsFromFormErrors(formErrors)
+
+    if (this.toastService.toastsBeingShown) {
+      this.toastService.hideToasts(this.toastsFromForm.map(toast => toast.id!))
+    }
+
+    this.toastsFromForm = this.toastService.showToasts(newToasts)
+  }
+
+  getToastsFromFormErrors(formErrors: {
+    [key: string]: string | { [index: number]: { [key: string]: { required: boolean } } }
+  }): Toast[] {
+    const keyTranslator: { [key: string]: string } = {
+      main_term_gender: "Gênero",
+      main_term_grammatical_category: "Classe gramatical",
+      content: "Nome",
+      definitions: "Definição",
+      images: "Imagem",
+      questions: "Exemplo",
+      knowledge_area__content: "Área do conhecimento",
+    }
+
+    const toasts: Toast[] = []
+
+    for (let key in formErrors) {
+      const error = formErrors[key]
+      const translatedKey = keyTranslator[key]
+
+      if (!keysOfRelatedEntities.includes(key)) {
+        toasts.push(
+          {
+            title: translatedKey,
+            body: 'O campo é obrigatório.',
+            type: "error",
+            id: null
+          }
+        )
+
+        continue
+      }
+
+      for (let errorIndex in error as { [index: number]: { [key: string]: { required: boolean } } }) {
+
+        const thereAreManyErrors = Object.keys(error[errorIndex]).length > 1
+        const pluralSuffix = thereAreManyErrors ? "s" : ""
+        const toBeVerb = thereAreManyErrors ? "são" : "é"
+
+        const fieldsWithErrors =
+          Object.keys(error[errorIndex])
+            .map(name => {
+              if (keyTranslator.hasOwnProperty(name)) return keyTranslator[name]
+              return name
+            })
+            .map(name => "'" + name + "'")
+            .join(", ")
+
+        toasts.push(
+          {
+            title: `Erro${pluralSuffix} na ${translatedKey} #${parseInt(errorIndex) + 1}`,
+            body: `O${pluralSuffix} campo${pluralSuffix} ${fieldsWithErrors} ${toBeVerb} obrigatório${pluralSuffix}.`,
+            type: 'error',
+            id: null
+          }
+        )
+      }
+    }
+
+    return toasts
+  }
+
+  removeEmptyDataFromForm(entryData: EntryToSend) {
+    entryData.definitions = entryData.definitions.filter(
+      definition => !this.areAllValuesEmpty(definition)
+    )
+
+    entryData.questions = entryData.questions.filter(
+      question => !this.areAllValuesEmpty(question)
+    )
+
+    entryData.images = entryData.images.filter(
+      image => !this.areAllValuesEmpty(image)
+    )
+
+    return entryData
+  }
+
+  areAllValuesEmpty(obj: object) {
+    return Object.values(obj).every(value => value === "" || value == null)
   }
 }

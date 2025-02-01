@@ -18,10 +18,6 @@ export class ToastService {
 
   toastsEmitter = new EventEmitter<Toast[]>()
 
-  emitToasts() {
-    this.toastsEmitter.emit(this._toastsBeingShown)
-  }
-
   showToasts(toasts: Toast[]): Toast[] {
     toasts = toasts.map((toast: Toast) => {
       this.maxToastId++

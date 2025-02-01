@@ -35,6 +35,15 @@
   border-radius: 18px;
 }
 
+.row .custom-card button[data-bs-target="#editQuestionModalContainer"] p {
+  font-size: 12px;
+  color: #7a8099;
+}
+
+.row .custom-card button[data-bs-target="#editQuestionModalContainer"] h3 {
+  font-weight: 500;
+}
+
 button.prev, button.next {
   border-radius: 50%;
   border: 1px solid #052659;

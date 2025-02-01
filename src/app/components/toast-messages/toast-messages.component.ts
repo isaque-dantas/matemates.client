@@ -17,18 +17,7 @@ export class ToastMessagesComponent {
   toasts: Toast[] = []
 
   constructor(private toastService: ToastService) {
-    this.toastService.showToasts(
-      [
-        {title: "Mensagem #1", body: "Corpo da mensagem 1, caro amogu!!!", id: 193029, type: "error"},
-        {title: "Mensagem #2", body: "Corpo da mensagem 2, caro amogu!!!", id: 193029, type: "error"},
-        {title: "Mensagem #3", body: "Corpo da mensagem 3, caro amogu!!!", id: 193029, type: "error"},
-        {title: "Mensagem #4", body: "Corpo da mensagem 4, caro amogu!!!", id: 193029, type: "error"},
-        {title: "Mensagem #5", body: "Corpo da mensagem 5, caro amogu!!!", id: 193029, type: "error"},
-      ]
-    )
-
     this.toastService.subscribe(this.setToasts.bind(this))
-    this.toastService.emitToasts()
   }
 
   setToasts(toasts: Toast[]) {
