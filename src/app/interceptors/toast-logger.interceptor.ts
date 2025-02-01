@@ -35,7 +35,7 @@ export const toastLoggerInterceptor: HttpInterceptorFn = (req, next) => {
       toastService.showToasts([
         {
           title: `${req.method} ${getUrlPathWithoutIp(req.url)}`,
-          body: `Erro ${error.status}: ${errorTranslator.hasOwnProperty(error.status) ? errorTranslator[error.status] : error.message}`,
+          body: `Erro ${error.status}: ${errorTranslator[error.status] ?? error.message}`,
           type: 'error',
           id: null
         }
