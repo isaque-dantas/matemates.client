@@ -33,28 +33,30 @@
               @for (definitionForm of definitions.controls; let i = $index; track i) {
                 <div class="carousel-item" id="definition-{{i}}">
                   <div [formGroupName]="i" class="px-3">
-                    <select name="knowledge_area-{{i}}"
-                            id="knowledge_area{{i}}"
-                            formControlName="knowledge_area__content"
-                            class="form-select"
-                            [value]="definitions.at(i).value.knowledge_area__content"
-                    >
-                      <option value="" selected disabled>Selecionar área</option>
-                      @for (area of this.knowledgeAreas; track $index) {
-                        <option [value]="area.content">{{ area.content }}</option>
-                      }
-                    </select>
+                    <div class="d-flex gap-2">
+                      <div class="d-flex gap-3">
+                        <select name="knowledge_area-{{i}}"
+                                id="knowledge_area{{i}}"
+                                formControlName="knowledge_area__content"
+                                class="form-select"
+                                [value]="definitions.at(i).value.knowledge_area__content"
+                        >
+                          <option value="" selected disabled>Selecionar área</option>
+                          @for (area of this.knowledgeAreas; track $index) {
+                            <option [value]="area.content">{{ area.content }}</option>
+                          }
+                        </select>
+                        <h3 class="fs-6 definition-number fw-medium">#{{ i + 1 }}</h3>
+                      </div>
+                    </div>
 
                     <div class="d-flex gap-3 mt-3">
-                      <h3 class="fs-6 definition-number fw-medium">#{{ i + 1 }}</h3>
-                    </div>
-                    <div class="d-flex gap-3 mt-3">
                       <textarea formControlName="content"
-                             [value]="definitions.at(i).value.content"
-                             type="text"
-                             name="definitionContent-{{i}}"
-                             id="definitionContent{{i}}"
-                             placeholder="Insira a definição"
+                                [value]="definitions.at(i).value.content"
+                                type="text"
+                                name="definitionContent-{{i}}"
+                                id="definitionContent{{i}}"
+                                placeholder="Insira a definição"
                                 class="ps-3 form-control textarea-formControl fs-5 overflow-y-scroll"></textarea>
                     </div>
                   </div>
@@ -94,14 +96,14 @@
           </div>
         </div>
       </div>
-      <div class="col-4">
+      <div class="col-5">
         <div formArrayName="images" class="image-card mt-4 position-relative">
           <div id="imagesCarousel" class="carousel slide">
             <div class="carousel-inner">
               @for (imageForm of images.controls; let i = $index; track i) {
                 <ng-container [formGroupName]="i">
-                  <div class="carousel-item px-2" id="image-{{i}}">
-                    <div class="d-flex justify-content-between">
+                  <div class="carousel-item px-2 " id="image-{{i}}">
+                    <div class="d-flex justify-content-between align-items-end">
                       <input type="file" id="imageContent{{i}}" class="d-none">
                       <label for="imageContent{{i}}"
                              class="image-content-label d-flex justify-content-center align-items-center p-2 position-relative">
@@ -164,7 +166,7 @@
         />
       </div>
     </div>
-    <div class="d-flex justify-content-end mt-5">
+    <div class="d-flex justify-content-end mt-3">
       <input type="submit" value="Enviar" class="btn-next" (click)="onSubmit()">
     </div>
   </form>

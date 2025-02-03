@@ -109,12 +109,12 @@ export class EntryFormComponent {
   }
 
   imageGroupFactory(image: Image | null = null) {
-    let group = this.fb.group({caption: [''], base64_image: [''], id: [null]})
+    let group = this.fb.group({caption: [''], base64Image: [''], id: [null]})
 
     if (image !== null)
       group = this.fb.group({
         caption: [image.caption],
-        base64_image: [image.url],
+        base64Image: [image.url],
         id: [null]
       })
 
@@ -288,7 +288,7 @@ export class EntryFormComponent {
     const images = entry.images.map(data => new Object(
       {
         caption: data.caption,
-        base64_image: data.url,
+        base64Image: data.url,
         id: data.id
       }
     ))
@@ -313,7 +313,7 @@ export class EntryFormComponent {
       reader.onloadend = () => {
         const base64String = reader.result! as string
         this.images.controls.at(index)!.setValue({
-          ...this.images.controls.at(index)!.value, base64_image: base64String
+          ...this.images.controls.at(index)!.value, base64Image: base64String
         })
       };
 
@@ -348,8 +348,8 @@ export class EntryFormComponent {
     if (this.entryId) {
       entryData.images = entryData.images.map((image) => {
         console.log(image)
-        if (image.base64_image && image.base64_image!.includes("http://")) {
-          image.base64_image = ""
+        if (image.base64Image && image.base64Image!.includes("http://")) {
+          image.base64Image = ""
         }
         return image
       })
