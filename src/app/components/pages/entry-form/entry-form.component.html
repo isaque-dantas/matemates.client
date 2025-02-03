@@ -4,26 +4,48 @@
   <form (ngSubmit)="onSubmit()" [formGroup]="form">
     <div class="row align-items-end justify-content-between">
       <div class="col-7">
-        <input formControlName="content" type="text" name="entryContent" id="entryContent" placeholder="Nome do verbete"
-               class="fs-4 ps-3">
+        <div class="d-flex align-items-center gap-3">
+          <input formControlName="content" type="text"
+                 name="entryContent" id="entryContent"
+                 placeholder="Nome do verbete"
+                 class="fs-4 ps-3"
+                 [value]="this.form.get('content')!.value"
+          >
+          <select formControlName="main_term_grammatical_category"
+                  class="fs-6 ps-2"
+                  [value]="this.form.get('main_term_grammatical_category')!.value">
+            <option value="" selected disabled>Classe gramatical</option>
+            <option value="substantivo">Substantivo</option>
+            <option value="adjetivo">Adjetivo</option>
+            <option value="verbo">Verbo</option>
+            <option value="numeral">Numeral</option>
+          </select>
+          <select formControlName="main_term_gender"
+                  class="fs-6 ps-2"
+                  [value]="this.form.get('main_term_gender')!.value">
+            <option value="" selected disabled>Gênero</option>
+            <option value="M">Masculino</option>
+            <option value="F">Feminino</option>
+          </select></div>
         <div formArrayName="definitions" class="definition-card mt-3">
           <div id="definitionsCarousel" class="carousel slide">
             <div class="carousel-inner">
               @for (definitionForm of definitions.controls; let i = $index; track i) {
                 <div class="carousel-item" id="definition-{{i}}">
-                  <div [formGroupName]="i" class="">
-                    <div class="d-flex align-items-center gap-2">
-                      <select name="knowledgeArea-{{i}}"
-                              id="knowledgeArea{{i}}"
-                              formControlName="knowledgeAreaContent"
-                              class="form-select"
-                              [value]="definitions.at(i).value.knowledgeAreaContent"
-                      >
-                        <option value="" selected disabled>Selecionar área</option>
-                        @for (area of this.knowledgeAreas; track $index) {
-                          <option [value]="area.content">{{ area.content }}</option>
-                        }
-                      </select>
+                  <div [formGroupName]="i" class="px-3">
+                    <select name="knowledge_area-{{i}}"
+                            id="knowledge_area{{i}}"
+                            formControlName="knowledge_area__content"
+                            class="form-select"
+                            [value]="definitions.at(i).value.knowledge_area__content"
+                    >
+                      <option value="" selected disabled>Selecionar área</option>
+                      @for (area of this.knowledgeAreas; track $index) {
+                        <option [value]="area.content">{{ area.content }}</option>
+                      }
+                    </select>
+
+                    <div class="d-flex gap-3 mt-3">
                       <h3 class="fs-6 definition-number fw-medium">#{{ i + 1 }}</h3>
                     </div>
                     <div class="d-flex gap-3 mt-3">
@@ -139,8 +161,7 @@
           (addQuestion)="addQuestion($event)"
           (deleteQuestion)="deleteQuestion($event)"
           (editQuestion)="editQuestion($event)"
-        >
-        </app-questions-carousel>
+        />
       </div>
     </div>
     <div class="d-flex justify-content-end mt-5">

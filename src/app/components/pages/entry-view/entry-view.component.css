@@ -66,11 +66,17 @@ h3 {
 button {
   width: 32px;
   height: 32px;
+  height: 32px;
 }
 
 #entryCarousel img {
   border-radius: 19px;
 }
+
+.carousel-item img {
+  object-fit: cover;
+}
+
 
 .carousel-caption {
   top: 100%;
@@ -83,6 +89,10 @@ button {
   background-image: url("bg-esquisito-cortado.png");
   background-size: cover;
   z-index: 9999999999;
+}
+
+button#editEntry, button#deleteEntry {
+  border: 2px solid #052659;
 }
 
 @media (min-height: 1080px) {

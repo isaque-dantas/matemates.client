@@ -2,13 +2,14 @@ import {Question} from "./question";
 import {Image} from "./image";
 import {Definition, DefinitionToSend} from "./definition";
 import {Term} from "./term";
+import {ImageToSend} from "./image-to-send";
 
 export interface EntryToSend {
   content: string,
   main_term_gender: string,
   main_term_grammatical_category: string,
   definitions: DefinitionToSend[],
-  images: Image[],
+  images: ImageToSend[],
   questions: Question[],
 }
 
