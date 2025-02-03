@@ -13,6 +13,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimationsAsync(),
     provideAnimationsAsync(),
-    provideHttpClient(withInterceptors([authInterceptor, toastLoggerInterceptor]))
+    provideHttpClient(withInterceptors([authInterceptor, toastLoggerInterceptor])), provideAnimationsAsync()
   ]
 };

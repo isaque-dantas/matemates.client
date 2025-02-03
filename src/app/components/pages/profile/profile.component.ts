@@ -1,6 +1,6 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {HeaderComponent} from "../../header/header.component";
-import {MatIcon} from "@angular/material/icon";
+import {MatIconModule} from "@angular/material/icon";
 import {AuthService} from "../../../services/auth.service";
 import {Router} from "@angular/router";
 import {UserService} from "../../../services/user.service";
@@ -14,7 +14,7 @@ import {NgIf} from "@angular/common";
   standalone: true,
   imports: [
     HeaderComponent,
-    MatIcon,
+    MatIconModule,
     ReactiveFormsModule,
     NgIf
   ],
