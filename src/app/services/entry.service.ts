@@ -9,7 +9,7 @@ import {Term} from "../interfaces/term";
   providedIn: 'root'
 })
 export class EntryService {
-  private baseUrl = 'http://127.0.0.1:8000/api/'
+  private baseUrl = 'http://127.0.0.1:8000/api/entry'
 
   constructor(private http: HttpClient) {
   }

@@ -43,24 +43,16 @@
           </div>
         </div>
         <div class="col d-flex justify-content-center">
-          <div id="entryCarousel" class="carousel slide">
+          <div id="entryCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner v-100 h-100">
-              <div class="carousel-item active v-100 h-100">
-                <img src="http://127.0.0.1:8000/api/entry_image/1" class="d-block w-100" alt="peixe">
-              </div>
-              <div class="carousel-item">
-                <img src="felicidade.png" class="d-block w-100" alt="...">
-              </div>
-              <div class="carousel-item">
-                <img src="felicidade.png" class="d-block w-100" alt="...">
+              <div *ngFor="let image of entryData.images" class="carousel-item active v-100 h-100">
+                <img [src]="image.url" class="d-block w-100 h-100" [alt]="image.caption">
               </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#entryCarousel" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <button class="carousel-control-prev h-100" type="button" data-bs-target="#entryCarousel" data-bs-slide="prev">
               <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#entryCarousel" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <button class="carousel-control-next h-100" type="button" data-bs-target="#entryCarousel" data-bs-slide="next">
               <span class="visually-hidden">Next</span>
             </button>
           </div>
