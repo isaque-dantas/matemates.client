@@ -13,5 +13,4 @@ import {ToastMessagesComponent} from "./components/toast-messages/toast-messages
 })
 export class AppComponent {
   title = 'matemates.client';
-
 }

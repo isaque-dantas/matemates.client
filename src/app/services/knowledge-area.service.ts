@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {KnowledgeArea} from "../interfaces/knowledge-area";
 import {catchError, throwError} from "rxjs";
+import {backendApiIp} from "../app.config";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class KnowledgeAreaService {
   constructor(private http: HttpClient) { }
 
   getAll() {
-    return this.http.get<KnowledgeArea[]>("http://127.0.0.1:8000/api/knowledge_area")
+    return this.http.get<KnowledgeArea[]>(`http://${backendApiIp}:8000/api/knowledge_area`)
       .pipe(
         catchError(this.handleError)
       )

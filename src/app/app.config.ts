@@ -16,3 +16,5 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([authInterceptor, toastLoggerInterceptor])), provideAnimationsAsync()
   ]
 };
+
+export const backendApiIp = "10.81.50.55"

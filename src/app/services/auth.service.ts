@@ -4,14 +4,15 @@ import {Observable, tap} from "rxjs";
 import {LoginData, User, UserToSend} from "../interfaces/user";
 import {Router} from "@angular/router";
 import {UserService} from "./user.service";
+import {backendApiIp} from "../app.config";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private baseUrl = 'http://127.0.0.1:8000/api/users'
-  private tokenUrl = 'http://127.0.0.1:8000/api/token'
+  private baseUrl = `http://${backendApiIp}:8000/api/users`
+  private tokenUrl = `http://${backendApiIp}:8000/api/token`
 
   constructor(private http: HttpClient, private router: Router, private userService: UserService) {
   }

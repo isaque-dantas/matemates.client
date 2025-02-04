@@ -4,12 +4,13 @@ import {Observable} from "rxjs";
 import {Entry, EntryToSend} from "../interfaces/entry";
 import {Definition} from "../interfaces/definition";
 import {Term} from "../interfaces/term";
+import {backendApiIp} from "../app.config";
 
 @Injectable({
   providedIn: 'root'
 })
 export class EntryService {
-  private baseUrl = 'http://127.0.0.1:8000/api/entry'
+  private baseUrl = `http://${backendApiIp}:8000/api/entry`
 
   constructor(private http: HttpClient) {
   }

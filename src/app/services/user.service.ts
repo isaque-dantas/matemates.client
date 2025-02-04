@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {catchError, Observable, tap, throwError} from "rxjs";
+import {backendApiIp} from "../app.config";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private baseUrl = 'http://127.0.0.1:8000/api/users'
+  private baseUrl = `http://${backendApiIp}:8000/api/users`
 
   constructor(private http: HttpClient) {}
 
