@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable, tap} from "rxjs";
-import {LoginData, UserToSend} from "../interfaces/user";
+import {LoginData, User, UserToSend} from "../interfaces/user";
 import {Router} from "@angular/router";
+import {UserService} from "./user.service";
 
 @Injectable({
   providedIn: 'root'
@@ -12,19 +13,30 @@ export class AuthService {
   private baseUrl = 'http://127.0.0.1:8000/api/users'
   private tokenUrl = 'http://127.0.0.1:8000/api/token'
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router, private userService: UserService) {
   }
 
   login(credentials: LoginData): Observable<any> {
     console.log('Logging in with:', credentials);
-    return this.http.post<{ access: string, refresh: string, userId: number }>(`${this.tokenUrl}`, credentials).pipe(
-      tap(response => {
-        if (response.access) {
-          localStorage.setItem('access', response.access);
-          this.router.navigate(['']);
-        }
-      })
-    );
+    return this.http.post<{ access: string, refresh: string, userId: number }>(`${this.tokenUrl}`, credentials)
+      .pipe(
+        tap(response => {
+          if (response.access) {
+            localStorage.setItem('access', response.access);
+
+            this.userService.getUserData(response.access).subscribe((data: User) => {
+              console.log(data)
+              localStorage.setItem("loggedUserIsStaff", data["is_staff"].toString())
+            })
+
+            this.router.navigate(['']);
+          }
+        })
+      );
+  }
+
+  isLoggedUserStaff() {
+    return localStorage.getItem("loggedUserIsStaff") == "true"
   }
 
   register(user: UserToSend): Observable<any> {
@@ -33,7 +45,7 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('access');
+    localStorage.removeItem('access')
     this.router.navigate(['login']);
   }
 

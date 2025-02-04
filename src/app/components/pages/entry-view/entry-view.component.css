@@ -85,6 +85,10 @@ button {
   z-index: 9999999999;
 }
 
+button#editEntry, button#deleteEntry {
+  border: 2px solid #052659;
+}
+
 @media (min-height: 1080px) {
   .title {
     font-size: 40px !important;

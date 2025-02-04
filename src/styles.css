@@ -13,6 +13,7 @@
 
 html, body {
   margin: 0;
+  height: 100vh;
 }
 
 body {
@@ -24,8 +25,7 @@ body {
 }
 
 .mat-typography,
-.mat-typography h1,
-.mat-typography h2{
+.mat-typography * {
   font-family: Poppins, sans-serif !important;
 }
 
@@ -171,20 +171,6 @@ body {
   .modal-dialog {
     max-width: 90%;
   }
-}
-
-.toast-error {
-  background-color: #ff6b6b;
-  backdrop-filter: opacity(75%) blur(10px);
-  color: #ffffff;
-}
-
-.toast-error .toast-header {
-  background-color: var(--page-color-1);
-}
-
-.toast-error .btn-close {
-  color: black;
 }
 
 .toast-image {

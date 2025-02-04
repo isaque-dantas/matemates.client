@@ -36,7 +36,6 @@ main button.btn {
   position: relative;
   padding: 48px 64px;
   border-radius: 24px;
-  height: 250px;
 }
 
 .definition-card .definition-actions {
@@ -50,6 +49,7 @@ main button.btn {
   background: #FFFFFF;
   border: none;
   border-radius: 0 0 48px 48px;
+
   opacity: .8;
   transition: opacity ease-in-out .1s;
 }
@@ -68,11 +68,25 @@ input#entryContent {
   border: 2px solid #052659;
   color: #052659;
   border-radius: 16px;
+}
+
+select[formControlName="main_term_gender"],
+select[formControlName="main_term_grammatical_category"] {
+  border-width: 1px;
+  border-radius: 8px;
+}
+
+input#entryContent,
+select[formControlName="main_term_gender"],
+select[formControlName="main_term_grammatical_category"] {
+  border-style: solid;
+  border-color: #052659;
+  color: #052659;
   background: transparent;
   padding: 4px 8px;
 }
 
-.definition-card select[formControlName="knowledgeAreaContent"] {
+.definition-card select[formControlName="knowledge_area__content"] {
   max-width: 240px;
   background-color: transparent;
   background-image: url("/chevron-down.svg");
@@ -291,6 +305,21 @@ input#entryContent {
 }
 
 .cursor-not-allowed {
+  cursor: not-allowed;
+}
+
+input[type="submit"] {
+  border: 2px solid #052659;
+  transition: border-color .5s ease, color .5s ease;
+  border-radius: 16px;
+  padding: 8px 40px;
+  background: none;
+  font-weight: 500;
+}
+
+input[type="submit"]:disabled {
+  border: 2px solid #8a8a8a;
+  color: #8a8a8a;
   cursor: not-allowed;
 }
 
