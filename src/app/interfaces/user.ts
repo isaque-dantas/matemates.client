@@ -2,7 +2,7 @@ export interface User {
   name: string;
   email: string;
   username: string;
-  isStaff: boolean;
+  is_staff: boolean;
 }
 
 export interface UserToSend {

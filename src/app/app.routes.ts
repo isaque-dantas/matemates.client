@@ -7,6 +7,7 @@ import {ProfileComponent} from "./components/pages/profile/profile.component";
 import {authGuard} from "./auth/auth.guard";
 import {EntryViewComponent} from "./components/pages/entry-view/entry-view.component";
 import {EntryFormComponent} from "./components/pages/entry-form/entry-form.component";
+import {staffOnlyGuard} from "./auth/staff-only.guard";
 
 export const routes: Routes = [
   {path: '', component: DashboardComponent},
@@ -15,6 +16,6 @@ export const routes: Routes = [
   {path: 'test-image', component: ImageTestComponent},
   {path: 'profile', component: ProfileComponent, canActivate: [authGuard]},
   {path: 'entry/:id', component: EntryViewComponent},
-  {path: 'create_entry', component: EntryFormComponent},
-  {path: 'edit_entry/:id', component: EntryFormComponent}
+  {path: 'create_entry', component: EntryFormComponent, canActivate: [authGuard, staffOnlyGuard]},
+  {path: 'edit_entry/:id', component: EntryFormComponent, canActivate: [authGuard, staffOnlyGuard]}
 ];
