@@ -158,6 +158,7 @@ section .container {
 .field-card {
   background-image: url("images/Card_background.png");
   background-repeat: no-repeat;
+  background-size: cover;
   height: 190px;
   width: 190px;
   border-radius: 15px;
@@ -205,6 +206,8 @@ section .container {
 
   .qnt {
     font-size: 44px;
+    color: var(--page-color-6);
+    font-weight: normal;
   }
 
   .knowledge-area {

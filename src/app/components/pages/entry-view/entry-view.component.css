@@ -66,21 +66,25 @@ h3 {
 button {
   width: 32px;
   height: 32px;
-  height: 32px;
 }
 
 #entryCarousel img {
   border-radius: 19px;
 }
 
+.carousel-inner {
+  overflow: visible;
+}
+
 .carousel-item img {
   object-fit: cover;
 }
 
-
 .carousel-caption {
-  top: 100%;
-  padding-top: 8px;
+  bottom: -80px;
+  right: 0;
+  left: 0;
+  text-align: left;
 }
 
 .background{
