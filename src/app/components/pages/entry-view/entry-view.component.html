@@ -45,8 +45,11 @@
         <div class="col d-flex justify-content-center">
           <div id="entryCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner v-100 h-100">
-              <div *ngFor="let image of entryData.images" class="carousel-item active v-100 h-100">
+              <div *ngFor="let image of entryData.images" class="carousel-item active w-100 h-100">
                 <img [src]="image.url" class="d-block w-100 h-100" [alt]="image.caption">
+                <div class="carousel-caption w-100">
+                  <p class="d-block">{{image.caption}}</p>
+                </div>
               </div>
             </div>
             <button class="carousel-control-prev h-100" type="button" data-bs-target="#entryCarousel" data-bs-slide="prev">
