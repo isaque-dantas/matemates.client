@@ -32,8 +32,8 @@
           </div>
         </div>
         <div class="col d-flex justify-content-center">
-          <div id="entryCarousel" class="carousel slide overflow-hidden" data-bs-ride="carousel">
-            <div class="carousel-inner">
+          <div id="entryCarousel" class="carousel slide d-flex justify-content-center overflow-hidden" data-bs-ride="carousel">
+            <div class="carousel-inner mt-2">
               <div *ngFor="let image of entryData.images; let i = index" class="carousel-item h-100" [class.active]="i === 0">
                 <img [src]="image.url" class="d-block w-100 h-100" [alt]="image.caption">
                 <div class="carousel-caption d-none d-md-block w-100">
@@ -42,7 +42,6 @@
               </div>
             </div>
 
-            <!-- Controles do carrossel -->
             <button class="carousel-control-prev h-100" type="button" data-bs-target="#entryCarousel" data-bs-slide="prev">
               <span class="visually-hidden">Previous</span>
             </button>
