@@ -102,7 +102,7 @@
             <div class="carousel-inner">
               @for (imageForm of images.controls; let i = $index; track i) {
                 <ng-container [formGroupName]="i">
-                  <div class="carousel-item px-2 " id="image-{{i}}">
+                  <div class="carousel-item active px-2 " id="image-{{i}}">
                     <div class="d-flex justify-content-between align-items-end">
                       <input type="file" id="imageContent{{i}}" class="d-none">
                       <label for="imageContent{{i}}"
