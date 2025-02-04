@@ -54,13 +54,12 @@ h3 {
   border-radius: 16px;
   border: 1px solid #052659;
   padding: 16px;
+  max-height: 250px;
 }
 
 #entryCarousel {
   width: 320px;
-  height: 320px;
-  border: 3px solid var(--page-color-6);
-  border-radius: 19px;
+  height: 3200px;
 }
 
 button {
@@ -69,11 +68,14 @@ button {
 }
 
 #entryCarousel img {
+  border: 3px solid var(--page-color-6);
   border-radius: 19px;
 }
 
 .carousel-inner {
   overflow: visible;
+  width: 350px !important;
+  height: 350px !important;
 }
 
 .carousel-item img {
@@ -81,10 +83,14 @@ button {
 }
 
 .carousel-caption {
-  bottom: -80px;
+  bottom: -100px;
   right: 0;
   left: 0;
   text-align: left;
+}
+
+.bottom-content {
+  height: 50vh;
 }
 
 .background{
@@ -99,7 +105,7 @@ button#editEntry, button#deleteEntry {
   border: 2px solid #052659;
 }
 
-@media (min-height: 1080px) {
+@media (min-width: 1920px) {
   .title {
     font-size: 40px !important;
   }
@@ -115,8 +121,8 @@ button#editEntry, button#deleteEntry {
   }
 
   #entryCarousel {
-    width: 501px;
-    height: 501px;
+    width: 350px;
+    height: 500px;
   }
 
   .badge-knowledge-area-sm {

@@ -30,25 +30,14 @@
               </ng-container>
             </ul>
           </div>
-          <div class="examples">
-            <h3 class="fw-semibold m-0">Exemplos</h3>
-            <ul class="row row-cols-2 row-cols-lg-3 g-3 list-unstyled">
-              <li class="col" *ngFor="let question of entryData.questions">
-                <div class="example">
-                  <span class="fw-medium fs-5">{{ question.statement }}</span>
-                  <p class="mb-0 mt-2">{{ question.answer }}</p>
-                </div>
-              </li>
-            </ul>
-          </div>
         </div>
         <div class="col d-flex justify-content-center">
-          <div id="entryCarousel" class="carousel slide" data-bs-ride="carousel">
+          <div id="entryCarousel" class="carousel slide overflow-hidden" data-bs-ride="carousel">
             <div class="carousel-inner v-100 h-100">
               <div *ngFor="let image of entryData.images" class="carousel-item active w-100 h-100">
                 <img [src]="image.url" class="d-block w-100 h-100" [alt]="image.caption">
                 <div class="carousel-caption w-100">
-                  <p class="d-block">{{image.caption}}</p>
+                  <p>{{image.caption}}</p>
                 </div>
               </div>
             </div>
@@ -59,6 +48,19 @@
               <span class="visually-hidden">Next</span>
             </button>
           </div>
+        </div>
+      </div>
+      <div class="row bottom-content d-flex flex-column justify-content-end">
+        <div class="examples">
+          <h3 class="fw-semibold">Exemplos</h3>
+          <ul class="row row-cols-2 row-cols-lg-3 g-3 list-unstyled mt-2">
+            <li class="col" *ngFor="let question of entryData.questions">
+              <div class="example v-100">
+                <span class="fw-medium fs-5">{{ question.statement }}</span>
+                <p class="mb-0 mt-2">{{ question.answer }}</p>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     </section>
