@@ -20,7 +20,7 @@
   width: 100%;
   background: #FFFFFF;
   border-radius: 16px;
-  padding: 8px;
+  padding: 10px;
 }
 
 .row .custom-card::after {
