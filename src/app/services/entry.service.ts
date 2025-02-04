@@ -19,7 +19,15 @@ export class EntryService {
   }
 
   get(id: number): Observable<Entry> {
-    return this.http.get(`${this.baseUrl}/${id}`) as Observable<Entry>;
+    return this.http.get(`${this.baseUrl}/${id}`) as Observable<Entry>
+  }
+
+  getAll(): Observable<Entry[]> {
+    return this.http.get<Entry[]>(`${this.baseUrl}`)
+  }
+
+  search(searchQuery: string): Observable<Entry[]> {
+    return this.http.get<Entry[]>(`${this.baseUrl}?search_query=${searchQuery}`)
   }
 
   put(id: number, data: EntryToSend) {

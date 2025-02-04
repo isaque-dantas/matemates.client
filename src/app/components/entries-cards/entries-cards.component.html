@@ -1,0 +1,15 @@
+<app-header/>
+
+<main class="mt-5">
+  @if (entries) {
+    <h1>Verbetes</h1>
+    <div class="row">
+      @for (entry of this.entries; track entry.id) {
+        <div class="col-3"></div>
+      }
+    </div>
+
+  } @else {
+    Carregando...
+  }
+</main>

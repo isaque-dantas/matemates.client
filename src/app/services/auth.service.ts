@@ -14,6 +14,7 @@ export class AuthService {
   private tokenUrl = 'http://127.0.0.1:8000/api/token'
 
   constructor(private http: HttpClient, private router: Router, private userService: UserService) {
+    localStorage.setItem("loggedUserIsStaff", "false")
   }
 
   login(credentials: LoginData): Observable<any> {
@@ -35,7 +36,12 @@ export class AuthService {
       );
   }
 
-  isLoggedUserStaff() {
+  isLoggedUserStaff(): boolean {
+    if (!this.isAuthenticated()) {
+      localStorage.setItem("loggedUserIsStaff", "false")
+      return false
+    }
+
     return localStorage.getItem("loggedUserIsStaff") == "true"
   }
 
@@ -45,6 +51,7 @@ export class AuthService {
   }
 
   logout() {
+    localStorage.setItem("loggedUserIsStaff", "false")
     localStorage.removeItem('access')
     this.router.navigate(['login']);
   }
