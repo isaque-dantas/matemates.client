@@ -50,10 +50,14 @@ export class QuestionsCarouselComponent {
   }
 
   calculateItemWidth() {
-    const item = document.querySelector(".items > div")!
-    const rect = item.getBoundingClientRect()
+    const item = document.querySelector(".items > div")
 
-    return rect.width
+    if (item) {
+      const rect = item.getBoundingClientRect()
+      return rect.width
+    }
+
+    return 0
   }
 
   currentEditingQuestionIndex: number | null = null
