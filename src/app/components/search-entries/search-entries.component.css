@@ -1,0 +1,37 @@
+.search-entry-container {
+  border-bottom: 2px solid #021024;
+  width: fit-content;
+  padding: 0 4px;
+}
+
+.search-entry {
+  border: none;
+  outline: none;
+  box-shadow: none;
+  background: transparent;
+
+  padding: 8px 4px;
+}
+
+
+.search-entry::placeholder {
+  color: rgba(2, 16, 36, 0.65);
+}
+
+.search-icon-container {
+  transition: background-color .1s ease, color .1s ease;
+  border-radius: 4px;
+}
+
+.search-icon-container:hover {
+  background: #000000;
+  color: #FFF;
+}
+
+mat-icon.search-icon {
+  cursor: pointer;
+}
+
+mat-icon.search-icon:hover {
+  /*color: #428eff;*/
+}

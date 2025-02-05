@@ -10,6 +10,8 @@ export const toastLoggerInterceptor: HttpInterceptorFn = (req, next) => {
     return afterHttp.slice(afterHttp.indexOf("/"))
   }
 
+  // console.log(req)
+
   const errorTranslator: { [key: number]: string } = {
     400: "Verifique se os dados estão no formato correto.",
     401: "Você não está logado; faça login e tente novamente.",

@@ -1,0 +1,10 @@
+<app-header/>
+<main class="container mt-5">
+  <div class="d-flex gap-3 search-entry-container mb-5 align-items-center">
+    <input type="text" class="search-entry" placeholder="Clique para pesquisar" (keydown)="updateSearchQuery($event)" [(ngModel)]="searchQuery"/>
+    <div class="d-flex justify-content-center align-items-center p-1 search-icon-container">
+      <mat-icon class="search-icon" (click)="updateSearchQuery()">search</mat-icon>
+    </div>
+  </div>
+  <app-entries-cards [entries]="this.entries" [isLoadingInProgress]="isLoadingInProgress"/>
+</main>

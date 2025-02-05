@@ -19,7 +19,15 @@ export class EntryService {
   }
 
   get(id: number): Observable<Entry> {
-    return this.http.get(`${this.baseUrl}/${id}`) as Observable<Entry>;
+    return this.http.get(`${this.baseUrl}/${id}`) as Observable<Entry>
+  }
+
+  getAll(): Observable<Entry[]> {
+    return this.http.get<Entry[]>(`${this.baseUrl}`)
+  }
+
+  search(searchQuery: string): Observable<Entry[]> {
+    return this.http.get<Entry[]>(`${this.baseUrl}?search_query=${searchQuery}`)
   }
 
   put(id: number, data: EntryToSend) {
@@ -48,10 +56,14 @@ export class EntryService {
     return terms.filter((term) => term.is_main_term).at(0)!
   }
 
-  getKnowledgeAreasFromDefinitions(definitions: Definition[]): string[] {
+  getKnowledgeAreasContentsFromDefinitions(definitions: Definition[]): string[] {
     const knowledgeAreas: string[] = definitions.map(definition => definition.knowledge_area.content)
     return knowledgeAreas.filter(
       (value, index) => knowledgeAreas.indexOf(value) === index
     )
+  }
+
+  parseDefinitionsContents(definitions: Definition[]): string {
+    return definitions.map((definition, index) => `${definition.content}`).join(" ")
   }
 }

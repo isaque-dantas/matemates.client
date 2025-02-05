@@ -35,7 +35,13 @@ export class AuthService {
       );
   }
 
-  isLoggedUserStaff() {
+  isLoggedUserStaff(): boolean {
+    if (!this.isAuthenticated()) {
+      console.log("Not authenticated! (inside isLoggedUserStaff)")
+      localStorage.setItem("loggedUserIsStaff", "false")
+      return false
+    }
+
     return localStorage.getItem("loggedUserIsStaff") == "true"
   }
 
@@ -45,6 +51,8 @@ export class AuthService {
   }
 
   logout() {
+    console.log("! ! ! ! ! ! ! !!!LOGOUT!!! ! ! ! ! ! ! !")
+    localStorage.setItem("loggedUserIsStaff", "false")
     localStorage.removeItem('access')
     this.router.navigate(['login']);
   }
