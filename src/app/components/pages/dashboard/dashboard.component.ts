@@ -7,6 +7,7 @@ import {KnowledgeAreaService} from "../../../services/knowledge-area.service";
 import {KnowledgeArea} from "../../../interfaces/knowledge-area";
 import {CapitalizePipe} from "../../../pipes/capitalize.pipe";
 import {AuthService} from "../../../services/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-dashboard',
@@ -18,7 +19,7 @@ import {AuthService} from "../../../services/auth.service";
 export class DashboardComponent {
   knowledgeAreaCards?: { content: string, amountOfEntries: number }[];
 
-  constructor(entryService: EntryService, knowledgeAreaService: KnowledgeAreaService, private authService: AuthService) {
+  constructor(entryService: EntryService, knowledgeAreaService: KnowledgeAreaService, private authService: AuthService, private router: Router) {
     knowledgeAreaService.getAll().subscribe(async (knowledgeAreas: KnowledgeArea[]) => {
 
       console.log(knowledgeAreas);
@@ -28,5 +29,17 @@ export class DashboardComponent {
         return {content: area.content, amountOfEntries: amountOfEntries}
       })
     })
+  }
+
+  searchEntries(event: KeyboardEvent) {
+    console.log(event)
+    console.log((event.target as HTMLInputElement).value)
+    if (event.key == "Enter")
+      this.router.navigate(
+        ['/entries'],
+        {
+          queryParams: {search_query: (event.target as HTMLInputElement).value}
+        }
+      )
   }
 }

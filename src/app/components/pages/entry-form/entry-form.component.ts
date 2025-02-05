@@ -53,13 +53,7 @@ export class EntryFormComponent {
         main_term_gender: ['', Validators.required],
         main_term_grammatical_category: ['', Validators.required],
         definitions: this.fb.array([
-            this.definitionGroupFactory(),
-            this.fb.group(
-                {
-                    content: ['exemplo', Validators.required],
-                    knowledge_area__content: ['inexistente xD', Validators.required]
-                }
-            )
+            this.definitionGroupFactory()
         ], [Validators.min(1)]),
         images: this.fb.array([this.imageGroupFactory()]),
         questions: this.fb.array(

@@ -36,7 +36,7 @@ export class EntryViewComponent {
         console.log(entry)
         this.entryData = entry
         this.parsedEntryContent = this.entryService.parseContent(entry)
-        this.knowledgeAreas = entryService.getKnowledgeAreasFromDefinitions(entry.definitions)
+        this.knowledgeAreas = entryService.getKnowledgeAreasContentsFromDefinitions(entry.definitions)
 
         const firstImage = document.querySelector(".carousel li.carousel-item")
         console.log(firstImage)

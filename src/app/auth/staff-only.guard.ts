@@ -22,7 +22,7 @@ export const staffOnlyGuard: CanActivateFn = (route, state) => {
       }
     ])
 
-    router.navigate(['login']);
+    router.navigate(['']);
 
     return false;
   }

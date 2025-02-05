@@ -1,13 +1,12 @@
 .background {
-  background-image: url('background-entry.png');
-  background-size: contain;
+  background-image: url('edit - background.png');
+  background-size: cover;
   background-repeat: no-repeat;
-  background-position: bottom right;
   z-index: -100;
   position: fixed;
   left: 0;
-  height: 100%;
-  width: 100%;
+  height: 100vh;
+  width: 100vw;
 }
 
 
@@ -331,14 +330,10 @@ input[type="submit"]:disabled {
   font-size: 24px;
   padding: 5px 15px;
   text-transform: uppercase;
+  margin-top: 1rem;
 }
 
 @media (min-width: 1920px) {
-  .background {
-    height: 106.5%;
-    width: 100%;
-  }
-
   .col-4 {
     width: 40% !important;
   }
@@ -350,4 +345,14 @@ input[type="submit"]:disabled {
   .definition-card {
     height: 350px;
   }
+
+  .btn-next {
+    margin-top: 45px !important;
+  }
+
+  .image-content-label,
+  .image-card textarea {
+      height: 290px !important;
+  }
+
 }

@@ -20,7 +20,7 @@
   width: 100%;
   background: #FFFFFF;
   border-radius: 16px;
-  padding: 8px;
+  padding: 10px;
 }
 
 .row .custom-card::after {
@@ -105,4 +105,15 @@ button.next .icon {
   font-size: 16px;
   padding: 5px 15px;
   text-transform: uppercase;
+  margin-top: 1rem;
+}
+
+@media (min-width: 1920px) {
+  .row .custom-card {
+    height:   250px;
+  }
+
+  .btn-new {
+    margin-top: 45px !important;
+  }
 }

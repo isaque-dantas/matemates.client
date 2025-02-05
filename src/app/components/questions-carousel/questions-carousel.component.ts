@@ -41,12 +41,20 @@ export class QuestionsCarouselComponent {
     })
 
     document.addEventListener("DOMContentLoaded", () => {
-      const itemsHeight = document.querySelector<HTMLElement>(".items-height")!
-      const items = document.querySelector<HTMLElement>(".items")!
-
-      itemsHeight.style.height = `${items.clientHeight}px`
-      items.style.left = "0"
+      // const itemsHeight = document.querySelector<HTMLElement>(".items-height")!
+      // const items = document.querySelector<HTMLElement>(".items")!
+      //
+      // itemsHeight.style.height = `${items.clientHeight}px`
+      // items.style.left = "0"
     })
+  }
+
+  ngAfterViewInit() {
+    const itemsHeight = document.querySelector<HTMLElement>(".items-height")!
+    const items = document.querySelector<HTMLElement>(".items")!
+
+    itemsHeight.style.height = `${items.clientHeight}px`
+    items.style.left = "0"
   }
 
   calculateItemWidth() {

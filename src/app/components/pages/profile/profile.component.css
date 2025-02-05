@@ -133,7 +133,7 @@
   transform: translateY(-50%);
 }
 
-@media (min-height: 1080px) {
+@media (min-width: 1920px) {
   ::ng-deep .logo {
     width: 60px !important;
   }

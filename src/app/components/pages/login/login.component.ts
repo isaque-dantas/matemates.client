@@ -105,11 +105,24 @@ export class LoginComponent {
 
       this.authService.login(this.loginForm.value).subscribe({
         next: (response) => {
-          console.log('Login successful', response)
+          this.toastService.showToasts([
+            {
+              title: "Login",
+              body: "Login realizado com sucesso!.",
+              type: "success",
+              id: null
+            }
+          ])
         },
         error: (error) => {
-          console.error('Login failed', error)
-          this.errorMessage = 'Credenciais inválidas. Tente novamente';
+          this.toastService.showToasts([
+            {
+              title: "Login",
+              body: "Verifique seu login e/ou senha e tente novamente.",
+              type: "error",
+              id: null
+            }
+          ])
         }
       });
     } else {
