@@ -20,18 +20,6 @@ export const toastLoggerInterceptor: HttpInterceptorFn = (req, next) => {
   }
 
   return next(req).pipe(
-    tap(event => {
-      if (event.type === HttpEventType.Response) {
-        toastService.showToasts([
-          {
-            title: `${req.method} ${getUrlPathWithoutIp(req.url)}`,
-            body: `Operação bem-suscedida (${event.status})`,
-            type: 'success',
-            id: null
-          }
-        ])
-      }
-    }),
     catchError(error => {
 
       toastService.showToasts([
