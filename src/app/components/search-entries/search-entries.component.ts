@@ -39,6 +39,10 @@ export class SearchEntriesComponent {
       return null
     }
 
+    if (this.searchQuery === "") {}
+
+    console.log(this.searchQuery)
+
     if (this.searchQuery) {
       this.isLoadingInProgress = true
       this.entryService.search(this.searchQuery).subscribe((data) => {
@@ -46,8 +50,10 @@ export class SearchEntriesComponent {
         this.isLoadingInProgress = false
       })
     } else {
+      console.log("pegou todos os verbetes")
       this.isLoadingInProgress = true
       this.entryService.getAll().subscribe((data) => {
+        console.log(data)
         this.entries = data
         this.isLoadingInProgress = false
       })
