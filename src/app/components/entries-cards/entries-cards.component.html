@@ -1,15 +1,28 @@
-<app-header/>
-
-<main class="mt-5">
-  @if (entries) {
-    <h1>Verbetes</h1>
-    <div class="row">
-      @for (entry of this.entries; track entry.id) {
-        <div class="col-3"></div>
+<div>
+  @if (isLoadingInProgress) {
+    <p>Carregando...</p>
+  } @else if (entries?.length !== 0) {
+    <div class="row row-gap-4">
+      @for (entry of this.entries; track entry.id; let i = $index) {
+        <div class="col-3">
+          <a routerLink="/entry/{{entry.id}}">
+            <div class="entry-card">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="fw-bold entry-content m-0">{{ entry.content }}</h5>
+                <div class="d-flex gap-2 list-unstyled align-items-center">
+                  <p
+                    class="knowledge-area-pill m-0 rounded-pill">{{ this.knowledgeAreasData!.at(i)!.contentOfFirstKnowledgeArea }}</p>
+                  <p class="m-0 fs-5 lh-1" *ngIf="this.knowledgeAreasData!.at(i)!.thereAreMoreThanOne">+</p>
+                </div>
+              </div>
+              <p
+                class="definitions-contents lh-base">{{ this.entryService.parseDefinitionsContents(entry.definitions) }}</p>
+            </div>
+          </a>
+        </div>
       }
     </div>
-
   } @else {
-    Carregando...
+    <p>Não há verbetes que atendam a essa pesquisa.</p>
   }
-</main>
+</div>

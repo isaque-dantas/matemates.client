@@ -1,30 +1,36 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Entry} from "../../interfaces/entry";
 import {EntryService} from "../../services/entry.service";
 import {HeaderComponent} from "../header/header.component";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Router, ParamMap, RouterLink} from "@angular/router";
+import {Observable} from 'rxjs';
+import {NgForOf, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-entries-cards',
   standalone: true,
   imports: [
-    HeaderComponent
+    NgIf,
+    RouterLink
   ],
   templateUrl: './entries-cards.component.html',
   styleUrl: './entries-cards.component.css'
 })
 export class EntriesCardsComponent {
-  entries?: Entry[]
+  @Input() entries?: Entry[] = []
+  @Input() isLoadingInProgress?: boolean
+  knowledgeAreasData?: {contentOfFirstKnowledgeArea: string, thereAreMoreThanOne: boolean}[]
 
-  constructor(private entryService: EntryService, private route: ActivatedRoute) {
-    this.route.params.subscribe(async (params) => {
-      this.entryId = +params["id"];
+  constructor(protected entryService: EntryService) {
+  }
+
+  ngOnChanges() {
+    this.knowledgeAreasData = this.entries!.map((entry) => {
+      const contents = this.entryService.getKnowledgeAreasContentsFromDefinitions(entry.definitions)
+      return {
+        contentOfFirstKnowledgeArea: contents[0],
+        thereAreMoreThanOne: contents.length > 1
+      }
     })
-
-    this.entryService.getAll().subscribe((data) => {
-      this.entries = data
-    })
-
-    this.router.
   }
 }

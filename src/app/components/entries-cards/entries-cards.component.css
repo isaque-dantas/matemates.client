@@ -1,0 +1,36 @@
+.entry-card {
+  border: 2px solid #052659;
+  border-radius: 20px;
+  padding: 8px 16px;
+  color: #052659;
+  font-weight: 500;
+  max-height: 200px;
+  overflow: hidden;
+  position: relative;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+.entry-card:after {
+  content: "";
+  position: absolute;
+  height: 15%;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(0deg, #FFFFFFFF, #FFFFFF00);
+  z-index: 3;
+}
+
+.knowledge-area-pill {
+  font-size: 14px;
+  padding: 0 8px;
+  border: 1px solid #052659;
+}
+
+.entry-content {
+  font-size: 20px;
+  text-overflow: ellipsis;
+}
