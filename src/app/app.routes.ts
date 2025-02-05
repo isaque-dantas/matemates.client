@@ -20,5 +20,6 @@ export const routes: Routes = [
   {path: 'entries', component: SearchEntriesComponent},
   {path: 'entry/:id', component: EntryViewComponent},
   {path: 'create_entry', component: EntryFormComponent, canActivate: [authGuard, staffOnlyGuard]},
-  {path: 'edit_entry/:id', component: EntryFormComponent, canActivate: [authGuard, staffOnlyGuard]}
+  {path: 'edit_entry/:id', component: EntryFormComponent, canActivate: [authGuard, staffOnlyGuard]},
+  {path: '**', redirectTo: ''}
 ];
