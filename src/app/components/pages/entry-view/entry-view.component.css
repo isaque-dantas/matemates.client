@@ -1,4 +1,4 @@
-main * {
+main *:not(mat-icon) {
   font-family: Poppins, sans-serif !important;
   color: #052659;
 }
@@ -141,6 +141,15 @@ button {
 button#editEntry, button#deleteEntry {
   border: 2px solid #052659;
 }
+
+button#editEntry, button#deleteEntry {
+  background: #FFF;
+}
+
+#entryCarousel {
+    width: 280px;
+    height: 448px;
+  }
 
 @media (min-width: 1920px) {
   .title {

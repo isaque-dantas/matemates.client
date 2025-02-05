@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {NgForOf, NgIf} from "@angular/common";
 import {MatButton} from "@angular/material/button";
@@ -38,26 +38,20 @@ export class HeaderComponent {
       this.updateShowElement();
     });
 
-    this.userService.getUserData(this.token).subscribe(
-      (data) => {
-        this.userData = data;
+    if (this.authService.isLoggedUserStaff()) {
+      this.navItems = [
+        {'label': 'Início', 'link': ''},
+        {'label': 'Criar', 'link': '/create_entry'},
+        {'label': 'Sugerir Alteração', 'link': '/nae'},
+      ]
+    } else {
+      this.navItems = [
+        {'label': 'Início', 'link': ''},
+        {'label': 'Sugerir Alteração', 'link': '/nae'},
+      ]
+    }
 
-        if (this.userData.is_staff) {
-          this.navItems = [
-            {'label': 'Início', 'link': ''},
-            {'label': 'Criar', 'link': '/create_entry'},
-            {'label': 'Sugerir Alteração', 'link': '/nae'},
-          ]
-        } else {
-          this.navItems = [
-            {'label': 'Início', 'link': ''},
-            {'label': 'Sugerir Alteração', 'link': '/nae'},
-          ]
-        }
-
-        console.log('User Data:', this.userData);
-      }
-    )
+    console.log('User Data:', this.userData)
   }
 
   private updateShowElement() {

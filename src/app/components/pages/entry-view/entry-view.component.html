@@ -10,10 +10,10 @@
               <ng-container *ngFor="let knowledgeArea of knowledgeAreas ">
                 <p class="m-0 fw-medium badge-knowledge-area fw-medium">{{ knowledgeArea }}</p>
               </ng-container>
-              <button id="editEntry" class="d-flex justify-content-center rounded" (click)="redirectToEdit()">
+              <button id="editEntry" class="d-flex justify-content-center align-items-center rounded" (click)="redirectToEdit()">
                 <mat-icon class="h-100 v-100">edit</mat-icon>
               </button>
-              <button id="deleteEntry" class="d-flex justify-content-center rounded" (click)="deleteEntry()">
+              <button id="deleteEntry" class="d-flex justify-content-center align-items-center rounded" (click)="deleteEntry()">
                 <mat-icon class="h-100 v-100">delete</mat-icon>
               </button>
             </div>
