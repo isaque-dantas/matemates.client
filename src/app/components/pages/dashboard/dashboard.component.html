@@ -41,14 +41,6 @@
                 </div>
               </div>
             </div>
-<!--            <button class="carousel-control-prev carousel-control" type="button" data-bs-target="#term-carousel" data-bs-slide="prev">-->
-<!--              <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
-<!--              <span class="visually-hidden">Previous</span>-->
-<!--            </button>-->
-<!--            <button class="carousel-control-next carousel-control" type="button" data-bs-target="#term-carousel" data-bs-slide="next">-->
-<!--              <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
-<!--              <span class="visually-hidden">Next</span>-->
-<!--            </button>-->
           </div>
         </div>
       </div>
@@ -60,8 +52,9 @@
           <mat-icon aria-hidden="false" aria-label="icon" fontIcon="search"></mat-icon>
         </div>
       </div>
-      <div class="col-9">
+      <div class="col-9 d-flex justify-content-between align-items-center">
         <h1 class="contents m-0">Assuntos</h1>
+        <button *ngIf="isStaff === true" class="add-new-area" data-bs-toggle="modal" data-bs-target="#createKnowledgeArea">Adicionar Nova Aréa</button>
       </div>
     </div>
     <div class="row justify-content-between">
@@ -88,6 +81,36 @@
             </div>
           </li>
         </ul>
+      </div>
+    </div>
+
+
+<!--    modal-->
+    <div class="modal fade" id="createKnowledgeArea" tabindex="-1" aria-labelledby="admModal" aria-hidden="true">
+      <div class="modal-dialog w-100 h-100 p-0 m-0">
+        <div class="modal-content d-flex flex-column w-100 h-100">
+          <div class="modal-header d-block w-100 text-center border-0 p-0">
+            <h1 class="modal-title" id="admModal">Criar nova área do conhecimento</h1>
+          </div>
+          <div class="modal-body px-0">
+            <form action="" class="d-flex flex-column">
+              <div class="d-flex gap-p flex-column">
+                <label for="name" class="mb-2">Insira o nome da nova área</label>
+                <input type="text" id="name">
+              </div>
+            </form>
+            <div class="areas">
+              <p>Resultados correspondentes a ”. . .“ :</p>
+              <div class="d-flex w-100 justify-content-between">
+                <div class="area-box col-3">Biologia</div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer border-0 mt-2 d-flex justify-content-between">
+            <button type="button" class="cancel" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="confirm" data-bs-dismiss="modal">Confirmar</button>
+          </div>
+        </div>
       </div>
     </div>
   </section>

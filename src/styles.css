@@ -75,11 +75,15 @@ body {
 }
 
 .modal-title{
-  font-size: 24px !important;
-  font-weight: 500;
+  font-size: 32px !important;
+  font-weight: 500 !important;
   margin: 0 !important;
   font-style: normal;
   color: var(--page-color-6);
+}
+
+.modal label {
+  font-size: 24px !important;
 }
 
 .modal-content {
@@ -120,15 +124,20 @@ body {
 }
 
 .modal button {
-  padding: 3px 20px;
+  padding: 3px 23px;
   background: none;
   border-radius: 64px;
   border: 2px solid var(--page-color-6);
   color: var(--page-color-6);
-  height: 6vh;
-  font-size: 16px;
+  height: 6vh !important;
+  font-size: 20px !important;
   transition: background-color .3s ease-in-out;
   cursor: pointer;
+}
+
+.modal-footer {
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .gap-p {

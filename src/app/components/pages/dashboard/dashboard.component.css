@@ -189,6 +189,42 @@ section .container {
   font-size: 24px;
 }
 
+.add-new-area {
+  padding: 3px 20px;
+  border-radius: 15px;
+  border: 2px solid var(--page-color-6);
+  color: var(--page-color-6);
+  font-weight: 500;
+  background-color: transparent;
+  font-size: 18px;
+}
+
+.areas p {
+  color: #052659;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.modal button {
+  width: 200px;
+}
+
+.area-box {
+  border-radius: 15px;
+  border: 2px solid #052659;
+  color: #052659;
+  width: max-content;
+  font-size: 28px;
+  font-weight: 500;
+  padding: 5px 20px;
+}
+
+#createKnowledgeArea .modal-content {
+  padding-top: 37px;
+  padding-right: 100px;
+  padding-left: 100px;
+}
+
 @media (min-width: 1920px) {
   .background {
     height: 414px;
