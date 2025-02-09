@@ -49,12 +49,16 @@ export class DashboardComponent {
     }
 
     knowledgeAreaService.getAll().subscribe(async (knowledgeAreas: KnowledgeArea[]) => {
-      console.log(knowledgeAreas);
+      console.log("Lista de áreas:", knowledgeAreas);
+      console.log("ID que estou buscando:", this.knowledgeAreaId);
+
+      const selectedArea = knowledgeAreas.find(area => area.id === this.knowledgeAreaId);
+      console.log("Área encontrada:", selectedArea);
 
       this.KnowledgeAreaUpdateForm.setValue({
-        content: knowledgeAreas.find(area => area.id === this.knowledgeAreaId)?.content,
-        subject: knowledgeAreas.find(area => area.id === this.knowledgeAreaId)?.subject,
-      })
+        content: '',
+        subject: selectedArea?.subject || '',
+      });
 
       this.knowledgeAreaCards = knowledgeAreas.map((area) => {
         const amountOfEntries = area.entries ? area.entries.length : 0
@@ -127,6 +131,7 @@ export class DashboardComponent {
         next: (res) => console.log("Sucesso:", res),
         error: (err) => console.error("erro:", err)
       });
+      this.KnowledgeAreaForm.reset();
     }
   }
 
