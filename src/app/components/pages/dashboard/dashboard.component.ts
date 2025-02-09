@@ -8,7 +8,8 @@ import {KnowledgeArea} from "../../../interfaces/knowledge-area";
 import {CapitalizePipe} from "../../../pipes/capitalize.pipe";
 import {AuthService} from "../../../services/auth.service";
 import {Router} from "@angular/router";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormBuilder} from "@angular/forms";
 
 @Component({
   selector: 'app-dashboard',
@@ -20,10 +21,16 @@ import {ReactiveFormsModule} from "@angular/forms";
 export class DashboardComponent {
   knowledgeAreaCards?: { content: string, amountOfEntries: number }[];
   isStaff: boolean = false;
+  KnowledgeAreaForm: FormGroup;
 
-  constructor(entryService: EntryService, knowledgeAreaService: KnowledgeAreaService, private authService: AuthService, private router: Router) {
+  constructor(entryService: EntryService, private knowledgeAreaService: KnowledgeAreaService,
+              private authService: AuthService, private router: Router, private fb: FormBuilder) {
+    this.KnowledgeAreaForm = this.fb.group({
+      content: ['', Validators.required],
+      area: ['', Validators.required],
+    })
+
     knowledgeAreaService.getAll().subscribe(async (knowledgeAreas: KnowledgeArea[]) => {
-
       console.log(knowledgeAreas);
 
       this.knowledgeAreaCards = knowledgeAreas.map((area) => {
@@ -33,9 +40,25 @@ export class DashboardComponent {
     })
   }
 
+  search() {
+
+  }
+
   ngOnInit() {
     this.isStaff = localStorage.getItem("loggedUserIsStaff") === 'true';
     console.log('is staff?', this.isStaff);
+  }
+
+  onSubmit() {
+    if (this.KnowledgeAreaForm.invalid) {
+      alert('formulário inválido!');
+      console.log(this.KnowledgeAreaForm.get('content')!.errors)
+    } else {
+      this.knowledgeAreaService.post(this.KnowledgeAreaForm.value).subscribe({
+        next: (res) => console.log("Sucesso:", res),
+        error: (err) => console.error("erro:", err)
+      });
+    }
   }
 
   searchEntries(event: KeyboardEvent) {

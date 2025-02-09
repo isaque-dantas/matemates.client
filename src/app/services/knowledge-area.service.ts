@@ -1,20 +1,25 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {KnowledgeArea} from "../interfaces/knowledge-area";
-import {catchError, throwError} from "rxjs";
+import {catchError, Observable, throwError} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class KnowledgeAreaService {
+  baseUrl = "http://127.0.0.1:8000/api/knowledge_area"
 
   constructor(private http: HttpClient) { }
 
   getAll() {
-    return this.http.get<KnowledgeArea[]>("http://127.0.0.1:8000/api/knowledge_area")
+    return this.http.get<KnowledgeArea[]>(this.baseUrl)
       .pipe(
         catchError(this.handleError)
       )
+  }
+
+  post(data: KnowledgeArea): Observable<KnowledgeArea> {
+    return this.http.post(`${this.baseUrl}`, data) as Observable<KnowledgeArea>
   }
 
   handleError(error: HttpErrorResponse) {

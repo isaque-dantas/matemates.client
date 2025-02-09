@@ -201,7 +201,7 @@ section .container {
 
 .areas p {
   color: #052659;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 500;
 }
 
@@ -214,7 +214,7 @@ section .container {
   border: 2px solid #052659;
   color: #052659;
   width: max-content;
-  font-size: 28px;
+  font-size: 20px;
   font-weight: 500;
   padding: 5px 20px;
 }
@@ -244,6 +244,17 @@ section .container {
     font-size: 44px;
     color: var(--page-color-6);
     font-weight: normal;
+  }
+
+  .area-box {
+    width: max-content;
+    font-size: 28px;
+    font-weight: 500;
+    padding: 5px 20px;
+  }
+
+  .areas p {
+    font-size: 20px;
   }
 
   .knowledge-area {

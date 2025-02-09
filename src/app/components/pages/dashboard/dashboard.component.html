@@ -1,5 +1,5 @@
 <app-header></app-header>
-<div class="container mt-5">
+<div class="container">
   <section>
     <div class="row">
       <div class="d-flex align-items-center background w-100">
@@ -13,7 +13,8 @@
                       <h1 class="m-0 title fw-bold">Alfa</h1>
                       <div class="m-0 area-field">Álgebra</div>
                     </div>
-                    <p class="definition">Alfa (Α ou α; em grego: άλφα, transl.: álpha) é a primeira letra do alfabeto grego e tem um valor numérico de 1. Ela é derivada da letra fení...</p>
+                    <p class="definition">Alfa (Α ou α; em grego: άλφα, transl.: álpha) é a primeira letra do alfabeto
+                      grego e tem um valor numérico de 1. Ela é derivada da letra fení...</p>
                   </div>
                   <div class="w-100 d-flex justify-content-end">
                     <p class="about position-relative">LER MAIS</p>
@@ -30,7 +31,8 @@
                       <h1 class="m-0 title">Lorem</h1>
                       <div class="m-0 area-field">Álgebra</div>
                     </div>
-                    <p class="definition">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent mattis elementum tortor id consectetur...</p>
+                    <p class="definition">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent mattis
+                      elementum tortor id consectetur...</p>
                   </div>
                   <div class="w-100 d-flex justify-content-end">
                     <p class="about position-relative">LER MAIS</p>
@@ -54,7 +56,9 @@
       </div>
       <div class="col-9 d-flex justify-content-between align-items-center">
         <h1 class="contents m-0">Assuntos</h1>
-        <button *ngIf="isStaff === true" class="add-new-area" data-bs-toggle="modal" data-bs-target="#createKnowledgeArea">Adicionar Nova Aréa</button>
+        <button *ngIf="isStaff === true" class="add-new-area" data-bs-toggle="modal"
+                data-bs-target="#createKnowledgeArea">Adicionar Nova Aréa
+        </button>
       </div>
     </div>
     <div class="row justify-content-between">
@@ -74,7 +78,8 @@
       </div>
       <div class="right2 col-9">
         <ul class="d-flex list-unstyled flex-shrink-0 field-container overflow-x-scroll">
-          <li *ngFor="let card of knowledgeAreaCards" class="field-card overflow-hidden flex-shrink-0 text-center position-relative">
+          <li *ngFor="let card of knowledgeAreaCards"
+              class="field-card overflow-hidden flex-shrink-0 text-center position-relative">
             <h2>{{ card.content | capitalize }}</h2>
             <div class="white-ball position-absolute">
               <h3 class="qnt position-absolute">{{ card.amountOfEntries }}</h3>
@@ -85,31 +90,41 @@
     </div>
 
 
-<!--    modal-->
+    <!--    modal-->
     <div class="modal fade" id="createKnowledgeArea" tabindex="-1" aria-labelledby="admModal" aria-hidden="true">
       <div class="modal-dialog w-100 h-100 p-0 m-0">
         <div class="modal-content d-flex flex-column w-100 h-100">
           <div class="modal-header d-block w-100 text-center border-0 p-0">
             <h1 class="modal-title" id="admModal">Criar nova área do conhecimento</h1>
           </div>
-          <div class="modal-body px-0">
-            <form action="" class="d-flex flex-column">
+          <form [formGroup]="KnowledgeAreaForm" (ngSubmit)="onSubmit()" action="" class="d-flex flex-column">
+            <div class="modal-body px-0">
               <div class="d-flex gap-p flex-column">
-                <label for="name" class="mb-2">Insira o nome da nova área</label>
-                <input type="text" id="name">
+                <label for="content" class="mb-2">Insira o nome da nova área</label>
+                <input type="text" id="content" formControlName="content">
               </div>
-            </form>
-            <div class="areas">
-              <p>Resultados correspondentes a ”. . .“ :</p>
-              <div class="d-flex w-100 justify-content-between">
-                <div class="area-box col-3">Biologia</div>
+              <div class="areas mt-4">
+                <p>Resultados correspondentes a ”{{ KnowledgeAreaForm.get("content")?.value }}“ :</p>
+                <ul class="d-flex w-100 justify-content-between list-unstyled m-0 p-0 pt-3">
+                  <li class="area-box col-3">Biologia</li>
+                </ul>
+              </div>
+              <div class="d-flex gap-p flex-column">
+                <label for="area" class="mb-2">Em qual área se insere?</label>
+                <input type="text" id="area" formControlName="area">
+              </div>
+              <div class="areas mt-4">
+                <p>Resultados correspondentes a ”{{ KnowledgeAreaForm.get("area")?.value }}“ :</p>
+                <ul class="d-flex w-100 justify-content-between list-unstyled m-0 p-0 pt-3">
+                  <li class="area-box col-3">Biologia</li>
+                </ul>
               </div>
             </div>
-          </div>
-          <div class="modal-footer border-0 mt-2 d-flex justify-content-between">
-            <button type="button" class="cancel" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="confirm" data-bs-dismiss="modal">Confirmar</button>
-          </div>
+            <div class="modal-footer border-0 d-flex justify-content-between">
+              <button type="button" class="cancel" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" [disabled]="KnowledgeAreaForm.invalid" class="confirm" data-bs-dismiss="modal">Confirmar</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
