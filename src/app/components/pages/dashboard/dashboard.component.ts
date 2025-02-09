@@ -27,7 +27,7 @@ export class DashboardComponent {
               private authService: AuthService, private router: Router, private fb: FormBuilder) {
     this.KnowledgeAreaForm = this.fb.group({
       content: ['', Validators.required],
-      area: ['', Validators.required],
+      subject: ['', Validators.required],
     })
 
     knowledgeAreaService.getAll().subscribe(async (knowledgeAreas: KnowledgeArea[]) => {

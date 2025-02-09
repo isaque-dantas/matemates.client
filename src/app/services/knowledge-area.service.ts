@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {KnowledgeArea} from "../interfaces/knowledge-area";
+import {KnowledgeArea, KnowledgeAreaToSend} from "../interfaces/knowledge-area";
 import {catchError, Observable, throwError} from "rxjs";
 
 @Injectable({
@@ -18,7 +18,7 @@ export class KnowledgeAreaService {
       )
   }
 
-  post(data: KnowledgeArea): Observable<KnowledgeArea> {
+  post(data: KnowledgeAreaToSend): Observable<KnowledgeArea> {
     return this.http.post(`${this.baseUrl}`, data) as Observable<KnowledgeArea>
   }
 
