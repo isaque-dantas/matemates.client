@@ -22,6 +22,10 @@ export class KnowledgeAreaService {
     return this.http.post(`${this.baseUrl}`, data) as Observable<KnowledgeArea>
   }
 
+  delete(id: number): Observable<KnowledgeArea> {
+    return this.http.delete(`${this.baseUrl}/${id}`) as Observable<KnowledgeArea>;
+  }
+
   handleError(error: HttpErrorResponse) {
     if (error.status === 404) {
       return throwError(() => new Error('TodoList not found'))

@@ -20,7 +20,7 @@ import {debounceTime} from "rxjs";
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
-  knowledgeAreaCards?: { content: string, amountOfEntries: number }[];
+  knowledgeAreaCards?: { id:number, content: string, amountOfEntries: number }[] = [];
   isStaff: boolean = false;
   KnowledgeAreaForm: FormGroup;
   allKnowledgeAreas: KnowledgeArea[] = [];
@@ -39,9 +39,10 @@ export class DashboardComponent {
 
       this.knowledgeAreaCards = knowledgeAreas.map((area) => {
         const amountOfEntries = area.entries ? area.entries.length : 0
-        return {content: area.content, amountOfEntries: amountOfEntries}
+        return {id: area.id, content: area.content, amountOfEntries: amountOfEntries}
       })
 
+      console.log(this.knowledgeAreaCards);
       this.allKnowledgeAreas = knowledgeAreas;
       this.contentResults = [...knowledgeAreas];
       this.subjectResults = [...knowledgeAreas];
@@ -70,6 +71,19 @@ export class DashboardComponent {
         regexSubject.test(item.subject)
       );
     }
+  }
+
+  deleteKnowledgeArea(id: number) {
+    this.knowledgeAreaService.delete(id).subscribe({
+      next: (response) => {
+        this.knowledgeAreaCards = this.knowledgeAreaCards?.filter(card => card.id !== id);
+        this.contentResults = this.contentResults.filter(card => card.id !== id);
+        this.subjectResults = this.subjectResults.filter(card => card.id !== id);
+      },
+      error: (err) => {
+        console.error('Erro ao excluir área do conhecimento:', err);
+      }
+    });
   }
 
   ngOnInit() {
