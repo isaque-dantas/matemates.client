@@ -10,6 +10,7 @@ import {AuthService} from "../../../services/auth.service";
 import {Router} from "@angular/router";
 import {FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {FormBuilder} from "@angular/forms";
+import {debounceTime} from "rxjs";
 
 @Component({
   selector: 'app-dashboard',
@@ -22,6 +23,9 @@ export class DashboardComponent {
   knowledgeAreaCards?: { content: string, amountOfEntries: number }[];
   isStaff: boolean = false;
   KnowledgeAreaForm: FormGroup;
+  allKnowledgeAreas: KnowledgeArea[] = [];
+  contentResults: KnowledgeArea[] = [];
+  subjectResults: KnowledgeArea[] = [];
 
   constructor(entryService: EntryService, private knowledgeAreaService: KnowledgeAreaService,
               private authService: AuthService, private router: Router, private fb: FormBuilder) {
@@ -37,11 +41,35 @@ export class DashboardComponent {
         const amountOfEntries = area.entries ? area.entries.length : 0
         return {content: area.content, amountOfEntries: amountOfEntries}
       })
+
+      this.allKnowledgeAreas = knowledgeAreas;
+      this.contentResults = [...knowledgeAreas];
+      this.subjectResults = [...knowledgeAreas];
     })
   }
 
-  search() {
+  searchContent() {
+    const termContent = this.KnowledgeAreaForm.get('content')?.value.trim();
+    if (!termContent) {
+      this.contentResults = [...this.allKnowledgeAreas];  // Reseta os resultados se o campo estiver vazio
+    } else {
+      const regexContent = new RegExp(termContent, 'i');
+      this.contentResults = this.allKnowledgeAreas.filter((item) =>
+        regexContent.test(item.content)
+      );
+    }
+  }
 
+  searchSubject() {
+    const termSubject = this.KnowledgeAreaForm.get('subject')?.value.trim();
+    if (!termSubject) {
+      this.subjectResults = [...this.allKnowledgeAreas];  // Reseta os resultados se o campo estiver vazio
+    } else {
+      const regexSubject = new RegExp(termSubject, 'i');
+      this.subjectResults = this.allKnowledgeAreas.filter((item) =>
+        regexSubject.test(item.subject)
+      );
+    }
   }
 
   ngOnInit() {
