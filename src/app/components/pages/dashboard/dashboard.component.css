@@ -261,6 +261,13 @@ section .container {
   z-index: 20;
 }
 
+.modal-destaque {
+  color: var(--page-color-6);
+  font-size: 35px !important;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
 @media (min-width: 1920px) {
   .background {
     height: 414px;

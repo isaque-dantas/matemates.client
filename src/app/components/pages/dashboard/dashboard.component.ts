@@ -20,12 +20,15 @@ import {debounceTime} from "rxjs";
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
-  knowledgeAreaCards?: { id:number, content: string, amountOfEntries: number }[] = [];
+  knowledgeAreaCards?: { id: number, content: string, amountOfEntries: number }[] = [];
   isStaff: boolean = false;
   KnowledgeAreaForm: FormGroup;
+  KnowledgeAreaUpdateForm: FormGroup;
   allKnowledgeAreas: KnowledgeArea[] = [];
   contentResults: KnowledgeArea[] = [];
   subjectResults: KnowledgeArea[] = [];
+  knowledgeAreaId: number = 1;
+  knowledgeAreaName: string | undefined;
 
   constructor(entryService: EntryService, private knowledgeAreaService: KnowledgeAreaService,
               private authService: AuthService, private router: Router, private fb: FormBuilder) {
@@ -34,8 +37,24 @@ export class DashboardComponent {
       subject: ['', Validators.required],
     })
 
+    this.KnowledgeAreaUpdateForm = this.fb.group({
+      content: ['', Validators.required],
+      subject: ['', Validators.required],
+    })
+
+    const saveId = localStorage.getItem('knowledgeAreaId')
+
+    if (saveId) {
+      this.knowledgeAreaId = +saveId
+    }
+
     knowledgeAreaService.getAll().subscribe(async (knowledgeAreas: KnowledgeArea[]) => {
       console.log(knowledgeAreas);
+
+      this.KnowledgeAreaUpdateForm.setValue({
+        content: knowledgeAreas.find(area => area.id === this.knowledgeAreaId)?.content,
+        subject: knowledgeAreas.find(area => area.id === this.knowledgeAreaId)?.subject,
+      })
 
       this.knowledgeAreaCards = knowledgeAreas.map((area) => {
         const amountOfEntries = area.entries ? area.entries.length : 0
@@ -59,6 +78,14 @@ export class DashboardComponent {
         regexContent.test(item.content)
       );
     }
+  }
+
+  saveKnowledgeAreaId(id: number) {
+    localStorage.setItem('knowledgeAreaId', id.toString());
+    this.knowledgeAreaId = id;
+
+    const foundContent = this.knowledgeAreaCards?.find(area => area.id === this.knowledgeAreaId);
+    this.knowledgeAreaName = foundContent?.content;
   }
 
   searchSubject() {
@@ -91,7 +118,7 @@ export class DashboardComponent {
     console.log('is staff?', this.isStaff);
   }
 
-  onSubmit() {
+  postKnowledgeArea() {
     if (this.KnowledgeAreaForm.invalid) {
       alert('formulário inválido!');
       console.log(this.KnowledgeAreaForm.get('content')!.errors)
@@ -102,6 +129,27 @@ export class DashboardComponent {
       });
     }
   }
+
+  updateKnowledgeArea() {
+    this.knowledgeAreaService.put(this.knowledgeAreaId, this.KnowledgeAreaUpdateForm.value).subscribe({
+      next: (res) => {
+        console.log("Área do conhecimento atualizada:", res);
+
+        if (this.knowledgeAreaCards) {
+          const index = this.knowledgeAreaCards.findIndex(k => k.id === this.knowledgeAreaId);
+          if (index !== -1) {
+            this.knowledgeAreaCards[index] = {
+              ...this.knowledgeAreaCards[index],
+              content: this.KnowledgeAreaUpdateForm.value.content
+            };
+          }
+        }
+      },
+      error: (err) => console.error("Erro ao atualizar:", err)
+    });
+  }
+
+
 
   searchEntries(event: KeyboardEvent) {
     console.log(event)
@@ -114,4 +162,6 @@ export class DashboardComponent {
         }
       )
   }
+
+  protected readonly localStorage = localStorage;
 }

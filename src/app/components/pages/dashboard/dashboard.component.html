@@ -85,10 +85,12 @@
               <h3 class="qnt position-absolute">{{ card.amountOfEntries }}</h3>
             </div>
             <div class="crud-buttons position-absolute">
-              <button class="d-flex align-items-center justify-content-center crud-button">
+              <button (click)="saveKnowledgeAreaId(card.id)"
+                      class="d-flex align-items-center justify-content-center crud-button" data-bs-target="#updateKnowledgeArea" data-bs-toggle="modal">
                 <mat-icon>edit</mat-icon>
               </button>
-              <button (click)="deleteKnowledgeArea(card.id)" class="d-flex align-items-center justify-content-center crud-button">
+              <button (click)="deleteKnowledgeArea(card.id)"
+                      class="d-flex align-items-center justify-content-center crud-button">
                 <mat-icon>delete</mat-icon>
               </button>
             </div>
@@ -103,9 +105,9 @@
       <div class="modal-dialog w-100 h-100 p-0 m-0">
         <div class="modal-content d-flex flex-column w-100 h-100">
           <div class="modal-header d-block w-100 text-center border-0 p-0">
-            <h1 class="modal-title" id="admModal">Criar nova área do conhecimento</h1>
+            <h1 class="modal-title" id="knowledgeAreaCreateModal">Criar nova área do conhecimento</h1>
           </div>
-          <form [formGroup]="KnowledgeAreaForm" (ngSubmit)="onSubmit()" action="" class="d-flex flex-column">
+          <form [formGroup]="KnowledgeAreaForm" (ngSubmit)="postKnowledgeArea()" action="" class="d-flex flex-column">
             <div class="modal-body px-0">
               <div class="d-flex gap-p flex-column">
                 <label for="content" class="mb-2">Insira o nome da nova área</label>
@@ -113,7 +115,7 @@
               </div>
               <div class="areas mt-1">
                 <p>Resultados correspondentes a ”{{ KnowledgeAreaForm.get("content")?.value }}“ :</p>
-                <ul class="d-flex w-100 justify-content-between overflow-x-scroll list-unstyled m-0 p-0 pb-2">
+                <ul class="d-flex w-100 gap-2 overflow-x-scroll list-unstyled m-0 p-0 pb-2">
                   <li *ngFor="let result of contentResults" class="area-box col-2">{{ result.content }}</li>
                 </ul>
               </div>
@@ -134,6 +136,33 @@
                 Confirmar
               </button>
             </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="updateKnowledgeArea" tabindex="-1" aria-labelledby="admModal" aria-hidden="true">
+      <div class="modal-dialog w-100 h-100 p-0 m-0">
+        <div class="modal-content d-flex flex-column w-100 h-100">
+          <div class="modal-header d-block w-100 text-center border-0 p-0">
+            <h1 class="modal-title" id="updateKnowledgeAreaModal">Edição da área do conhecimento</h1>
+          </div>
+          <div class="modal-destaque text-center">
+            <h1 class="knowledge-area-name">{{ knowledgeAreaName }}</h1>
+          </div>
+          <form [formGroup]="KnowledgeAreaUpdateForm" (ngSubmit)="updateKnowledgeArea()" action="" class="d-flex flex-column">
+            <div class="modal-body px-0">
+              <div class="d-flex gap-p flex-column">
+                <label for="newName" class="mb-2">Insira o novo nome da área</label>
+                <input type="text" id="newName" formControlName="content">
+              </div>
+            </div>
+              <div class="modal-footer border-0 d-flex justify-content-between">
+                <button type="button" class="cancel" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" [disabled]="KnowledgeAreaUpdateForm.invalid" class="confirm" data-bs-dismiss="modal">
+                  Confirmar
+                </button>
+              </div>
           </form>
         </div>
       </div>
