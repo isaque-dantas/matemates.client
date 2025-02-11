@@ -75,7 +75,7 @@ export class DashboardComponent {
   searchContent() {
     const termContent = this.KnowledgeAreaForm.get('content')?.value.trim();
     if (!termContent) {
-      this.contentResults = [...this.allKnowledgeAreas];  // Reseta os resultados se o campo estiver vazio
+      this.contentResults = [...this.allKnowledgeAreas];
     } else {
       const regexContent = new RegExp(termContent, 'i');
       this.contentResults = this.allKnowledgeAreas.filter((item) =>
@@ -85,9 +85,9 @@ export class DashboardComponent {
   }
 
   saveKnowledgeAreaId(id: number) {
-    localStorage.setItem('knowledgeAreaId', id.toString());
     this.knowledgeAreaId = id;
 
+    console.log(this.knowledgeAreaId)
     const foundContent = this.knowledgeAreaCards?.find(area => area.id === this.knowledgeAreaId);
     this.knowledgeAreaName = foundContent?.content;
   }
@@ -95,7 +95,7 @@ export class DashboardComponent {
   searchSubject() {
     const termSubject = this.KnowledgeAreaForm.get('subject')?.value.trim();
     if (!termSubject) {
-      this.subjectResults = [...this.allKnowledgeAreas];  // Reseta os resultados se o campo estiver vazio
+      this.subjectResults = [...this.allKnowledgeAreas];
     } else {
       const regexSubject = new RegExp(termSubject, 'i');
       this.subjectResults = this.allKnowledgeAreas.filter((item) =>
@@ -105,17 +105,22 @@ export class DashboardComponent {
   }
 
   deleteKnowledgeArea(id: number) {
-    this.knowledgeAreaService.delete(id).subscribe({
-      next: (response) => {
-        this.knowledgeAreaCards = this.knowledgeAreaCards?.filter(card => card.id !== id);
-        this.contentResults = this.contentResults.filter(card => card.id !== id);
-        this.subjectResults = this.subjectResults.filter(card => card.id !== id);
-      },
-      error: (err) => {
-        console.error('Erro ao excluir área do conhecimento:', err);
-      }
-    });
+    const confirmDelete = window.confirm("Tem certeza que deseja excluir esta área do conhecimento?");
+
+    if (confirmDelete) {
+      this.knowledgeAreaService.delete(id).subscribe({
+        next: () => {
+          this.knowledgeAreaCards = this.knowledgeAreaCards?.filter(card => card.id !== id);
+          this.contentResults = this.contentResults.filter(card => card.id !== id);
+          this.subjectResults = this.subjectResults.filter(card => card.id !== id);
+        },
+        error: (err) => {
+          console.error('Erro ao excluir área do conhecimento:', err);
+        }
+      });
+    }
   }
+
 
   ngOnInit() {
     this.isStaff = localStorage.getItem("loggedUserIsStaff") === 'true';
@@ -153,7 +158,6 @@ export class DashboardComponent {
       error: (err) => console.error("Erro ao atualizar:", err)
     });
   }
-
 
 
   searchEntries(event: KeyboardEvent) {
