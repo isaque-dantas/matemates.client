@@ -1,70 +1,90 @@
 <main>
   <div class="background">
     <app-header></app-header>
-    <section class="mt-5 offset-1" style="font-family: Poppins, sans-serif !important">
-      <div class="row">
-        <div class="col">
-          <div>
-            <div class="d-flex gap-4 align-items-center mb-3">
-              <h3 class="fw-semibold title m-0 lh-1">{{ this.parsedEntryContent }}</h3>
-              <ng-container *ngFor="let knowledgeArea of knowledgeAreas ">
-                <p class="m-0 fw-medium badge-knowledge-area fw-medium">{{ knowledgeArea }}</p>
-              </ng-container>
-              <button id="editEntry" class="d-flex justify-content-center align-items-center rounded" (click)="redirectToEdit()">
-                <mat-icon class="h-100 v-100">edit</mat-icon>
-              </button>
-              <button id="deleteEntry" class="d-flex justify-content-center align-items-center rounded" (click)="deleteEntry()">
-                <mat-icon class="h-100 v-100">delete</mat-icon>
-              </button>
-            </div>
-          </div>
-          <div class="d-flex flex-column">
-            <ul class="list-unstyled d-flex flex-column gap-4">
-              <ng-container *ngIf="entryData">
-                @for (definition of this.entryData.definitions; track i; let i = $index) {
-                  <li class="fw-medium">
-                    <span class="badge-knowledge-area-sm">{{ definition.knowledge_area.content }}</span>
-                    <p class="mb-0 mt-2 definition-content">{{ i + 1 }} - {{ definition.content }}</p>
-                  </li>
-                }
-              </ng-container>
-            </ul>
-          </div>
-        </div>
-        <div class="col d-flex justify-content-center">
-          <div id="entryCarousel" class="carousel slide d-flex justify-content-center overflow-hidden" data-bs-ride="carousel">
-            <div class="carousel-inner mt-2">
-              <div *ngFor="let image of entryData.images; let i = index" class="carousel-item h-100" [class.active]="i === 0">
-                <img [src]="image.url" class="d-block w-100 h-100" [alt]="image.caption">
-                <div class="carousel-caption d-none d-md-block w-100">
-                  <p>{{ image.caption }}</p>
+    @if (entryIsLoadedAlready) {
+      <section class="mt-5 offset-1" style="font-family: Poppins, sans-serif !important">
+        <div class="row">
+          <div class="col">
+            <div>
+              <div class="d-flex gap-4 align-items-center mb-3">
+                <h3 class="fw-semibold title m-0 lh-1">{{ this.parsedEntryContent }}</h3>
+                <ng-container *ngFor="let knowledgeArea of knowledgeAreas ">
+                  <p class="m-0 fw-medium badge-knowledge-area fw-medium">{{ knowledgeArea }}</p>
+                </ng-container>
+                <div class="d-flex gap-3">
+                  <button id="editEntry" class="d-flex justify-content-center align-items-center rounded"
+                          (click)="redirectToEdit()">
+                    <mat-icon class="h-100 v-100">edit</mat-icon>
+                  </button>
+                  <button id="deleteEntry" class="d-flex justify-content-center align-items-center rounded"
+                          (click)="deleteEntry()">
+                    <mat-icon class="h-100 v-100">delete</mat-icon>
+                  </button>
+                  @if (!entryData.is_validated) {
+                    <button id="validateEntry"
+                            class="d-flex gap-2 justify-content-center align-items-center rounded px-2"
+                            (click)="validateEntry()">
+                      <p class="m-0 fw-medium">Validar</p>
+                      <mat-icon class="h-100 v-100">check_circle</mat-icon>
+                    </button>
+                  }
                 </div>
               </div>
             </div>
-
-            <button class="carousel-control-prev h-100" type="button" data-bs-target="#entryCarousel" data-bs-slide="prev">
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next h-100" type="button" data-bs-target="#entryCarousel" data-bs-slide="next">
-              <span class="visually-hidden">Next</span>
-            </button>
+            <div class="d-flex flex-column">
+              <ul class="list-unstyled d-flex flex-column gap-4">
+                <ng-container *ngIf="entryData">
+                  @for (definition of this.entryData.definitions; track i; let i = $index) {
+                    <li class="fw-medium">
+                      <span class="badge-knowledge-area-sm">{{ definition.knowledge_area }}</span>
+                      <p class="mb-0 mt-2 definition-content">{{ i + 1 }} - {{ definition.content }}</p>
+                    </li>
+                  }
+                </ng-container>
+              </ul>
+            </div>
           </div>
-
-        </div>
-      </div>
-      <div class="row bottom-content d-flex flex-column justify-content-end">
-        <div class="examples">
-          <h3 class="fw-semibold">Exemplos</h3>
-          <ul class="row row-cols-2 row-cols-lg-3 g-3 list-unstyled mt-2">
-            <li class="col" *ngFor="let question of entryData.questions">
-              <div class="example v-100">
-                <span class="fw-medium fs-5">{{ question.statement }}</span>
-                <p class="mb-0 mt-2">{{ question.answer }}</p>
+          <div class="col d-flex justify-content-center">
+            <div id="entryCarousel" class="carousel slide d-flex justify-content-center overflow-hidden"
+                 data-bs-ride="carousel">
+              <div class="carousel-inner mt-2">
+                <div *ngFor="let image of entryData.images; let i = index" class="carousel-item h-100"
+                     [class.active]="i === 0">
+                  <img [src]="image.url" class="d-block w-100 h-100" [alt]="image.caption">
+                  <div class="carousel-caption d-none d-md-block w-100">
+                    <p>{{ image.caption }}</p>
+                  </div>
+                </div>
               </div>
-            </li>
-          </ul>
+
+              <button class="carousel-control-prev h-100" type="button" data-bs-target="#entryCarousel"
+                      data-bs-slide="prev">
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next h-100" type="button" data-bs-target="#entryCarousel"
+                      data-bs-slide="next">
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+
+          </div>
         </div>
-      </div>
-    </section>
+        <div class="row bottom-content d-flex flex-column justify-content-end">
+          <div class="examples">
+            <h3 class="fw-semibold">Exemplos</h3>
+            <ul class="row row-cols-2 row-cols-lg-3 g-3 list-unstyled mt-2">
+              <li class="col" *ngFor="let question of entryData.questions">
+                <div class="example v-100">
+                  <span class="fw-medium fs-5">{{ question.statement }}</span>
+                  <p class="mb-0 mt-2">{{ question.answer }}</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    } @else {
+      <h3>Carregando as informações do verbete...</h3>
+    }
   </div>
 </main>

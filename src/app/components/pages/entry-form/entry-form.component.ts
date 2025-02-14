@@ -125,7 +125,7 @@ export class EntryFormComponent {
         if (definition !== null)
             group = this.fb.group({
                 content: [definition.content],
-                knowledge_area__content: [definition.knowledge_area.content]
+                knowledge_area__content: [definition.knowledge_area]
             })
 
         return group
@@ -289,7 +289,7 @@ export class EntryFormComponent {
         const definitions = entry.definitions.map(data => new Object(
             {
                 content: data.content,
-                knowledge_area__content: data.knowledge_area.content
+                knowledge_area__content: data.knowledge_area
             }
         ))
 

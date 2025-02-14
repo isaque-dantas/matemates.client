@@ -62,7 +62,7 @@ h3 {
   height: 350px;
 }
 
-button {
+button:not(#validateEntry) {
   width: 32px;
   height: 32px;
 }
@@ -138,11 +138,11 @@ button {
   z-index: 9999999999;
 }
 
-button#editEntry, button#deleteEntry {
+button#editEntry, button#deleteEntry, button#validateEntry {
   border: 2px solid #052659;
 }
 
-button#editEntry, button#deleteEntry {
+button#editEntry, button#deleteEntry, button#validateEntry {
   background: #FFF;
 }
 

@@ -38,6 +38,10 @@ export class EntryService {
     return this.http.delete(`${this.baseUrl}/${id}`)
   }
 
+  validate(id: number) {
+    return this.http.patch(`${this.baseUrl}/${id}/validate`, {})
+  }
+
   parseContent(entryData: Entry): string {
     const parsedTerms: string[] = entryData.terms.map(term => term.syllables.join("."))
     return parsedTerms.join(' ')
@@ -57,7 +61,7 @@ export class EntryService {
   }
 
   getKnowledgeAreasContentsFromDefinitions(definitions: Definition[]): string[] {
-    const knowledgeAreas: string[] = definitions.map(definition => definition.knowledge_area.content)
+    const knowledgeAreas: string[] = definitions.map(definition => definition.knowledge_area)
     return knowledgeAreas.filter(
       (value, index) => knowledgeAreas.indexOf(value) === index
     )

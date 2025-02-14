@@ -7,5 +7,5 @@ export interface DefinitionToSend {
 
 export interface Definition {
   content: string;
-  knowledge_area: KnowledgeArea;
+  knowledge_area: string;
 }
