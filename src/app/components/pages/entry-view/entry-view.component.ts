@@ -56,7 +56,15 @@ export class EntryViewComponent {
         this.entryIsLoadedAlready = true
       },
       error: (response: HttpErrorResponse) => {
-        console.log(response)
+        if (response.status === 403) {
+          this.toastService.showToasts([{
+            title: "Erro de permissão",
+            body: "Você não tem permissão para acessar esse verbete.",
+            type: "error",
+          }])
+
+          this.router.navigate([''])
+        }
       }
     })
 
