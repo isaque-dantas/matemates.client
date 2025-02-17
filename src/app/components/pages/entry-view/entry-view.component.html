@@ -50,7 +50,17 @@
               <div class="carousel-inner mt-2">
                 <div *ngFor="let image of entryData.images; let i = index" class="carousel-item h-100"
                      [class.active]="i === 0">
-                  <img [src]="image.url" class="d-block w-100 h-100" [alt]="image.caption">
+                  @if (imageFileList.at(i)) {
+                    <img [src]="imageFileList.at(i)" class="d-block w-100 h-100" alt="">
+                  } @else {
+                    <div class="spinner-container position-relative">
+                      <div class="position-absolute top-50 start-50 translate-middle">
+                        <div class="spinner-border" role="status">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      </div>
+                    </div>
+                  }
                   <div class="carousel-caption d-none d-md-block w-100">
                     <p>{{ image.caption }}</p>
                   </div>

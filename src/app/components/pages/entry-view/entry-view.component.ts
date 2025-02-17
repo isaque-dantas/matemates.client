@@ -8,6 +8,8 @@ import {MatIcon} from "@angular/material/icon";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ToastService} from "../../../services/toast.service";
 import {Toast} from "../../../interfaces/toast";
+import {Image} from "../../../interfaces/image";
+import {ImageService} from "../../../services/image.service";
 
 @Component({
   selector: 'app-entry-view',
@@ -28,8 +30,9 @@ export class EntryViewComponent {
   parsedEntryContent!: string
   knowledgeAreas!: string[]
   entryIsLoadedAlready = false
+  imageFileList: string[] = []
 
-  constructor(private route: ActivatedRoute, private entryService: EntryService, private router: Router, private toastService: ToastService) {
+  constructor(private route: ActivatedRoute, private entryService: EntryService, private router: Router, private toastService: ToastService, private imageService: ImageService) {
     route.params.subscribe(async (params) => {
       this.entryId = +params["id"];
     })
@@ -38,6 +41,9 @@ export class EntryViewComponent {
       next: (entry: Entry) => {
         console.log(entry)
         this.entryData = entry
+
+        this.getImageFiles(entry.images)
+
         this.parsedEntryContent = this.entryService.parseContent(entry)
         this.knowledgeAreas = entryService.getKnowledgeAreasContentsFromDefinitions(entry.definitions)
 
@@ -60,6 +66,14 @@ export class EntryViewComponent {
       if (firstImage) {
         firstImage.classList.add("active")
       }
+    })
+  }
+
+  getImageFiles(images: Image[]) {
+    images.forEach((image: Image) => {
+      this.imageService.getFile(image.id!).subscribe(
+        (data: Blob) => this.imageFileList.push(URL.createObjectURL(data))
+      )
     })
   }
 
