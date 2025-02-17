@@ -17,16 +17,14 @@ import {Question} from "../../interfaces/question";
 export class QuestionsCarouselComponent {
   @Input() form!: FormGroup;
   @Input() questions!: FormArray<FormGroup>;
+  @Input() questionGroupFactory!: (question: Question | null) => FormGroup;
 
   @Output() addQuestion = new EventEmitter<{ question: Question | null }>()
   @Output() deleteQuestion = new EventEmitter<number>()
   @Output() editQuestion = new EventEmitter<{ question: Question, index: number }>()
 
   private fb = inject(FormBuilder)
-  questionForm = this.fb.group({
-    statement: ["", Validators.required],
-    answer: ["", Validators.required],
-  })
+  questionForm!: FormGroup
 
   private itemSize: number | null = null
   private firstItemIndex: number = 0
@@ -39,14 +37,10 @@ export class QuestionsCarouselComponent {
     addEventListener("resize", () => {
       this.itemSize = this.calculateItemWidth()
     })
+  }
 
-    document.addEventListener("DOMContentLoaded", () => {
-      // const itemsHeight = document.querySelector<HTMLElement>(".items-height")!
-      // const items = document.querySelector<HTMLElement>(".items")!
-      //
-      // itemsHeight.style.height = `${items.clientHeight}px`
-      // items.style.left = "0"
-    })
+  ngOnInit() {
+    this.questionForm = this.questionGroupFactory(null)
   }
 
   ngAfterViewInit() {

@@ -28,8 +28,7 @@ export const toastLoggerInterceptor: HttpInterceptorFn = (req, next) => {
         {
           title: `${req.method} ${getUrlPathWithoutIp(req.url)}`,
           body: `Erro ${error.status}: ${errorTranslator[error.status]}`,
-          type: 'error',
-          id: null
+          type: 'error'
         }
       ])
 

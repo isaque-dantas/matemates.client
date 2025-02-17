@@ -11,8 +11,7 @@ import {Term} from "../interfaces/term";
 export class EntryService {
   private baseUrl = 'http://127.0.0.1:8000/api/entry'
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) { }
 
   post(data: EntryToSend): Observable<Entry> {
     return this.http.post(`${this.baseUrl}`, data) as Observable<Entry>
@@ -30,16 +29,16 @@ export class EntryService {
     return this.http.get<Entry[]>(`${this.baseUrl}?search_query=${searchQuery}`)
   }
 
-  put(id: number, data: EntryToSend) {
-    return this.http.put(`${this.baseUrl}/${id}`, data)
-  }
-
   delete(id: number) {
     return this.http.delete(`${this.baseUrl}/${id}`)
   }
 
   validate(id: number) {
     return this.http.patch(`${this.baseUrl}/${id}/validate`, {})
+  }
+
+  patchContent(id: number, content: string) {
+    return this.http.patch(`${this.baseUrl}/${id}`, {content: content}) as Observable<{}>
   }
 
   parseContent(entryData: Entry): string {
@@ -51,8 +50,8 @@ export class EntryService {
     const parsedTerms: string[] = entryData.terms.map((term) => {
       return (term.is_main_term ? "*" : "") + term.syllables.join(".") + (term.is_main_term ? "*" : "")
     })
-    console.log(parsedTerms)
-    console.log(parsedTerms.join(' '))
+    // console.log(parsedTerms)
+    // console.log(parsedTerms.join(' '))
     return parsedTerms.join(' ')
   }
 

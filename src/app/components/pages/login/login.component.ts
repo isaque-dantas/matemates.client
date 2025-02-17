@@ -13,7 +13,6 @@ import {Toast} from "../../../interfaces/toast";
     RouterLink,
     FormsModule,
     ReactiveFormsModule,
-    NgIf
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
@@ -66,7 +65,7 @@ export class LoginComponent {
     const messageErrors = Object.keys(field.errors as object).map((key) => this.errorToMessageError(key, field.errors as any))
 
     let toasts = messageErrors.map((errorMessage: string) => {
-      return {title: `Erro em ${fieldName}`, body: errorMessage, type: "error", id: null} as Toast
+      return {title: `Erro em ${fieldName}`, body: errorMessage, type: "error"} as Toast
     })
 
     const toastsOfThisField = this.loginFormToastsBeingShown.filter(toast => toast.title.includes(fieldName))
@@ -109,8 +108,7 @@ export class LoginComponent {
             {
               title: "Login",
               body: "Login realizado com sucesso!.",
-              type: "success",
-              id: null
+              type: "success"
             }
           ])
         },
@@ -119,8 +117,7 @@ export class LoginComponent {
             {
               title: "Login",
               body: "Verifique seu login e/ou senha e tente novamente.",
-              type: "error",
-              id: null
+              type: "error"
             }
           ])
         }

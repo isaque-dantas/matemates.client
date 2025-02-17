@@ -25,6 +25,17 @@ export class HeaderComponent {
   token: any;
   navItems: any = [];
 
+  readonly staffNavItems = [
+    {'label': 'Início', 'link': ''},
+    {'label': 'Criar', 'link': '/create_entry'},
+    {'label': 'Sugerir Alteração', 'link': '/nae'},
+  ]
+
+  readonly nonStaffNavItems = [
+    {'label': 'Início', 'link': ''},
+    {'label': 'Sugerir Alteração', 'link': '/nae'},
+  ]
+
   constructor(public authService: AuthService, private router: Router, private userService: UserService) {
     this.router.events.subscribe(() => {
       const excludedRoutes = ['profile'];
@@ -38,20 +49,12 @@ export class HeaderComponent {
       this.updateShowElement();
     });
 
-    if (this.authService.isLoggedUserStaff()) {
-      this.navItems = [
-        {'label': 'Início', 'link': ''},
-        {'label': 'Criar', 'link': '/create_entry'},
-        {'label': 'Sugerir Alteração', 'link': '/nae'},
-      ]
-    } else {
-      this.navItems = [
-        {'label': 'Início', 'link': ''},
-        {'label': 'Sugerir Alteração', 'link': '/nae'},
-      ]
-    }
+    this.setNavItemsBasedOnUserLogged()
+    this.authService.loginEventEmitter.subscribe(this.setNavItemsBasedOnUserLogged.bind(this))
+  }
 
-    console.log('User Data:', this.userData)
+  setNavItemsBasedOnUserLogged() {
+    this.navItems = this.authService.isLoggedUserStaff() ? this.staffNavItems : this.nonStaffNavItems
   }
 
   private updateShowElement() {

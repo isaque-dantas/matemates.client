@@ -81,8 +81,7 @@ export class EntryViewComponent {
         toastToShow = {
           title: "Validar verbete",
           body: "Operação realizada com sucesso.",
-          type: "success",
-          id: null
+          type: "success"
         }
 
         this.entryData.is_validated = true
@@ -92,8 +91,7 @@ export class EntryViewComponent {
         toastToShow = {
           title: "Validar verbete",
           body: `Ocorreu um erro (código ${err.status})`,
-          type: "error",
-          id: null
+          type: "error"
         }
       },
 

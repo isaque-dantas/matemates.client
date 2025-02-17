@@ -6,537 +6,670 @@ import {KnowledgeArea} from "../../../interfaces/knowledge-area";
 import {NgOptimizedImage} from "@angular/common";
 import {QuestionsCarouselComponent} from "../../questions-carousel/questions-carousel.component";
 import {Question} from "../../../interfaces/question";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {EntryService} from "../../../services/entry.service";
 import {Entry, EntryToSend} from "../../../interfaces/entry";
-import {Definition} from "../../../interfaces/definition";
+import {Definition, DefinitionToSend} from "../../../interfaces/definition";
 import {Image} from "../../../interfaces/image";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ToastService} from "../../../services/toast.service";
 import {Toast} from "../../../interfaces/toast";
+import {DefinitionService} from "../../../services/definition.service";
+import {QuestionService} from "../../../services/question.service";
+import {ImageService} from "../../../services/image.service";
+import {ImageToSend} from "../../../interfaces/image-to-send";
 
 const keysOfRelatedEntities = ['definitions', 'images', 'questions']
 const formKeyTranslator: { [key: string]: string } = {
-    main_term_gender: "Gênero",
-    main_term_grammatical_category: "Classe gramatical",
-    content: "Nome",
-    definitions: "Definição",
-    images: "Imagem",
-    questions: "Exemplo",
-    knowledge_area__content: "Área do conhecimento",
+  main_term_gender: "Gênero",
+  main_term_grammatical_category: "Classe gramatical",
+  content: "Nome",
+  definitions: "Definição",
+  images: "Imagem",
+  questions: "Exemplo",
+  knowledge_area__content: "Área do conhecimento",
 }
-const formKeyGender: {[key: string]: string} = {
-    main_term_gender: "M",
-    main_term_grammatical_category: "F",
-    content: "M",
-    definitions: "F",
-    images: "F",
-    questions: "M",
-    knowledge_area__content: "F",
+const formKeyGender: { [key: string]: string } = {
+  main_term_gender: "M",
+  main_term_grammatical_category: "F",
+  content: "M",
+  definitions: "F",
+  images: "F",
+  questions: "M",
+  knowledge_area__content: "F",
 }
 
 @Component({
-    selector: 'app-entry-form',
-    standalone: true,
-    imports: [HeaderComponent, ReactiveFormsModule, FormsModule, NgOptimizedImage, QuestionsCarouselComponent],
-    templateUrl: './entry-form.component.html',
-    styleUrl: './entry-form.component.css'
+  selector: 'app-entry-form',
+  standalone: true,
+  imports: [HeaderComponent, ReactiveFormsModule, FormsModule, NgOptimizedImage, QuestionsCarouselComponent],
+  templateUrl: './entry-form.component.html',
+  styleUrl: './entry-form.component.css'
 })
 export class EntryFormComponent {
-    knowledgeAreas?: KnowledgeArea[]
-    entryId: number | null = null;
-    toastsFromForm: Toast[] = []
+  knowledgeAreas?: KnowledgeArea[]
+  entryId: number | null = null;
+  toastsFromForm: Toast[] = []
 
-    private fb = inject(FormBuilder);
-    form = this.fb.group({
-        content: ['', Validators.required],
-        main_term_gender: ['', Validators.required],
-        main_term_grammatical_category: ['', Validators.required],
-        definitions: this.fb.array([
-            this.definitionGroupFactory()
-        ], [Validators.min(1)]),
-        images: this.fb.array([this.imageGroupFactory()]),
-        questions: this.fb.array(
-            [
-                this.questionGroupFactory(),
-                this.questionGroupFactory(),
-                this.questionGroupFactory(),
-                this.questionGroupFactory(),
-                this.questionGroupFactory(),
-            ]
-        ),
-    });
+  dirtyEntities?: {
+    entryContent: boolean,
+    definitions: DefinitionToSend[],
+    images: ImageToSend[],
+    questions: Question[]
+  } = undefined
 
-    private notSetUpImagesIndexes: number[] = []
-    private notSelectedLastEntriesNames: string[] = []
+  private fb = inject(FormBuilder);
+  form = this.fb.group({
+    content: ['', Validators.required],
+    main_term_gender: ['', Validators.required],
+    main_term_grammatical_category: ['', Validators.required],
+    definitions: this.fb.array([
+      this.definitionGroupFactory()
+    ], [Validators.min(1)]),
+    images: this.fb.array([this.imageGroupFactory()]),
+    questions: this.fb.array(
+      [
+        this.questionGroupFactory(),
+        this.questionGroupFactory(),
+        this.questionGroupFactory(),
+        this.questionGroupFactory(),
+        this.questionGroupFactory(),
+      ]
+    ),
+  });
 
-    constructor(
-        private knowledgeAreaService: KnowledgeAreaService,
-        private route: ActivatedRoute,
-        private entryService: EntryService,
-        private toastService: ToastService
-    ) {
-        this.route.params.subscribe(async (params) => {
-            this.entryId = +params["id"];
+  private notSetUpImagesIndexes: number[] = []
+  private notSelectedLastEntriesNames: string[] = []
+
+  constructor(
+    private knowledgeAreaService: KnowledgeAreaService,
+    private route: ActivatedRoute,
+    private entryService: EntryService,
+    private toastService: ToastService,
+    private definitionService: DefinitionService,
+    private questionService: QuestionService,
+    private imageService: ImageService,
+    private router: Router
+  ) {
+    this.route.params.subscribe(async (params) => {
+      this.entryId = +params["id"];
+    })
+
+    this.knowledgeAreaService.getAll().subscribe((knowledgeAreas) => {
+      this.knowledgeAreas = knowledgeAreas
+    })
+
+    afterRender({
+      read: () => {
+        if (!this.notSetUpImagesIndexes && !this.notSelectedLastEntriesNames) return null;
+
+        this.notSetUpImagesIndexes.forEach(index => {
+          this.addImageHandlingToIndex(index)
         })
 
-        knowledgeAreaService.getAll().subscribe((knowledgeAreas) => {
-            this.knowledgeAreas = knowledgeAreas
+        this.notSelectedLastEntriesNames.forEach(name => {
+          this.selectLastItemInCarousel(name)
         })
 
-        afterRender({
-            read: () => {
-                if (!this.notSetUpImagesIndexes && !this.notSelectedLastEntriesNames) return null;
-
-                this.notSetUpImagesIndexes.forEach(index => {
-                    this.addImageHandlingToIndex(index)
-                })
-
-                this.notSelectedLastEntriesNames.forEach(name => {
-                    this.selectLastItemInCarousel(name)
-                })
-
-                this.notSetUpImagesIndexes = []
-                this.notSelectedLastEntriesNames = []
-                return null;
-            }
-        })
-
-        this.form.valueChanges.subscribe(this.checkFormValidity.bind(this))
-    }
-
-    get images() {
-        return this.form.get('images') as FormArray;
-    }
-
-    get definitions() {
-        return this.form.get('definitions') as FormArray
-    }
-
-    get questions() {
-        return this.form.get('questions') as FormArray;
-    }
-
-    definitionGroupFactory(definition: Definition | null = null) {
-        let group = this.fb.group({
-            content: ['', Validators.required],
-            knowledge_area__content: ['', Validators.required]
-        })
-        if (definition !== null)
-            group = this.fb.group({
-                content: [definition.content],
-                knowledge_area__content: [definition.knowledge_area]
-            })
-
-        return group
-    }
-
-    imageGroupFactory(image: Image | null = null) {
-        let group = this.fb.group({caption: [''], base64_image: [''], id: [null]})
-
-        if (image !== null)
-            group = this.fb.group({
-                caption: [image.caption],
-                base64_image: [image.url],
-                id: [null]
-            })
-
-        return group
-    }
-
-    questionGroupFactory(question: Question | null = null) {
-        let group = this.fb.group({statement: [''], answer: ['']})
-
-        if (question !== null) {
-            group = this.fb.group({
-                statement: [question.statement],
-                answer: [question.answer]
-            })
-            // console.log("question not null!")
-        }
-        // else {
-        // console.log("question!")
-        // }
-
-        console.log(question)
-        console.log(group)
-        console.log()
-        return group
-    }
-
-    addDefinition() {
-        console.log("addDefinition foi chamada!")
-        this.definitions.push(this.definitionGroupFactory())
-        this.notSelectedLastEntriesNames.push("definition")
-    }
-
-    addImage() {
-        this.images.push(this.imageGroupFactory())
-        this.notSetUpImagesIndexes.push(this.images.length - 1)
-        this.notSelectedLastEntriesNames.push("image")
-    }
-
-    addQuestion(data: { question: Question | null }) {
-        this.questions.push(this.questionGroupFactory(data.question))
-    }
-
-    selectLastItemInCarousel(entityName: string) {
-        const items = document.querySelectorAll(`.${entityName}-card .carousel-item`)
-
-        items.forEach(item => {
-            if (item.classList.contains("active")) item.classList.remove("active")
-        })
-
-        const lastItem = items.item(items.length - 1)
-        lastItem.classList.add("active")
-    }
-
-    deleteActiveEntity(entityName: string) {
-        const numberOfCarouselItems = document.querySelectorAll(`.${entityName}-card .carousel .carousel-item`).length
-        if (numberOfCarouselItems <= 1) {
-            return null
-        }
-
-        const activeCarouselItem = document.querySelector(`.${entityName}-card .carousel .carousel-item.active`)!
-        const activeEntityIndex = parseInt(activeCarouselItem.id.split("-").at(-1)!)
-
-        const entityRemoveTranslator: { [key: string]: Function } = {
-            definition: this.definitions.removeAt.bind(this.definitions),
-            image: this.images.removeAt.bind(this.images),
-            question: this.questions.removeAt.bind(this.questions),
-        };
-
-        entityRemoveTranslator[entityName](activeEntityIndex)
-
-        let newActiveItemIndex = 0
-        if (activeEntityIndex !== 0) {
-            newActiveItemIndex = activeEntityIndex - 1;
-        }
-
-        const carouselItems = document.querySelectorAll(`.${entityName}-card .carousel .carousel-item`)
-        carouselItems.forEach((item) => {
-            if (item.classList.contains("active")) item.classList.remove("active")
-        })
-
-        const newActiveItem = carouselItems.item(newActiveItemIndex)
-        newActiveItem.classList.add("active")
-
-        return null
-    }
-
-    deleteActiveDefinition() {
-        this.deleteActiveEntity("definition")
-    }
-
-    deleteActiveImage() {
-        this.deleteActiveEntity("image")
-    }
-
-    ngOnInit() {
-        document.addEventListener("DOMContentLoaded", () => {
-            const carouselCards = [".definition-card", ".image-card"]
-            carouselCards.forEach((card) => {
-                const firstCarouselItem = document.querySelector(`${card} .carousel .carousel-item`)!
-                firstCarouselItem.classList.add("active")
-            })
-
-            this.addImageHandlingToIndex(0)
-        })
-
-        if (this.entryId) {
-            this.entryService.get(this.entryId).subscribe((entry: Entry) => {
-
-                const mainTerm = this.entryService.getMainTermFromTerms(entry.terms)
-                this.form.get("main_term_gender")!.setValue(mainTerm.gender)
-                this.form.get("main_term_grammatical_category")!.setValue(mainTerm.grammatical_category)
-
-                this.setInstanceQuestionsToForm(entry)
-                console.log("Acabou questions")
-
-                this.setInstanceDefinitionsToForm(entry)
-                console.log("Acabou definitions")
-
-                this.setInstanceImagesToForm(entry)
-                console.log("Setou foi tudo!")
-
-                this.form.get("content")!.setValue(this.entryService.parseEditableContent(entry))
-            })
-        }
-    }
-
-    setInstanceQuestionsToForm(entry: Entry) {
-        if (entry.questions.length == 0) return null
-
-        const questions = []
-        for (let i = 0; i < this.questions.length; i++) {
-            if (entry.questions.length <= i) {
-                questions.push({statement: "", answer: ""})
-            } else {
-                questions.push({
-                    statement: entry.questions.at(i)!.statement,
-                    answer: entry.questions.at(i)!.answer
-                })
-            }
-        }
-
-        this.questions.setValue(questions)
-        return null
-    }
-
-    setInstanceDefinitionsToForm(entry: Entry) {
-        if (entry.definitions.length == 0) return null
-
-        const definitions = entry.definitions.map(data => new Object(
-            {
-                content: data.content,
-                knowledge_area__content: data.knowledge_area
-            }
-        ))
-
-        definitions.slice(0, -1).forEach(() => {
-            this.addDefinition()
-        })
-
-        console.log("definitions lenght: ", entry.definitions.length)
-        console.log(definitions)
-
-        this.definitions.setValue(definitions)
-        return null
-    }
-
-    setInstanceImagesToForm(entry: Entry) {
-        if (entry.images.length == 0) return null
-
-        console.log(entry.images)
-        const images = entry.images.map(data => new Object(
-            {
-                caption: data.caption,
-                base64_image: data.url,
-                id: data.id
-            }
-        ))
-
-        images.slice(0, -1).forEach(() => {
-            this.addImage()
-        })
-        this.images.setValue(images)
-
-        return null
-    }
-
-    addImageHandlingToIndex(index: number) {
-        const imageContainer = document.querySelector(`div#image-${index}`)!
-        const imageFileInput = imageContainer.querySelector("input[type='file']") as HTMLInputElement
-
-        imageFileInput!.addEventListener('change', (e) => {
-            const target = e.target as HTMLInputElement
-            const file = target.files![0] as File
-
-            const reader = new FileReader()
-            reader.onloadend = () => {
-                const base64String = reader.result! as string
-                this.images.controls.at(index)!.setValue({
-                    ...this.images.controls.at(index)!.value, base64_image: base64String
-                })
-            };
-
-            reader.readAsDataURL(file);
-        })
-    }
-
-    deleteQuestion(index: number) {
-        if (this.questions.length <= 1) return null;
-
-        this.questions.removeAt(index)
-
+        this.notSetUpImagesIndexes = []
+        this.notSelectedLastEntriesNames = []
         return null;
+      }
+    })
+
+    this.form.valueChanges.subscribe(this.checkFormValidity.bind(this))
+    this.form.valueChanges.subscribe(this.updateDirtyEntities.bind(this))
+  }
+
+  get images() {
+    return this.form.get('images') as FormArray
+  }
+
+  get definitions() {
+    return this.form.get('definitions') as FormArray
+  }
+
+  get questions() {
+    return this.form.get('questions') as FormArray
+  }
+
+  definitionGroupFactory(definition: Definition | null = null) {
+    if (definition == null)
+      return this.fb.group({
+        id: [null],
+        content: ['', Validators.required],
+        knowledge_area__content: ['', Validators.required]
+      })
+
+    return this.fb.group({
+      id: [definition.id],
+      content: [definition.content],
+      knowledge_area__content: [definition.knowledge_area]
+    })
+  }
+
+  imageGroupFactory(image: Image | null = null) {
+    if (image === null)
+      return this.fb.group({caption: [''], base64_image: [''], id: [null]})
+
+    return this.fb.group({
+      caption: [image.caption],
+      base64_image: [image.url],
+      id: [image.id]
+    })
+  }
+
+  questionGroupFactory(question: Question | null = null) {
+    if (question === null)
+      return this.fb.group({statement: [''], answer: [''], id: [null]})
+
+    return this.fb.group({
+      statement: [question.statement],
+      answer: [question.answer],
+      id: [question.id],
+    })
+  }
+
+  addDefinition() {
+    // console.log("addDefinition foi chamada!"
+    this.definitions.push(this.definitionGroupFactory())
+    this.notSelectedLastEntriesNames.push("definition")
+  }
+
+  addImage() {
+    this.images.push(this.imageGroupFactory())
+    this.notSetUpImagesIndexes.push(this.images.length - 1)
+    this.notSelectedLastEntriesNames.push("image")
+  }
+
+  addQuestion(data: { question: Question | null }) {
+    this.questions.push(this.questionGroupFactory(data.question))
+  }
+
+  selectLastItemInCarousel(entityName: string) {
+    const items = document.querySelectorAll(`.${entityName}-card .carousel-item`)
+
+    items.forEach(item => {
+      if (item.classList.contains("active")) item.classList.remove("active")
+    })
+
+    const lastItem = items.item(items.length - 1)
+    lastItem.classList.add("active")
+  }
+
+  deleteActiveEntity(entityName: string) {
+    const numberOfCarouselItems = document.querySelectorAll(`.${entityName}-card .carousel .carousel-item`).length
+    if (numberOfCarouselItems <= 1) {
+      return null
     }
 
-    editQuestion(eventData: { question: Question, index: number }) {
-        console.log(eventData.question)
-        this.questions.controls.at(eventData.index)!.setValue(eventData.question)
+    const activeCarouselItem = document.querySelector(`.${entityName}-card .carousel .carousel-item.active`)!
+    const activeEntityIndex = parseInt(activeCarouselItem.id.split("-").at(-1)!)
+
+    const entityRemoveTranslator: { [key: string]: Function } = {
+      definition: this.definitions.removeAt.bind(this.definitions),
+      image: this.images.removeAt.bind(this.images),
+      question: this.questions.removeAt.bind(this.questions),
+    };
+
+    entityRemoveTranslator[entityName](activeEntityIndex)
+
+    let newActiveItemIndex = 0
+    if (activeEntityIndex !== 0) {
+      newActiveItemIndex = activeEntityIndex - 1;
     }
 
-    onSubmit() {
-        const entryData =
-            this.removeEmptyDataFromForm(this.form.value as EntryToSend)
+    const carouselItems = document.querySelectorAll(`.${entityName}-card .carousel .carousel-item`)
+    carouselItems.forEach((item) => {
+      if (item.classList.contains("active")) item.classList.remove("active")
+    })
 
-        if (this.form.invalid) {
-            console.log("INVALID!")
-            console.log(this.form.get('content')!.errors)
-            console.log(this.getFormValidationErrors(this.form))
-            return null
-        }
+    const newActiveItem = carouselItems.item(newActiveItemIndex)
+    newActiveItem.classList.add("active")
 
-        if (this.entryId) {
-            entryData.images = entryData.images.map((image) => {
-                console.log(image)
-                if (image.base64_image && image.base64_image!.includes("http://")) {
-                    image.base64_image = ""
-                }
-                return image
-            })
+    return null
+  }
 
-            this.entryService.put(this.entryId, entryData).subscribe(() => {
-                console.log("sent succesfully!")
-            })
-        } else {
-            this.entryService.post(entryData).subscribe({
-                next: (data) => {
-                    console.log("sent succesfully!")
-                    console.log(data)
-                },
-                error: (error: HttpErrorResponse) => {
-                    const errorToasts = this.getToastsFromResponseErrors(error.error)
-                    this.toastService.showToasts(errorToasts)
-                }
-            })
-        }
+  deleteActiveDefinition() {
+    this.deleteActiveEntity("definition")
+  }
 
-        console.log(entryData)
-        return null
+  deleteActiveImage() {
+    this.deleteActiveEntity("image")
+  }
+
+  ngOnInit() {
+    document.addEventListener("DOMContentLoaded", () => {
+      const carouselCards = [".definition-card", ".image-card"]
+      carouselCards.forEach((card) => {
+        const firstCarouselItem = document.querySelector(`${card} .carousel .carousel-item`)!
+        firstCarouselItem.classList.add("active")
+      })
+
+      this.addImageHandlingToIndex(0)
+    })
+
+    if (this.entryId) {
+      this.entryService.get(this.entryId).subscribe((entry: Entry) => {
+        console.log(entry)
+
+        const mainTerm = this.entryService.getMainTermFromTerms(entry.terms)
+
+        this.form.get("content")!.setValue(this.entryService.parseEditableContent(entry))
+        this.form.get("main_term_gender")!.setValue(mainTerm.gender)
+        this.form.get("main_term_grammatical_category")!.setValue(mainTerm.grammatical_category)
+
+        this.setInstanceQuestionsToForm(entry)
+        this.setInstanceDefinitionsToForm(entry)
+        this.setInstanceImagesToForm(entry)
+      })
     }
+  }
 
-    getFormValidationErrors(form: FormGroup | FormArray): any {
-        const errors: any = {}
+  setInstanceQuestionsToForm(entry: Entry) {
+    if (entry.questions.length == 0) return null
 
-        Object.keys(form.controls).forEach(key => {
-            const control = form.get(key)
-
-            if (control instanceof FormGroup || control instanceof FormArray) {
-                const childErrors = this.getFormValidationErrors(control as FormGroup | FormArray)
-                if (Object.keys(childErrors).length) {
-                    errors[key] = childErrors
-                }
-            } else if (control?.errors) {
-                errors[key] = control.errors
-            }
+    const questions = []
+    for (let i = 0; i < this.questions.length; i++) {
+      if (entry.questions.length <= i) {
+        questions.push({statement: "", answer: "", id: null})
+      } else {
+        questions.push({
+          statement: entry.questions.at(i)!.statement,
+          answer: entry.questions.at(i)!.answer,
+          id: entry.questions.at(i)!.id
         })
-
-        return errors
+      }
     }
 
-    checkFormValidity(): void {
-        const formErrors = this.getFormValidationErrors(this.form)
-        const newToasts = this.getToastsFromFormErrors(formErrors)
+    this.questions.setValue(questions)
+    return null
+  }
 
-        if (this.toastService.toastsBeingShown) {
-            this.toastService.hideToasts(this.toastsFromForm.map(toast => toast.id!))
+  setInstanceDefinitionsToForm(entry: Entry) {
+    if (entry.definitions.length == 0) return null
+
+    const definitions = entry.definitions.map(data => new Object(
+      {
+        content: data.content,
+        knowledge_area__content: data.knowledge_area,
+        id: data.id
+      }
+    ))
+
+    definitions.slice(0, -1).forEach(() => {
+      this.addDefinition()
+    })
+
+    this.definitions.setValue(definitions)
+    return null
+  }
+
+  setInstanceImagesToForm(entry: Entry) {
+    if (entry.images.length == 0) return null
+
+    // console.log(entry.images)
+    const images = entry.images.map(data => new Object(
+      {
+        caption: data.caption,
+        base64_image: data.url,
+        id: data.id
+      }
+    ))
+
+    images.slice(0, -1).forEach(() => {
+      this.addImage()
+    })
+    this.images.setValue(images)
+
+    return null
+  }
+
+  addImageHandlingToIndex(index: number) {
+    const imageContainer = document.querySelector(`div#image-${index}`)!
+    const imageFileInput = imageContainer.querySelector("input[type='file']") as HTMLInputElement
+
+    imageFileInput!.addEventListener('change', (e) => {
+      const target = e.target as HTMLInputElement
+      const file = target.files![0] as File
+
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        const base64String = reader.result! as string
+        this.images.controls.at(index)!.setValue({
+          ...this.images.controls.at(index)!.value, base64_image: base64String
+        })
+      };
+
+      reader.readAsDataURL(file);
+    })
+  }
+
+  deleteQuestion(index: number) {
+    if (this.questions.length <= 1) return null;
+
+    this.questions.removeAt(index)
+
+    return null;
+  }
+
+  editQuestion(eventData: { question: Question, index: number }) {
+    console.log(eventData.question)
+    this.questions.controls.at(eventData.index)!.markAsDirty()
+    this.questions.controls.at(eventData.index)!.setValue(eventData.question)
+  }
+
+  onSubmit(): void {
+    if (this.form.invalid) {
+      console.log("INVALID!")
+      console.log(this.form.get('content')!.errors)
+      console.log(this.getFormValidationErrors(this.form))
+      return;
+    }
+
+    if (!this.entryId) {
+      console.log("Posted entry")
+      this.postEntry()
+      return;
+    }
+
+    if (this.isDirtyEntitiesEmpty()) {
+      console.log("não há dirty entries")
+      this.toastService.showToasts([{
+        title: "Edição do verbete",
+        body: "Nenhuma alteração detectada.",
+        type: "warning"
+      }])
+
+      return;
+    }
+
+    this.updateEntry()
+  }
+
+  postEntry() {
+    const entryData = this.removeEmptyDataFromForm(this.form.value as EntryToSend)
+
+    this.entryService.post(entryData).subscribe(
+      {
+        next: (data) => {
+          this.toastService.showToasts([{
+            title: "Criação do verbete",
+            body: `Verbete #${data.id} criado com sucesso!`,
+            type: "success"
+          }])
+        },
+
+        error: (error: HttpErrorResponse) => {
+          const errorToasts = this.getToastsFromResponseErrors(error.error)
+          this.toastService.showToasts(errorToasts)
         }
+      }
+    )
+  }
 
-        this.toastsFromForm = this.toastService.showToasts(newToasts)
+  updateEntry() {
+    this.updateDefinitions(this.dirtyEntities!.definitions)
+    this.updateQuestions(this.dirtyEntities!.questions)
+    this.updateImages(this.dirtyEntities!.images)
+
+    if (!this.dirtyEntities!.entryContent) return;
+
+    this.entryService.patchContent(this.entryId!, this.form.controls.content.value!).subscribe({
+      next: () => this.toastService.showToasts([{
+        title: "Edição do nome do verbete",
+        body: "Operação realizada com suscesso.",
+        type: "success"
+      }]),
+      error: (err: HttpErrorResponse) => this.toastService.showToasts([{
+        title: "Edição do nome do verbete",
+        body: `${err.message} (código ${err.status})`,
+        type: "error"
+      }])
+    })
+  }
+
+  updateDefinitions(definitions: DefinitionToSend[]) {
+    if (definitions.length == 0) return;
+    console.log(definitions)
+
+    const successfulToastPrefix = "Edição da definição"
+    const failureToastPrefix = "Erro na definição"
+
+    definitions.forEach((definition) => {
+      const indexInFormArray = this.getFormArrayIndexFromId(this.definitions, definition.id!)
+
+      this.definitionService.put(definition).subscribe({
+        next: () => this.handleSuccessfulPut(indexInFormArray, this.definitions, successfulToastPrefix),
+        error: (err: HttpErrorResponse) => this.handleFailurePut(err, indexInFormArray, failureToastPrefix)
+      })
+    })
+  }
+
+  updateQuestions(questions: Question[]) {
+    if (questions.length == 0) return;
+
+    const successfulToastPrefix = "Edição do exemplo"
+    const failureToastPrefix = "Erro no exemplo"
+
+    questions.forEach((question) => {
+      const indexInFormArray = this.getFormArrayIndexFromId(this.questions, question.id!)
+
+      this.questionService.put(question).subscribe({
+        next: () => this.handleSuccessfulPut(indexInFormArray, this.questions, successfulToastPrefix),
+        error: (err) => this.handleFailurePut(err, indexInFormArray, failureToastPrefix)
+      })
+    })
+  }
+
+  updateImages(images: ImageToSend[]) {
+    if (images.length == 0) return;
+
+    const successfulToastPrefix = "Edição da imagem"
+    const failureToastPrefix = "Erro na imagem"
+
+    images.forEach((image) => {
+      const indexInFormArray = this.getFormArrayIndexFromId(this.images, image.id!)
+
+      this.imageService.put(image).subscribe({
+        next: () => this.handleSuccessfulPut(indexInFormArray, this.images, successfulToastPrefix),
+        error: (err) => this.handleFailurePut(err, indexInFormArray, failureToastPrefix)
+      })
+    })
+  }
+
+  handleSuccessfulPut(index: number, formArray: FormArray, prefix: string) {
+    formArray.at(index).markAsPristine()
+
+    const successToast: Toast = {
+      title: `${prefix} #${index + 1}`,
+      body: `Edição realizada com sucesso!`,
+      type: "success"
     }
 
-    getToastsFromFormErrors(formErrors: {
-        [key: string]: string | { [index: number]: { [key: string]: { required: boolean } } }
-    }): Toast[] {
-        const toasts: Toast[] = []
+    this.toastService.showToasts([successToast])
+  }
 
-        for (let key in formErrors) {
-            const error = formErrors[key]
-            const translatedKey = formKeyTranslator[key]
-            const keyGender = formKeyGender[key]
+  handleFailurePut(error: HttpErrorResponse, index: number, prefix: string) {
+    const errorToast: Toast = {
+      title: `${prefix} #${index + 1}`,
+      body: `${error.message} (código ${error.status})`,
+      type: "error"
+    }
 
-            if (!keysOfRelatedEntities.includes(key)) {
-                toasts.push(
-                    {
-                        title: translatedKey,
-                        body: 'O campo é obrigatório.',
-                        type: "error",
-                        id: null
-                    }
-                )
+    this.toastService.showToasts([errorToast])
+  }
 
-                continue
-            }
+  getFormArrayIndexFromId(formArray: FormArray, id: number): number {
+    return Object.values(formArray.value)
+      .findIndex((value: any) => value.id === id)
+  }
 
-            for (let errorIndex in error as { [index: number]: { [key: string]: { required: boolean } } }) {
+  getFormValidationErrors(form: FormGroup | FormArray): any {
+    const errors: any = {}
 
-                const thereAreManyErrors = Object.keys(error[errorIndex]).length > 1
-                const pluralSuffix = thereAreManyErrors ? "s" : ""
-                const toBeVerb = thereAreManyErrors ? "são" : "é"
+    Object.keys(form.controls).forEach(key => {
+      const control = form.get(key)
 
-                const fieldsWithErrors =
-                    Object.keys(error[errorIndex])
-                        .map(name => formKeyTranslator[name] ?? name)
-                        .map(name => "'" + name + "'")
-                        .join(", ")
-
-                toasts.push(
-                    {
-                        title: `Erro${pluralSuffix} n${keyGender == "M" ? "o" : "a"} ${translatedKey} #${parseInt(errorIndex) + 1}`,
-                        body: `O${pluralSuffix} campo${pluralSuffix} ${fieldsWithErrors} ${toBeVerb} obrigatório${pluralSuffix}.`,
-                        type: 'error',
-                        id: null
-                    }
-                )
-            }
+      if (control instanceof FormGroup || control instanceof FormArray) {
+        const childErrors = this.getFormValidationErrors(control as FormGroup | FormArray)
+        if (Object.keys(childErrors).length) {
+          errors[key] = childErrors
         }
+      } else if (control?.errors) {
+        errors[key] = control.errors
+      }
+    })
 
-        return toasts
+    return errors
+  }
+
+  checkFormValidity(): void {
+    const formErrors = this.getFormValidationErrors(this.form)
+    const newToasts = this.getToastsFromFormErrors(formErrors)
+
+    if (this.toastService.toastsBeingShown) {
+      this.toastService.hideToasts(this.toastsFromForm.map(toast => toast.id!))
     }
 
-    removeEmptyDataFromForm(entryData: EntryToSend) {
-        entryData.definitions = entryData.definitions.filter(
-            definition => !this.areAllValuesEmpty(definition)
+    this.toastsFromForm = this.toastService.showToasts(newToasts)
+  }
+
+  getToastsFromFormErrors(formErrors: {
+    [key: string]: string | { [index: number]: { [key: string]: { required: boolean } } }
+  }): Toast[] {
+    const toasts: Toast[] = []
+
+    for (let key in formErrors) {
+      const error = formErrors[key]
+      const translatedKey = formKeyTranslator[key]
+      const keyGender = formKeyGender[key]
+
+      if (!keysOfRelatedEntities.includes(key)) {
+        toasts.push(
+          {
+            title: translatedKey,
+            body: 'O campo é obrigatório.',
+            type: "error"
+          }
         )
 
-        entryData.questions = entryData.questions.filter(
-            question => !this.areAllValuesEmpty(question)
-        )
+        continue
+      }
 
-        entryData.images = entryData.images.filter(
-            image => !this.areAllValuesEmpty(image)
-        )
+      for (let errorIndex in error as { [index: number]: { [key: string]: { required: boolean } } }) {
 
-        return entryData
+        const thereAreManyErrors = Object.keys(error[errorIndex]).length > 1
+        const pluralSuffix = thereAreManyErrors ? "s" : ""
+        const toBeVerb = thereAreManyErrors ? "são" : "é"
+
+        const fieldsWithErrors =
+          Object.keys(error[errorIndex])
+            .map(name => formKeyTranslator[name] ?? name)
+            .map(name => "'" + name + "'")
+            .join(", ")
+
+        toasts.push(
+          {
+            title: `Erro${pluralSuffix} n${keyGender == "M" ? "o" : "a"} ${translatedKey} #${parseInt(errorIndex) + 1}`,
+            body: `O${pluralSuffix} campo${pluralSuffix} ${fieldsWithErrors} ${toBeVerb} obrigatório${pluralSuffix}.`,
+            type: 'error'
+          }
+        )
+      }
     }
 
-    areAllValuesEmpty(obj: object) {
-        return Object.values(obj).every(value => value === "" || value == null)
-    }
+    return toasts
+  }
 
-    getToastsFromResponseErrors(error: any): Toast[] {
-        const toasts: Toast[] = []
+  removeEmptyDataFromForm(entryData: EntryToSend) {
+    entryData.definitions = entryData.definitions.filter(
+      definition => !this.areAllValuesEmpty(definition)
+    )
 
-        for (let fieldOrEntityName in error) {
+    entryData.questions = entryData.questions.filter(
+      question => !this.areAllValuesEmpty(question)
+    )
 
-            if (!keysOfRelatedEntities.includes(fieldOrEntityName)) {
-                const fieldName = fieldOrEntityName
+    entryData.images = entryData.images.filter(
+      image => !this.areAllValuesEmpty(image)
+    )
 
-                const fieldErrors = error[fieldName]
+    return entryData
+  }
 
-                toasts.push(...fieldErrors.map((fieldError: string): Toast => {
-                    return {
-                        title: `Erro em ${formKeyTranslator[fieldName] ?? fieldName}`,
-                        body: fieldError,
-                        type: 'error',
-                        id: null
-                    }
-                }))
+  areAllValuesEmpty(obj: object) {
+    return Object.values(obj).every(value => value === "" || value == null)
+  }
 
-                continue
+  getToastsFromResponseErrors(error: any): Toast[] {
+    const toasts: Toast[] = []
+
+    for (let fieldOrEntityName in error) {
+
+      if (!keysOfRelatedEntities.includes(fieldOrEntityName)) {
+        const fieldName = fieldOrEntityName
+
+        const fieldErrors = error[fieldName]
+
+        toasts.push(...fieldErrors.map((fieldError: string): Toast => {
+          return {
+            title: `Erro em ${formKeyTranslator[fieldName] ?? fieldName}`,
+            body: fieldError,
+            type: 'error'
+          }
+        }))
+
+        continue
+      }
+
+      for (let [index, entityErrors] of error[fieldOrEntityName].entries()) {
+        const entityName = fieldOrEntityName
+
+        for (let fieldName in entityErrors) {
+          const fieldErrors = entityErrors[fieldName]
+          const keyGender = formKeyGender[entityName]
+
+          toasts.push(...fieldErrors.map((fieldError: string): Toast => {
+            return {
+              title: `Erro n${keyGender == "M" ? "o" : "a"} '${formKeyTranslator[entityName] ?? entityName}' #${index + 1}`,
+              body: fieldError,
+              type: 'error'
             }
-
-            for (let [index, entityErrors] of error[fieldOrEntityName].entries()) {
-                const entityName = fieldOrEntityName
-
-                for (let fieldName in entityErrors) {
-                    const fieldErrors = entityErrors[fieldName]
-                    const keyGender = formKeyGender[entityName]
-
-                    toasts.push(...fieldErrors.map((fieldError: string): Toast => {
-                        return {
-                            title: `Erro n${keyGender == "M" ? "o" : "a"} '${formKeyTranslator[entityName] ?? entityName}' #${index + 1}`,
-                            body: fieldError,
-                            type: 'error',
-                            id: null
-                        }
-                    }))
-                }
-            }
+          }))
         }
-
-        return toasts
+      }
     }
+
+    return toasts
+  }
+
+  updateDirtyEntities() {
+    console.log(this.questions.value)
+    console.log(this.questions.controls.map(control => control.dirty))
+
+    this.dirtyEntities = {
+      definitions: this.getDirtyData(this.definitions),
+      images: this.getDirtyData(this.images),
+      questions: this.getDirtyData(this.questions),
+      entryContent: this.form.controls.content.dirty
+    }
+  }
+
+  isDirtyEntitiesEmpty() {
+    if (this.dirtyEntities == undefined) return false
+
+    return (
+      this.dirtyEntities.definitions.length == 0 &&
+      this.dirtyEntities.images.length == 0 &&
+      this.dirtyEntities.questions.length == 0 &&
+      !this.dirtyEntities.entryContent
+    )
+  }
+
+  getDirtyData(formArray: FormArray) {
+    return formArray.controls
+      .filter(control => control.dirty)
+      .map(control => control.value)
+  }
 }

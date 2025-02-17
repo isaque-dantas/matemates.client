@@ -17,8 +17,7 @@ export const staffOnlyGuard: CanActivateFn = (route, state) => {
       {
         title: "Permissão negada!",
         body: "Você não tem permissão para acessar essa página.",
-        type: "error",
-        id: null
+        type: "error"
       }
     ])
 

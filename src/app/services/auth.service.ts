@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable, tap} from "rxjs";
 import {LoginData, User, UserToSend} from "../interfaces/user";
@@ -13,6 +13,8 @@ export class AuthService {
   private baseUrl = 'http://127.0.0.1:8000/api/users'
   private tokenUrl = 'http://127.0.0.1:8000/api/token'
 
+  loginEventEmitter = new EventEmitter()
+
   constructor(private http: HttpClient, private router: Router, private userService: UserService) {
   }
 
@@ -24,12 +26,13 @@ export class AuthService {
           if (response.access) {
             localStorage.setItem('access', response.access);
 
-            this.userService.getUserData(response.access).subscribe((data: User) => {
-              console.log(data)
-              localStorage.setItem("loggedUserIsStaff", data["is_staff"].toString())
-            })
-
-            this.router.navigate(['']);
+            this.router.navigate([''])
+              .then(() => {
+                this.userService.getUserData(response.access).subscribe((data: User) => {
+                  localStorage.setItem("loggedUserIsStaff", data["is_staff"].toString())
+                  this.loginEventEmitter.emit()
+                })
+              })
           }
         })
       );
@@ -37,7 +40,6 @@ export class AuthService {
 
   isLoggedUserStaff(): boolean {
     if (!this.isAuthenticated()) {
-      console.log("Not authenticated! (inside isLoggedUserStaff)")
       localStorage.setItem("loggedUserIsStaff", "false")
       return false
     }
@@ -55,6 +57,7 @@ export class AuthService {
     localStorage.setItem("loggedUserIsStaff", "false")
     localStorage.removeItem('access')
     this.router.navigate(['login']);
+    this.loginEventEmitter.emit()
   }
 
   isAuthenticated(): boolean {
