@@ -1,27 +1,25 @@
-# MatematesClient
+# Matematês 📝
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.1.1.
+⭐ **O dicionário de matemática mais confiável da internet!** ⭐
 
-## Development server
+✅ Explore definições envolventes de palavras de geometria, álgebra, trigonometria, análise combinatória e estatística. Nós caprichamos com exemplos, imagens e outras funcionalidades pensadas para tornar seu aprendizado leve e divertido!
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## As Tecnologias que Usamos ✨
 
-## Code scaffolding
+- Angular
+- Bootstrap
+- SQLAlchemy e MySQL
+- Django rest framework
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Detalhes Técnicos 🧠
 
-## Build
+Este é o projeto integrador dos estudantes Davi Lucas, Isaque Dantas e Lucas Henrique, do IFRN Campus Natal - Zona-Norte.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- Orientador: Prof. Rafael The Bonifácio de Andrade
+- Co-orientadora: Profa. {{ teacher_name }}
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Como instalar e executar
+- Clone esse repositório e o servidor (https://gitlab.com/davibezerra123457/matemates-server.git)
+- Veja como executar o servidor em seu respectivo repositório
+- Baixar as dependências do angular (nodejs e a CLI do angular)
+- Rode o código com ng serve
