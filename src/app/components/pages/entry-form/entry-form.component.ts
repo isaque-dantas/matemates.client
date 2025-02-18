@@ -18,6 +18,7 @@ import {DefinitionService} from "../../../services/definition.service";
 import {QuestionService} from "../../../services/question.service";
 import {ImageService} from "../../../services/image.service";
 import {ImageToSend} from "../../../interfaces/image-to-send";
+import {toArray} from "rxjs";
 
 const keysOfRelatedEntities = ['definitions', 'images', 'questions']
 const formKeyTranslator: { [key: string]: string } = {
@@ -50,6 +51,7 @@ export class EntryFormComponent {
   knowledgeAreas?: KnowledgeArea[]
   entryId: number | null = null;
   toastsFromForm: Toast[] = []
+  imageFileList: string[] = []
 
   dirtyEntities?: {
     entryContent: boolean,
@@ -255,6 +257,7 @@ export class EntryFormComponent {
 
         const mainTerm = this.entryService.getMainTermFromTerms(entry.terms)
 
+
         this.form.get("content")!.setValue(this.entryService.parseEditableContent(entry))
         this.form.get("main_term_gender")!.setValue(mainTerm.gender)
         this.form.get("main_term_grammatical_category")!.setValue(mainTerm.grammatical_category)
@@ -262,6 +265,8 @@ export class EntryFormComponent {
         this.setInstanceQuestionsToForm(entry)
         this.setInstanceDefinitionsToForm(entry)
         this.setInstanceImagesToForm(entry)
+
+        this.setBase64Data(entry.images)
       })
     }
   }
@@ -306,23 +311,48 @@ export class EntryFormComponent {
   }
 
   setInstanceImagesToForm(entry: Entry) {
-    if (entry.images.length == 0) return null
+    if (entry.images.length == 0) return;
 
-    // console.log(entry.images)
-    const images = entry.images.map(data => new Object(
-      {
-        caption: data.caption,
-        base64_image: data.url,
-        id: data.id
-      }
-    ))
+    const images = entry.images.map((data: Image, index: number) => {
+      console.log("jkfjsdfjsd fasfdkas dfas df asdf asldfas d")
+      console.log(this.imageFileList.at(index))
+      console.log(this.imageFileList.at(0))
+      console.log(this.imageFileList.at(1))
+      console.log(index)
+      console.log("-")
+      console.log()
+      console.log("-")
+
+      return new Object(
+        {
+          caption: data.caption,
+          base64_image: "",
+          id: data.id
+        }
+      )
+    })
 
     images.slice(0, -1).forEach(() => {
       this.addImage()
     })
+
     this.images.setValue(images)
 
-    return null
+    return;
+  }
+
+  setBase64Data(images: Image[]) {
+    images.forEach((image: Image, index: number) => {
+      this.imageService.getFile(image.id!).subscribe(
+        (data: Blob) => {
+          console.log(`acabou #${index}`)
+          this.images.at(index).setValue({
+            ...this.images.at(index).value,
+            base64_image: URL.createObjectURL(data)
+          })
+        }
+      )
+    })
   }
 
   addImageHandlingToIndex(index: number) {
@@ -645,8 +675,8 @@ export class EntryFormComponent {
   }
 
   updateDirtyEntities() {
-    console.log(this.questions.value)
-    console.log(this.questions.controls.map(control => control.dirty))
+    // console.log(this.questions.value)
+    // console.log(this.questions.controls.map(control => control.dirty))
 
     this.dirtyEntities = {
       definitions: this.getDirtyData(this.definitions),

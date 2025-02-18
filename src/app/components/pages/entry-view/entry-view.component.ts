@@ -18,7 +18,6 @@ import {ImageService} from "../../../services/image.service";
     HeaderComponent,
     NgForOf,
     NgIf,
-    NgOptimizedImage,
     MatIcon
   ],
   templateUrl: './entry-view.component.html',
@@ -42,7 +41,7 @@ export class EntryViewComponent {
         console.log(entry)
         this.entryData = entry
 
-        this.getImageFiles(entry.images)
+        this.imageFileList = this.imageService.getImageFiles(entry.images)
 
         this.parsedEntryContent = this.entryService.parseContent(entry)
         this.knowledgeAreas = entryService.getKnowledgeAreasContentsFromDefinitions(entry.definitions)
@@ -74,14 +73,6 @@ export class EntryViewComponent {
       if (firstImage) {
         firstImage.classList.add("active")
       }
-    })
-  }
-
-  getImageFiles(images: Image[]) {
-    images.forEach((image: Image) => {
-      this.imageService.getFile(image.id!).subscribe(
-        (data: Blob) => this.imageFileList.push(URL.createObjectURL(data))
-      )
     })
   }
 
