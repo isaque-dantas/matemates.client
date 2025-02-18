@@ -16,3 +16,5 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([authInterceptor, toastLoggerInterceptor])), provideAnimationsAsync()
   ]
 };
+
+export const baseApiUrl = 'http://127.0.0.1:8000/api';

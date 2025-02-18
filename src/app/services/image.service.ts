@@ -5,22 +5,23 @@ import {Question} from "../interfaces/question";
 import {ImageToSend} from "../interfaces/image-to-send";
 import {Observable} from "rxjs";
 import {Image} from "../interfaces/image";
+import {baseApiUrl} from "../app.config";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ImageService {
-  private baseUrl = 'http://127.0.0.1:8000/api/image'
+  private imageUrl = `${baseApiUrl}/image`
 
   constructor(private http: HttpClient) { }
 
   get(id: number) {
-    return this.http.get<any>(`${this.baseUrl}/${id}`)
+    return this.http.get<any>(`${this.imageUrl}/${id}`)
   }
 
   getFile(id: number): Observable<Blob> {
     // @ts-ignore
-    return this.http.get<Blob>(`${this.baseUrl}/${id}/blob_file`, {responseType: "blob"})
+    return this.http.get<Blob>(`${this.imageUrl}/${id}/blob_file`, {responseType: "blob"})
   }
 
   getImageFiles(images: Image[]) {
@@ -36,6 +37,6 @@ export class ImageService {
   }
 
   put(image: ImageToSend) {
-    return this.http.put<{}>(`${this.baseUrl}/${image.id}`, image)
+    return this.http.put<{}>(`${this.imageUrl}/${image.id}`, image)
   }
 }

@@ -6,41 +6,42 @@ import {Definition} from "../interfaces/definition";
 import {Term} from "../interfaces/term";
 import {Image} from "../interfaces/image";
 import {ImageService} from "./image.service";
+import {baseApiUrl} from "../app.config";
 
 @Injectable({
   providedIn: 'root'
 })
 export class EntryService {
-  private baseUrl = 'http://127.0.0.1:8000/api/entry'
+  private entryUrl = `${baseApiUrl}/entry`
 
   constructor(private http: HttpClient) { }
 
   post(data: EntryToSend): Observable<Entry> {
-    return this.http.post(`${this.baseUrl}`, data) as Observable<Entry>
+    return this.http.post(`${this.entryUrl}`, data) as Observable<Entry>
   }
 
   get(id: number): Observable<Entry> {
-    return this.http.get(`${this.baseUrl}/${id}`) as Observable<Entry>
+    return this.http.get(`${this.entryUrl}/${id}`) as Observable<Entry>
   }
 
   getAll(): Observable<Entry[]> {
-    return this.http.get<Entry[]>(`${this.baseUrl}`)
+    return this.http.get<Entry[]>(`${this.entryUrl}`)
   }
 
   search(searchQuery: string): Observable<Entry[]> {
-    return this.http.get<Entry[]>(`${this.baseUrl}?search_query=${searchQuery}`)
+    return this.http.get<Entry[]>(`${this.entryUrl}?search_query=${searchQuery}`)
   }
 
   delete(id: number) {
-    return this.http.delete(`${this.baseUrl}/${id}`)
+    return this.http.delete(`${this.entryUrl}/${id}`)
   }
 
   validate(id: number) {
-    return this.http.patch(`${this.baseUrl}/${id}/validate`, {})
+    return this.http.patch(`${this.entryUrl}/${id}/validate`, {})
   }
 
   patchContent(id: number, content: string) {
-    return this.http.patch(`${this.baseUrl}/${id}`, {content: content}) as Observable<{}>
+    return this.http.patch(`${this.entryUrl}/${id}`, {content: content}) as Observable<{}>
   }
 
   parseContent(entryData: Entry): string {

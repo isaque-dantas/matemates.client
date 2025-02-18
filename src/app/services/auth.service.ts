@@ -4,14 +4,15 @@ import {Observable, tap} from "rxjs";
 import {LoginData, User, UserToSend} from "../interfaces/user";
 import {Router} from "@angular/router";
 import {UserService} from "./user.service";
+import {baseApiUrl} from "../app.config";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private baseUrl = 'http://127.0.0.1:8000/api/users'
-  private tokenUrl = 'http://127.0.0.1:8000/api/token'
+  private userUrl = `${baseApiUrl}/users`
+  private tokenUrl = `${baseApiUrl}/token`
 
   loginEventEmitter = new EventEmitter()
 
@@ -49,7 +50,7 @@ export class AuthService {
 
   register(user: UserToSend): Observable<any> {
     console.log('Registering with:', user);
-    return this.http.post(`${this.baseUrl}`, user);
+    return this.http.post(`${this.userUrl}`, user);
   }
 
   logout() {
