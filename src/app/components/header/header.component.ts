@@ -21,8 +21,6 @@ import {UserService} from "../../services/user.service";
 
 export class HeaderComponent {
   showElement: boolean = true;
-  userData: any;
-  token: any;
   navItems: any = [];
 
   readonly staffNavItems = [
@@ -36,7 +34,7 @@ export class HeaderComponent {
     {'label': 'Sugerir Alteração', 'link': '/nae'},
   ]
 
-  constructor(public authService: AuthService, private router: Router, private userService: UserService) {
+  constructor(public authService: AuthService, private router: Router) {
     this.router.events.subscribe(() => {
       const excludedRoutes = ['profile'];
       this.showElement = !excludedRoutes.includes(this.router.url);

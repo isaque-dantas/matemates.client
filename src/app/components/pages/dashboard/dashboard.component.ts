@@ -21,13 +21,13 @@ import {debounceTime} from "rxjs";
 })
 export class DashboardComponent {
   knowledgeAreaCards?: { id: number, content: string, amountOfEntries: number }[] = [];
-  isStaff: boolean = false;
   KnowledgeAreaForm: FormGroup;
   KnowledgeAreaUpdateForm: FormGroup;
   allKnowledgeAreas: KnowledgeArea[] = [];
   contentResults: KnowledgeArea[] = [];
   knowledgeAreaId: number = 1;
   knowledgeAreaName: string | undefined;
+  KnowledgeAreaEditting: boolean = false;
 
   constructor(entryService: EntryService, private knowledgeAreaService: KnowledgeAreaService,
               private authService: AuthService, private router: Router, private fb: FormBuilder) {
@@ -100,8 +100,13 @@ export class DashboardComponent {
   }
 
   ngOnInit() {
-    this.isStaff = localStorage.getItem("loggedUserIsStaff") === 'true';
-    console.log('is staff?', this.isStaff);
+
+    this.toggleKnowledgeAreaEditting()
+    this.authService.loginEventEmitter.subscribe(this.toggleKnowledgeAreaEditting.bind(this))
+  }
+
+  toggleKnowledgeAreaEditting() {
+      this.KnowledgeAreaEditting = this.authService.isLoggedUserStaff();
   }
 
   postKnowledgeArea() {
