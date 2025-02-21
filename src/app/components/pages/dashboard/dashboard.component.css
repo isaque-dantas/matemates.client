@@ -190,6 +190,10 @@ section .container {
 }
 
 @media (min-width: 1920px) {
+  .container-main {
+    margin-top: 30px;
+  }
+
   .background {
     height: 414px;
   }
