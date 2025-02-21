@@ -1,5 +1,5 @@
 <app-header></app-header>
-<div class="container mt-5">
+<div class="container container-main">
   <section>
     <div class="row">
       <div class="d-flex align-items-center background w-100">
@@ -115,16 +115,6 @@
                 <p>Resultados correspondentes a ”{{ KnowledgeAreaForm.get("content")?.value }}“ :</p>
                 <ul class="d-flex w-100 gap-2 overflow-x-scroll list-unstyled m-0 p-0 pb-2">
                   <li *ngFor="let result of contentResults" class="area-box col-2">{{ result.content }}</li>
-                </ul>
-              </div>
-              <div class="d-flex gap-p flex-column">
-                <label for="subject" class="mb-2">Em qual área se insere?</label>
-                <input formControlName="subject" (input)="searchSubject()" id="subject" type="text">
-              </div>
-              <div class="areas mt-1">
-                <p>Resultados correspondentes a ”{{ KnowledgeAreaForm.get("subject")?.value }}“ :</p>
-                <ul class="d-flex w-100 justify-content-between overflow-x-scroll list-unstyled m-0 p-0 pb-2">
-                  <li *ngFor="let result of subjectResults" class="area-box col-2">{{ result.subject }}</li>
                 </ul>
               </div>
             </div>

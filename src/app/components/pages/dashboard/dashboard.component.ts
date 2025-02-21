@@ -26,20 +26,17 @@ export class DashboardComponent {
   KnowledgeAreaUpdateForm: FormGroup;
   allKnowledgeAreas: KnowledgeArea[] = [];
   contentResults: KnowledgeArea[] = [];
-  subjectResults: KnowledgeArea[] = [];
   knowledgeAreaId: number = 1;
   knowledgeAreaName: string | undefined;
 
   constructor(entryService: EntryService, private knowledgeAreaService: KnowledgeAreaService,
               private authService: AuthService, private router: Router, private fb: FormBuilder) {
     this.KnowledgeAreaForm = this.fb.group({
-      content: ['', Validators.required],
-      subject: ['', Validators.required],
+      content: ['', Validators.required]
     })
 
     this.KnowledgeAreaUpdateForm = this.fb.group({
-      content: ['', Validators.required],
-      subject: ['', Validators.required],
+      content: ['', Validators.required]
     })
 
     const saveId = localStorage.getItem('knowledgeAreaId')
@@ -55,11 +52,6 @@ export class DashboardComponent {
       const selectedArea = knowledgeAreas.find(area => area.id === this.knowledgeAreaId);
       console.log("Área encontrada:", selectedArea);
 
-      this.KnowledgeAreaUpdateForm.setValue({
-        content: '',
-        subject: selectedArea?.subject || '',
-      });
-
       this.knowledgeAreaCards = knowledgeAreas.map((area) => {
         const amountOfEntries = area.entries ? area.entries.length : 0
         return {id: area.id, content: area.content, amountOfEntries: amountOfEntries}
@@ -68,7 +60,6 @@ export class DashboardComponent {
       console.log(this.knowledgeAreaCards);
       this.allKnowledgeAreas = knowledgeAreas;
       this.contentResults = [...knowledgeAreas];
-      this.subjectResults = [...knowledgeAreas];
     })
   }
 
@@ -92,18 +83,6 @@ export class DashboardComponent {
     this.knowledgeAreaName = foundContent?.content;
   }
 
-  searchSubject() {
-    const termSubject = this.KnowledgeAreaForm.get('subject')?.value.trim();
-    if (!termSubject) {
-      this.subjectResults = [...this.allKnowledgeAreas];
-    } else {
-      const regexSubject = new RegExp(termSubject, 'i');
-      this.subjectResults = this.allKnowledgeAreas.filter((item) =>
-        regexSubject.test(item.subject)
-      );
-    }
-  }
-
   deleteKnowledgeArea(id: number) {
     const confirmDelete = window.confirm("Tem certeza que deseja excluir esta área do conhecimento?");
 
@@ -112,7 +91,6 @@ export class DashboardComponent {
         next: () => {
           this.knowledgeAreaCards = this.knowledgeAreaCards?.filter(card => card.id !== id);
           this.contentResults = this.contentResults.filter(card => card.id !== id);
-          this.subjectResults = this.subjectResults.filter(card => card.id !== id);
         },
         error: (err) => {
           console.error('Erro ao excluir área do conhecimento:', err);
@@ -121,19 +99,32 @@ export class DashboardComponent {
     }
   }
 
-
   ngOnInit() {
     this.isStaff = localStorage.getItem("loggedUserIsStaff") === 'true';
     console.log('is staff?', this.isStaff);
   }
 
   postKnowledgeArea() {
+    console.log('tentando enviar forms...');
     if (this.KnowledgeAreaForm.invalid) {
       alert('formulário inválido!');
       console.log(this.KnowledgeAreaForm.get('content')!.errors)
     } else {
       this.knowledgeAreaService.post(this.KnowledgeAreaForm.value).subscribe({
-        next: (res) => console.log("Sucesso:", res),
+        next: (res) => {
+          console.log("Sucesso:", res)
+
+          const newKnowledgeArea = {
+            id: res.id,
+            content: res.content,
+            amountOfEntries: res.entries ? res.entries.length : 0
+          };
+
+          this.knowledgeAreaCards?.push(newKnowledgeArea);
+          this.allKnowledgeAreas.push(res);
+          this.contentResults.push(res);
+
+        },
         error: (err) => console.error("erro:", err)
       });
       this.KnowledgeAreaForm.reset();

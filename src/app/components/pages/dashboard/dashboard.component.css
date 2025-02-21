@@ -132,7 +132,6 @@ section .container {
   padding-top: 22px;
   overflow-x: auto;
   overflow-y: visible;
-  height: 322px;
 }
 
 .knowledge-area {
@@ -176,10 +175,11 @@ section .container {
 }
 
 .qnt {
-  bottom: .2%;
+  bottom: -1vh;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 24px;
+  font-size: 32px !important;
+  color: var(--page-color-6);
 }
 
 .add-new-area {
@@ -261,6 +261,10 @@ section .container {
 }
 
 @media (min-width: 1920px) {
+  .container-main {
+    margin-top: 3rem;
+  }
+
   .background {
     height: 414px;
   }
