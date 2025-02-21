@@ -39,4 +39,12 @@ export class ImageService {
   put(image: ImageToSend) {
     return this.http.put<{}>(`${this.imageUrl}/${image.id}`, image)
   }
+
+  post(image: ImageToSend) {
+    return this.http.post<Image>(this.imageUrl, image)
+  }
+
+  delete(id: number) {
+    return this.http.delete<{}>(`${this.imageUrl}/${id}`)
+  }
 }

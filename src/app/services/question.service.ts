@@ -14,4 +14,12 @@ export class QuestionService {
   put(question: Question) {
     return this.http.put<{}>(`${this.questionUrl}/${question.id}`, question)
   }
+
+  post(question: Question) {
+    return this.http.post<Question>(this.questionUrl, question)
+  }
+
+  delete(id: number) {
+    return this.http.delete<{}>(`${this.questionUrl}/${id}`)
+  }
 }
