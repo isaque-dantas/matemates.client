@@ -4,7 +4,7 @@ main *:not(mat-icon) {
 }
 
 .container {
-  max-width: 100%;
+  max-width: 88%;
 }
 
 h3 {
@@ -141,7 +141,7 @@ button:not(#validateEntry) {
 .background{
   height: 100vh;
   width: 100vw;
-  background-image: url("bg-esquisito-cortado.png");
+  background-image: url("knowledge -background.png");
   background-size: cover;
   z-index: 9999999999;
 }

@@ -13,7 +13,8 @@
                       <h1 class="m-0 title fw-bold">Alfa</h1>
                       <div class="m-0 area-field">Álgebra</div>
                     </div>
-                    <p class="definition">Alfa (Α ou α; em grego: άλφα, transl.: álpha) é a primeira letra do alfabeto grego e tem um valor numérico de 1. Ela é derivada da letra fení...</p>
+                    <p class="definition">Alfa (Α ou α; em grego: άλφα, transl.: álpha) é a primeira letra do alfabeto
+                      grego e tem um valor numérico de 1. Ela é derivada da letra fení...</p>
                   </div>
                   <div class="w-100 d-flex justify-content-end">
                     <p class="about position-relative">LER MAIS</p>
@@ -30,7 +31,8 @@
                       <h1 class="m-0 title">Lorem</h1>
                       <div class="m-0 area-field">Álgebra</div>
                     </div>
-                    <p class="definition">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent mattis elementum tortor id consectetur...</p>
+                    <p class="definition">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent mattis
+                      elementum tortor id consectetur...</p>
                   </div>
                   <div class="w-100 d-flex justify-content-end">
                     <p class="about position-relative">LER MAIS</p>
@@ -41,14 +43,6 @@
                 </div>
               </div>
             </div>
-<!--            <button class="carousel-control-prev carousel-control" type="button" data-bs-target="#term-carousel" data-bs-slide="prev">-->
-<!--              <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
-<!--              <span class="visually-hidden">Previous</span>-->
-<!--            </button>-->
-<!--            <button class="carousel-control-next carousel-control" type="button" data-bs-target="#term-carousel" data-bs-slide="next">-->
-<!--              <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
-<!--              <span class="visually-hidden">Next</span>-->
-<!--            </button>-->
           </div>
         </div>
       </div>
@@ -60,8 +54,11 @@
           <mat-icon aria-hidden="false" aria-label="icon" fontIcon="search"></mat-icon>
         </div>
       </div>
-      <div class="col-9">
+      <div class="col-9 d-flex justify-content-between align-items-center">
         <h1 class="contents m-0">Assuntos</h1>
+        <button *ngIf="isStaff === true" class="add-new-area" data-bs-toggle="modal"
+                data-bs-target="#createKnowledgeArea">Adicionar Nova Área
+        </button>
       </div>
     </div>
     <div class="row justify-content-between">
@@ -80,14 +77,82 @@
         </div>
       </div>
       <div class="right2 col-9">
-        <ul class="d-flex list-unstyled flex-shrink-0 field-container overflow-x-scroll">
-          <li *ngFor="let card of knowledgeAreaCards" class="field-card overflow-hidden flex-shrink-0 text-center position-relative">
+        <ul class="d-flex list-unstyled flex-shrink-0 field-container">
+          <li *ngFor="let card of knowledgeAreaCards"
+              class="field-card flex-shrink-0 text-center position-relative">
             <h2>{{ card.content | capitalize }}</h2>
-            <div class="white-ball position-absolute">
-              <h3 class="qnt position-absolute">{{ card.amountOfEntries }}</h3>
+            <h3 class="qnt position-absolute">{{ card.amountOfEntries }}</h3>
+            <div *ngIf="isStaff" class="crud-buttons position-absolute d-flex flex-column gap-2">
+              <button (click)="saveKnowledgeAreaId(card.id)"
+                      class="d-flex align-items-center justify-content-center crud-button" data-bs-target="#updateKnowledgeArea" data-bs-toggle="modal">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button (click)="deleteKnowledgeArea(card.id)"
+                      class="d-flex align-items-center justify-content-center crud-button">
+                <mat-icon>delete</mat-icon>
+              </button>
             </div>
           </li>
         </ul>
+      </div>
+    </div>
+
+
+    <!--    modal-->
+    <div class="modal fade" id="createKnowledgeArea" tabindex="-1" aria-labelledby="admModal" aria-hidden="true">
+      <div class="modal-dialog w-100 h-100 p-0 m-0">
+        <div class="modal-content d-flex flex-column w-100 h-100">
+          <div class="modal-header d-block w-100 text-center border-0 p-0">
+            <h1 class="modal-title" id="knowledgeAreaCreateModal">Criar nova área do conhecimento</h1>
+          </div>
+          <form [formGroup]="KnowledgeAreaForm" (ngSubmit)="postKnowledgeArea()" action="" class="d-flex flex-column">
+            <div class="modal-body px-0">
+              <div class="d-flex gap-p flex-column">
+                <label for="content" class="mb-2">Insira o nome da nova área</label>
+                <input type="text" id="content" (input)="searchContent()" formControlName="content">
+              </div>
+              <div class="areas mt-1">
+                <p>Resultados correspondentes a ”{{ KnowledgeAreaForm.get("content")?.value }}“ :</p>
+                <ul class="d-flex w-100 gap-2 overflow-x-scroll list-unstyled m-0 p-0 pb-2">
+                  <li *ngFor="let result of contentResults" class="area-box col-2">{{ result.content }}</li>
+                </ul>
+              </div>
+            </div>
+            <div class="modal-footer border-0 d-flex justify-content-between">
+              <button type="button" class="cancel" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" [disabled]="KnowledgeAreaForm.invalid" class="confirm" data-bs-dismiss="modal">
+                Confirmar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="updateKnowledgeArea" tabindex="-1" aria-labelledby="admModal" aria-hidden="true">
+      <div class="modal-dialog w-100 h-100 p-0 m-0">
+        <div class="modal-content d-flex flex-column w-100 h-100">
+          <div class="modal-header d-block w-100 text-center border-0 p-0">
+            <h1 class="modal-title" id="updateKnowledgeAreaModal">Edição da área do conhecimento</h1>
+          </div>
+          <div class="modal-destaque text-center">
+            <h1 class="knowledge-area-name">{{ knowledgeAreaName }}</h1>
+          </div>
+          <form [formGroup]="KnowledgeAreaUpdateForm" (ngSubmit)="updateKnowledgeArea()" class="d-flex flex-column">
+            <div class="modal-body px-0">
+              <div class="d-flex gap-p flex-column">
+                <label for="newName" class="mb-2">Insira o novo nome da área</label>
+                <input type="text" id="newName" formControlName="content">
+              </div>
+            </div>
+              <div class="modal-footer border-0 d-flex justify-content-between">
+                <button type="button" class="cancel" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" [disabled]="KnowledgeAreaUpdateForm.invalid" class="confirm" data-bs-dismiss="modal">
+                  Confirmar
+                </button>
+              </div>
+          </form>
+        </div>
       </div>
     </div>
   </section>

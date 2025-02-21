@@ -5,3 +5,7 @@ export interface KnowledgeArea {
   content: string;
   entries?: Entry[];
 }
+
+export interface KnowledgeAreaToSend {
+  content: string;
+}

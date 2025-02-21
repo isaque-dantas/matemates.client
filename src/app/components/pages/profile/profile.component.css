@@ -72,6 +72,19 @@
   font-weight: bold;
 }
 
+#addAdmModal {
+  height: 55vh !important;
+}
+
+#exitModal {
+  height: 25vh;
+  width: 50vw;
+}
+
+#exitModal .modal-footer {
+  margin-top: 10px !important;
+}
+
 .modal-footer {
   margin: 0 !important;
   padding: 0 !important;
