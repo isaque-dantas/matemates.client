@@ -55,9 +55,11 @@ export class EntryFormComponent {
 
   dirtyEntities?: {
     entryContent: boolean,
-    definitions: DefinitionToSend[],
-    images: ImageToSend[],
-    questions: Question[]
+    mainTermGender: boolean,
+    mainTermGrammaticalCategory: boolean,
+    definitions: { toUpdate: DefinitionToSend[], toCreate: DefinitionToSend[] },
+    images: { toUpdate: ImageToSend[], toCreate: ImageToSend[] },
+    questions: { toUpdate: Question[], toCreate: Question[] }
   } = undefined
 
   private fb = inject(FormBuilder);
@@ -186,6 +188,8 @@ export class EntryFormComponent {
 
   addQuestion(data: { question: Question | null }) {
     this.questions.push(this.questionGroupFactory(data.question))
+    this.questions.controls.at(this.questions.controls.length - 1)!.markAsDirty()
+    this.updateDirtyEntities()
   }
 
   selectLastItemInCarousel(entityName: string) {
@@ -200,6 +204,8 @@ export class EntryFormComponent {
   }
 
   deleteActiveEntity(entityName: string) {
+    console.log(entityName)
+
     const numberOfCarouselItems = document.querySelectorAll(`.${entityName}-card .carousel .carousel-item`).length
     if (numberOfCarouselItems <= 1) {
       return null
@@ -208,10 +214,22 @@ export class EntryFormComponent {
     const activeCarouselItem = document.querySelector(`.${entityName}-card .carousel .carousel-item.active`)!
     const activeEntityIndex = parseInt(activeCarouselItem.id.split("-").at(-1)!)
 
+    const entityIdTranslator: { [key: string]: FormArray } = {
+      definition: this.definitions,
+      image: this.images,
+    }
+
+    const entityId: number = entityIdTranslator[entityName].at(activeEntityIndex)!.value.id
+
     const entityRemoveTranslator: { [key: string]: Function } = {
-      definition: this.definitions.removeAt.bind(this.definitions),
-      image: this.images.removeAt.bind(this.images),
-      question: this.questions.removeAt.bind(this.questions),
+      definition: (index: number) => {
+        this.definitions.removeAt(index)
+        this.definitionService.delete(entityId).subscribe()
+      },
+      image: (index: number) => {
+        this.images.removeAt(index)
+        this.imageService.delete(entityId).subscribe()
+      }
     };
 
     entityRemoveTranslator[entityName](activeEntityIndex)
@@ -253,6 +271,9 @@ export class EntryFormComponent {
 
     if (this.entryId) {
       this.entryService.get(this.entryId).subscribe((entry: Entry) => {
+        this.setInstanceImagesToForm(entry)
+        this.setBase64Data(entry.images)
+
         console.log(entry)
 
         const mainTerm = this.entryService.getMainTermFromTerms(entry.terms)
@@ -264,9 +285,6 @@ export class EntryFormComponent {
 
         this.setInstanceQuestionsToForm(entry)
         this.setInstanceDefinitionsToForm(entry)
-        this.setInstanceImagesToForm(entry)
-
-        this.setBase64Data(entry.images)
       })
     }
   }
@@ -313,24 +331,14 @@ export class EntryFormComponent {
   setInstanceImagesToForm(entry: Entry) {
     if (entry.images.length == 0) return;
 
-    const images = entry.images.map((data: Image, index: number) => {
-      console.log("jkfjsdfjsd fasfdkas dfas df asdf asldfas d")
-      console.log(this.imageFileList.at(index))
-      console.log(this.imageFileList.at(0))
-      console.log(this.imageFileList.at(1))
-      console.log(index)
-      console.log("-")
-      console.log()
-      console.log("-")
-
-      return new Object(
+    const images = entry.images.map((data: Image, index: number) => new Object(
         {
           caption: data.caption,
           base64_image: "",
           id: data.id
         }
       )
-    })
+    )
 
     images.slice(0, -1).forEach(() => {
       this.addImage()
@@ -378,6 +386,11 @@ export class EntryFormComponent {
   deleteQuestion(index: number) {
     if (this.questions.length <= 1) return null;
 
+    const questionId: number | null = this.questions.at(index).value.id
+    if (questionId) {
+      this.questionService.delete(questionId).subscribe()
+    }
+
     this.questions.removeAt(index)
 
     return null;
@@ -415,6 +428,7 @@ export class EntryFormComponent {
     }
 
     this.updateEntry()
+    this.createNewRelatedEntities()
   }
 
   postEntry() {
@@ -439,24 +453,17 @@ export class EntryFormComponent {
   }
 
   updateEntry() {
-    this.updateDefinitions(this.dirtyEntities!.definitions)
-    this.updateQuestions(this.dirtyEntities!.questions)
-    this.updateImages(this.dirtyEntities!.images)
+    this.updateDefinitions(this.dirtyEntities!.definitions.toUpdate)
+    this.updateQuestions(this.dirtyEntities!.questions.toUpdate)
+    this.updateImages(this.dirtyEntities!.images.toUpdate)
 
-    if (!this.dirtyEntities!.entryContent) return;
+    if (
+      !this.dirtyEntities!.entryContent &&
+      !this.dirtyEntities!.mainTermGender &&
+      !this.dirtyEntities!.mainTermGrammaticalCategory
+    ) return;
 
-    this.entryService.patchContent(this.entryId!, this.form.controls.content.value!).subscribe({
-      next: () => this.toastService.showToasts([{
-        title: "Edição do nome do verbete",
-        body: "Operação realizada com suscesso.",
-        type: "success"
-      }]),
-      error: (err: HttpErrorResponse) => this.toastService.showToasts([{
-        title: "Edição do nome do verbete",
-        body: `${err.message} (código ${err.status})`,
-        type: "error"
-      }])
-    })
+    this.updateEntryFixedData()
   }
 
   updateDefinitions(definitions: DefinitionToSend[]) {
@@ -533,6 +540,116 @@ export class EntryFormComponent {
   getFormArrayIndexFromId(formArray: FormArray, id: number): number {
     return Object.values(formArray.value)
       .findIndex((value: any) => value.id === id)
+  }
+
+  updateEntryFixedData() {
+    const data = {
+      content:
+        this.dirtyEntities!.entryContent ?
+          this.form.controls.content.value! : undefined,
+
+      main_term_gender:
+        this.dirtyEntities!.mainTermGender ?
+          this.form.controls.main_term_gender.value! : undefined,
+
+      main_term_grammatical_category:
+        this.dirtyEntities!.mainTermGrammaticalCategory ?
+          this.form.controls.main_term_grammatical_category.value! : undefined,
+    }
+
+    console.log(data)
+
+    this.entryService.patch(this.entryId!, data).subscribe({
+      next: () => this.toastService.showToasts([{
+        title: "Edição dos dados do verbete",
+        body: "Operação realizada com suscesso.",
+        type: "success"
+      }]),
+      error: (err: HttpErrorResponse) => this.toastService.showToasts([{
+        title: "Edição dos dados do verbete",
+        body: `${err.message} (código ${err.status})`,
+        type: "error"
+      }])
+    })
+  }
+
+  createNewRelatedEntities() {
+    this.insertEntryIdInDirtyEntities()
+
+    if (this.dirtyEntities!.definitions.toCreate) {
+      this.postNewDefinitions(this.dirtyEntities!.definitions.toCreate)
+    }
+
+    if (this.dirtyEntities!.questions.toCreate) {
+      this.postNewQuestions(this.dirtyEntities!.questions.toCreate)
+    }
+
+    if (this.dirtyEntities!.images.toCreate) {
+      this.postNewImages(this.dirtyEntities!.images.toCreate)
+    }
+  }
+
+  insertEntryIdInDirtyEntities() {
+    this.dirtyEntities!.definitions.toCreate =
+      this.dirtyEntities!.definitions.toCreate.map(
+        value => new Object({...value, entry: this.entryId!}) as DefinitionToSend
+      )
+
+    this.dirtyEntities!.questions.toCreate =
+      this.dirtyEntities!.questions.toCreate.map(
+        value => new Object({...value, entry: this.entryId!}) as Question
+      )
+
+    this.dirtyEntities!.images.toCreate =
+      this.dirtyEntities!.images.toCreate.map(
+        value => new Object({...value, entry: this.entryId!}) as ImageToSend
+      )
+  }
+
+  postNewDefinitions(definitions: DefinitionToSend[]) {
+    definitions.forEach((definition) => {
+      this.definitionService.post(definition).subscribe(
+        this.getHandlersForPost(this.definitions, "a definição", definition.id!)
+      )
+    })
+  }
+
+  postNewQuestions(questions: Question[]) {
+    questions.forEach((question) => {
+      this.questionService.post(question).subscribe(
+        this.getHandlersForPost(this.questions, "o exemplo", question.id!)
+      )
+    })
+  }
+
+  postNewImages(images: ImageToSend[]) {
+    images.forEach((image) => {
+      this.imageService.post(image).subscribe(
+        this.getHandlersForPost(this.images, "a imagem", image.id!)
+      )
+    })
+  }
+
+  getHandlersForPost(formArray: FormArray, entityName: string, controlIndex: number) {
+    const successToast: Toast = {
+      title: `Criação d${entityName} #${controlIndex}`,
+      body: "Operação realizada com sucesso!",
+      type: "success"
+    }
+
+    return {
+      next: () => {
+        formArray.at(controlIndex)!.markAsPristine()
+        this.toastService.showToasts([successToast])
+      },
+      error: (err: HttpErrorResponse) => {
+        this.toastService.showToasts([{
+          title: `Criação d${entityName} #${controlIndex}`,
+          body: `Erro ${err.message} (código ${err.status})`,
+          type: "error"
+        }])
+      },
+    }
   }
 
   getFormValidationErrors(form: FormGroup | FormArray): any {
@@ -682,24 +799,49 @@ export class EntryFormComponent {
       definitions: this.getDirtyData(this.definitions),
       images: this.getDirtyData(this.images),
       questions: this.getDirtyData(this.questions),
-      entryContent: this.form.controls.content.dirty
+      entryContent: this.form.controls.content.dirty,
+      mainTermGender: this.form.controls.main_term_gender.dirty,
+      mainTermGrammaticalCategory: this.form.controls.main_term_grammatical_category.dirty
     }
+
+    console.log(this.dirtyEntities)
   }
 
   isDirtyEntitiesEmpty() {
     if (this.dirtyEntities == undefined) return false
 
     return (
-      this.dirtyEntities.definitions.length == 0 &&
-      this.dirtyEntities.images.length == 0 &&
-      this.dirtyEntities.questions.length == 0 &&
-      !this.dirtyEntities.entryContent
+      this.dirtyEntities.definitions.toUpdate.length == 0 &&
+      this.dirtyEntities.definitions.toCreate.length == 0 &&
+
+      this.dirtyEntities.questions.toUpdate.length == 0 &&
+      this.dirtyEntities.questions.toCreate.length == 0 &&
+
+      this.dirtyEntities.images.toUpdate.length == 0 &&
+      this.dirtyEntities.images.toCreate.length == 0 &&
+
+      !this.dirtyEntities.entryContent &&
+      !this.dirtyEntities.mainTermGrammaticalCategory &&
+      !this.dirtyEntities.mainTermGender
     )
   }
 
   getDirtyData(formArray: FormArray) {
-    return formArray.controls
-      .filter(control => control.dirty)
-      .map(control => control.value)
+    return {
+      "toUpdate":
+        formArray.controls
+          .filter(control => control.dirty)
+          .map(control => control.value)
+          .filter(value => value.id !== null),
+      "toCreate":
+        formArray.controls
+          .map((control, index) => {
+            return {dirty: control.dirty, value: control.value, controlIndex: index}
+          })
+          .filter(control => control.dirty && control.value.id == null)
+          .map(control => {
+            return {...control.value, id: control.controlIndex}
+          }),
+    }
   }
 }

@@ -40,8 +40,8 @@ export class EntryService {
     return this.http.patch(`${this.entryUrl}/${id}/validate`, {})
   }
 
-  patchContent(id: number, content: string) {
-    return this.http.patch(`${this.entryUrl}/${id}`, {content: content}) as Observable<{}>
+  patch(id: number, data: { content?: string, main_term_grammatical_category?: string, main_term_gender?: string }) {
+    return this.http.patch(`${this.entryUrl}/${id}`, data) as Observable<{}>
   }
 
   parseContent(entryData: Entry): string {
