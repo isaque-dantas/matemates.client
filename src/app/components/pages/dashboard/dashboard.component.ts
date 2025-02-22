@@ -7,7 +7,7 @@ import {KnowledgeAreaService} from "../../../services/knowledge-area.service";
 import {KnowledgeArea} from "../../../interfaces/knowledge-area";
 import {CapitalizePipe} from "../../../pipes/capitalize.pipe";
 import {AuthService} from "../../../services/auth.service";
-import {Router} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {FormBuilder} from "@angular/forms";
 import {debounceTime} from "rxjs";
@@ -15,7 +15,7 @@ import {debounceTime} from "rxjs";
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [MatIcon, NgForOf, HeaderComponent, CapitalizePipe, ReactiveFormsModule, NgIf],
+  imports: [MatIcon, NgForOf, HeaderComponent, CapitalizePipe, ReactiveFormsModule, NgIf, RouterLink],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -47,7 +47,6 @@ export class DashboardComponent {
 
     knowledgeAreaService.getAll().subscribe(async (knowledgeAreas: KnowledgeArea[]) => {
       console.log("Lista de áreas:", knowledgeAreas);
-      console.log("ID que estou buscando:", this.knowledgeAreaId);
 
       const selectedArea = knowledgeAreas.find(area => area.id === this.knowledgeAreaId);
       console.log("Área encontrada:", selectedArea);
@@ -100,7 +99,6 @@ export class DashboardComponent {
   }
 
   ngOnInit() {
-
     this.toggleKnowledgeAreaEditting()
     this.authService.loginEventEmitter.subscribe(this.toggleKnowledgeAreaEditting.bind(this))
   }

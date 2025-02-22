@@ -23,4 +23,3 @@ export interface Entry {
   definitions: Definition[],
   images: Image[],
 }
-

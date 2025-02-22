@@ -10,6 +10,8 @@ import {EntryFormComponent} from "./components/pages/entry-form/entry-form.compo
 import {staffOnlyGuard} from "./auth/staff-only.guard";
 import {EntriesCardsComponent} from "./components/entries-cards/entries-cards.component";
 import {SearchEntriesComponent} from "./components/search-entries/search-entries.component";
+import {MostAccessedEntriesComponent} from "./components/pages/most-accessed-entries/most-accessed-entries.component";
+import {HistoryComponent} from "./components/pages/history/history.component";
 
 export const routes: Routes = [
   {path: '', component: DashboardComponent},
@@ -21,5 +23,7 @@ export const routes: Routes = [
   {path: 'entry/:id', component: EntryViewComponent},
   {path: 'create_entry', component: EntryFormComponent, canActivate: [authGuard, staffOnlyGuard]},
   {path: 'edit_entry/:id', component: EntryFormComponent, canActivate: [authGuard, staffOnlyGuard]},
+  {path: 'user_history', component: HistoryComponent, canActivate: [authGuard]},
+  {path: 'most_accessed_entries', component: MostAccessedEntriesComponent},
   {path: '**', redirectTo: ''}
 ];
