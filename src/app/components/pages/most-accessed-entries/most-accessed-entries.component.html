@@ -1,25 +1,12 @@
 <app-header></app-header>
-<section class="container">
-  <h2>Most Accessed Entries</h2>
+<section class="container mt-5">
+  <h3 class="page-title mb-4">Verbetes mais acessados</h3>
 
-  <div *ngIf="isLoading">Loading...</div>
   <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
 
-  <div *ngIf="!isLoading && !errorMessage">
+  <div *ngIf="!errorMessage">
     <div class="d-flex gap-3">
-      <div *ngFor="let entry of entryDetails" class="card" style="width: 18rem;">
-        <div class="card-body">
-          <h5 class="card-title">{{ entry.content }}</h5>
-          <h6 class="card-subtitle mb-2 text-body-secondary"
-              *ngFor="let item of entry.definitions">
-            {{ item.knowledge_area }}
-          </h6>
-          <p class="card-text" *ngFor="let definition of entry.definitions">
-            {{ definition.content }}
-          </p>
-          <a href="#" class="card-link" [routerLink]="['/entry', entry.id]">Ver verbete</a>
-        </div>
-      </div>
+      <app-entries-cards [entries]="mostAccessedEntries" [isLoadingInProgress]="isLoading"/>
     </div>
   </div>
 </section>
