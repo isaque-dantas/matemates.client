@@ -17,10 +17,6 @@
           <label for="email_show">E-mail</label>
           <input type="email" formControlName="email" id="email_show">
         </div>
-        <div class="info d-flex flex-column">
-          <label for="password_show">Senha</label>
-          <input type="password" formControlName="email" id="password_show">
-        </div>
       </form>
       <div class="cruds d-inline-flex justify-content-between align-items-start">
         <button *ngIf="this.userData.is_staff && !isEditable"

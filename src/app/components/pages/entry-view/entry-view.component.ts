@@ -8,8 +8,8 @@ import {MatIcon} from "@angular/material/icon";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ToastService} from "../../../services/toast.service";
 import {Toast} from "../../../interfaces/toast";
-import {Image} from "../../../interfaces/image";
 import {ImageService} from "../../../services/image.service";
+import {AuthService} from "../../../services/auth.service";
 
 @Component({
   selector: 'app-entry-view',
@@ -31,8 +31,13 @@ export class EntryViewComponent {
   entryIsLoadedAlready = false
   imageFileList: string[] = []
   genderList: string[] = []
+  gramaticalCategoryList: string[] = []
+  EntryEditting:  boolean = false;
 
-  constructor(private route: ActivatedRoute, private entryService: EntryService, private router: Router, private toastService: ToastService, private imageService: ImageService) {
+  constructor(private route: ActivatedRoute, private entryService: EntryService,
+              private router: Router, private toastService: ToastService,
+              private imageService: ImageService, private authService: AuthService,
+              ) {
     route.params.subscribe(async (params) => {
       this.entryId = +params["id"];
       this.loadEntry()
@@ -43,13 +48,29 @@ export class EntryViewComponent {
         console.log('verbete:', entry)
         this.entryData = entry
 
+
+        this.genderList = this.entryService.getGendersFromEntry(entry.terms)
+        this.gramaticalCategoryList = this.entryService.getGrammaticalCategoriesFromEntry(entry.terms);
+
+        console.log(this.gramaticalCategoryList);
+
+        this.genderList = this.genderList.map(gender => {
+          if (gender === 'M') {
+            return 'masculino';
+          } else if (gender === 'F') {
+            return 'feminino';
+          }
+          return gender;
+        });
+
+        console.log(this.genderList)
         this.imageFileList = this.imageService.getImageFiles(entry.images)
 
         this.parsedEntryContent = this.entryService.parseContent(entry)
         this.knowledgeAreas = entryService.getKnowledgeAreasContentsFromDefinitions(entry.definitions)
 
         const firstImage = document.querySelector(".carousel li.carousel-item")
-        console.log('imagem:',firstImage)
+        console.log('imagem:', firstImage)
         if (firstImage) {
           firstImage.classList.add("active")
         }
@@ -71,11 +92,20 @@ export class EntryViewComponent {
 
     document.addEventListener("DOMContentLoaded", () => {
       const firstImage = document.querySelector(".carousel li.carousel-item")
-      console.log('imagem:',firstImage)
+      console.log('imagem:', firstImage)
       if (firstImage) {
         firstImage.classList.add("active")
       }
     })
+  }
+
+  ngOnInit() {
+    this.toggleEntryEdditing()
+    this.authService.loginEventEmitter.subscribe(this.toggleEntryEdditing.bind(this))
+  }
+
+  toggleEntryEdditing() {
+    this.EntryEditting = this.authService.isLoggedUserStaff();
   }
 
   loadEntry(): void {

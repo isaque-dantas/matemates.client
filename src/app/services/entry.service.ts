@@ -67,6 +67,30 @@ export class EntryService {
     )
   }
 
+  getGendersFromEntry(terms: Term[]): string[] {
+    const genders = new Set<string>();
+
+    terms.forEach(term => {
+      if (term.gender) {
+        genders.add(term.gender);
+      }
+    });
+
+    return Array.from(genders);
+  }
+
+  getGrammaticalCategoriesFromEntry(terms: Term[]): string[] {
+    const categories = new Set<string>();
+
+    terms.forEach(term => {
+      if (term.grammatical_category) {
+        categories.add(term.grammatical_category);
+      }
+    });
+
+    return Array.from(categories);
+  }
+
   parseDefinitionsContents(definitions: Definition[]): string {
     return definitions.map((definition, index) => `${definition.content}`).join(" ")
   }
