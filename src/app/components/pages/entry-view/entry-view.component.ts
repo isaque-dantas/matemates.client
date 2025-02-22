@@ -101,7 +101,7 @@ export class EntryViewComponent {
 
   ngOnInit() {
     this.toggleEntryEdditing()
-    this.authService.loginEventEmitter.subscribe(this.toggleEntryEdditing.bind(this))
+    this.authService.loggedUserDataChanged.subscribe(this.toggleEntryEdditing.bind(this))
   }
 
   toggleEntryEdditing() {
