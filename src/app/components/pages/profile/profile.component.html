@@ -17,18 +17,16 @@
           <label for="email_show">E-mail</label>
           <input type="email" formControlName="email" id="email_show">
         </div>
-        <div class="info d-flex flex-column">
-          <label for="password_show">Senha</label>
-          <input type="password" formControlName="email" id="password_show">
-        </div>
       </form>
       <div class="cruds d-inline-flex justify-content-between align-items-start">
-        <button *ngIf="this.userData.is_staff && !isEditable"
-                class="d-flex flex-column add_adm_button align-items-center crud" data-bs-toggle="modal"
-                data-bs-target="#addAdmModal">
-          <mat-icon>add</mat-icon>
-          <p>Add adm</p>
-        </button>
+        @if (this.userData) {
+          <button *ngIf="this.userData.is_staff && !isEditable"
+                  class="d-flex flex-column add_adm_button align-items-center crud" data-bs-toggle="modal"
+                  data-bs-target="#addAdmModal">
+            <mat-icon>add</mat-icon>
+            <p>Add adm</p>
+          </button>
+        }
         <button class="d-flex flex-column edit_button align-items-center crud"
                 (click)="isEditable? saveChanges() : toggleEdit()">
           <mat-icon>{{ isEditable ? 'check' : 'edit' }}</mat-icon>
@@ -52,7 +50,18 @@
       </div>
     </div>
 
-    <div class="adm-picture position-absolute"></div>
+    <label for="profile_image_base64" class="adm-picture position-absolute d-flex flex-column align-items-center">
+      <figure class="position-relative">
+        <div class="black-bg position-absolute top-0 start-0"></div>
+        <img [src]="this.profileImageBase64String ?? '/placeholder-user.png'" alt=""
+             class="w-100 h-100">
+      </figure>
+      @if (showSendImageButton) {
+        <button type="button" class="btn" (click)="editProfileImage()">Enviar imagem</button>
+      }
+    </label>
+
+    <input (input)="updateImage()" type="file" name="profile_image_base64" id="profile_image_base64" class="d-none">
 
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
       <div *ngIf="logMessage" class="toast show toast-error" role="alert" aria-live="assertive" aria-atomic="true">

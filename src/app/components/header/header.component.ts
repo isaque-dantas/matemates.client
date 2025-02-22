@@ -4,6 +4,7 @@ import {NgForOf, NgIf} from "@angular/common";
 import {MatButton} from "@angular/material/button";
 import {AuthService} from "../../services/auth.service";
 import {UserService} from "../../services/user.service";
+import {User} from "../../interfaces/user";
 
 @Component({
   selector: 'app-header',
@@ -21,9 +22,8 @@ import {UserService} from "../../services/user.service";
 
 export class HeaderComponent {
   showElement: boolean = true;
-  userData: any;
-  token: any;
   navItems: any = [];
+  profileImageBase64String?: string
 
   readonly staffNavItems = [
     {'label': 'Início', 'link': ''},
@@ -49,12 +49,24 @@ export class HeaderComponent {
       this.updateShowElement();
     });
 
+    this.setProfileImage()
+    this.authService.loggedUserProfileImageChanged.subscribe(this.setProfileImage.bind(this))
+
     this.setNavItemsBasedOnUserLogged()
-    this.authService.loginEventEmitter.subscribe(this.setNavItemsBasedOnUserLogged.bind(this))
+    this.authService.loggedUserDataChanged.subscribe(this.setNavItemsBasedOnUserLogged.bind(this))
   }
 
-  setNavItemsBasedOnUserLogged() {
-    this.navItems = this.authService.isLoggedUserStaff() ? this.staffNavItems : this.nonStaffNavItems
+  setNavItemsBasedOnUserLogged(user?: User) {
+    if (user) {
+      this.navItems = user.is_staff ? this.staffNavItems : this.nonStaffNavItems
+    } else {
+      this.navItems = this.authService.isLoggedUserStaff() ? this.staffNavItems : this.nonStaffNavItems
+    }
+
+  }
+
+  setProfileImage() {
+    this.profileImageBase64String = this.authService.getLoggedUserProfileImage() ?? undefined
   }
 
   private updateShowElement() {
