@@ -169,7 +169,7 @@ button#editEntry, button#deleteEntry, button#validateEntry {
   }
 
   .badge-knowledge-area {
-    font-size: 32px !important;
+    font-size: 24px !important;
     padding: 9px 20px;
   }
 
@@ -211,7 +211,7 @@ button#editEntry, button#deleteEntry, button#validateEntry {
   }
 
   .bottom-content {
-    height: 30vh;
+    height: 20vh;
   }
 
   .examples {
