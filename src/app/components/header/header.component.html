@@ -12,7 +12,9 @@
       <div *ngIf="showElement" class="buttons">
         <button *ngIf="!authService.isAuthenticated()" routerLink="/login" class="btn btn-login">Entrar</button>
         <button *ngIf="!authService.isAuthenticated()" routerLink="/register" class="btn btn-register">Registrar</button>
-        <button *ngIf="authService.isAuthenticated()" class="bg-transparent user-tab" routerLink="/profile"></button>
+        <button *ngIf="authService.isAuthenticated()" class="bg-transparent user-tab p-0" routerLink="/profile">
+          <img [src]="profileImageBase64String ?? '/placeholder-user.png' " alt="" class="w-100 h-auto">
+        </button>
       </div>
     </div>
   </nav>
