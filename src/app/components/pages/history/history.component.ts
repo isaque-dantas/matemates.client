@@ -47,6 +47,7 @@ export class HistoryComponent implements OnInit {
 
         if (this.userAccessHistory.length > 0) {
           this.lastAccessedEntry = this.userAccessHistory[0];
+          localStorage.setItem("LastAccessedEntry", JSON.stringify(this.lastAccessedEntry));
           this.loadEntryDetails(this.lastAccessedEntry.entry_id);
         }
 

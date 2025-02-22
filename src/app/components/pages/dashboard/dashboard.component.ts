@@ -11,6 +11,7 @@ import {Router, RouterLink} from "@angular/router";
 import {FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {FormBuilder} from "@angular/forms";
 import {debounceTime} from "rxjs";
+import {EntryAccessHistory} from "../../../interfaces/entry-access-history";
 
 @Component({
   selector: 'app-dashboard',
@@ -19,7 +20,7 @@ import {debounceTime} from "rxjs";
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   knowledgeAreaCards?: { id: number, content: string, amountOfEntries: number }[] = [];
   KnowledgeAreaForm: FormGroup;
   KnowledgeAreaUpdateForm: FormGroup;
@@ -28,6 +29,7 @@ export class DashboardComponent {
   knowledgeAreaId: number = 1;
   knowledgeAreaName: string | undefined;
   KnowledgeAreaEditting: boolean = false;
+  LastAccessedEntry: EntryAccessHistory | null = null;
 
   constructor(entryService: EntryService, private knowledgeAreaService: KnowledgeAreaService,
               private authService: AuthService, private router: Router, private fb: FormBuilder) {
@@ -101,6 +103,12 @@ export class DashboardComponent {
   ngOnInit() {
     this.toggleKnowledgeAreaEditting()
     this.authService.loginEventEmitter.subscribe(this.toggleKnowledgeAreaEditting.bind(this))
+
+    const lastAccessedEntryString = localStorage.getItem("LastAccessedEntry");
+    if (lastAccessedEntryString) {
+      this.LastAccessedEntry = JSON.parse(lastAccessedEntryString);
+      console.log('Último termo acessado:', this.LastAccessedEntry);
+    }
   }
 
   toggleKnowledgeAreaEditting() {

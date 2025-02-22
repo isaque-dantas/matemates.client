@@ -71,9 +71,9 @@
           <mat-icon aria-hidden="false" class="search-icon" aria-label="icon" fontIcon="history"></mat-icon>
           <p class="m-0 knowledge-area">Histórico</p>
         </div>
-        <div id="color-3" class="search-example d-flex align-items-center">
-          <mat-icon aria-hidden="false" class="search-icon" aria-label="icon" fontIcon="search"></mat-icon>
-          <p class="m-0 knowledge-area">Lorem ipsum</p>
+        <div id="color-3" class="search-example d-flex align-items-center" [routerLink]="['/entry', LastAccessedEntry?.entry_id]">
+          <mat-icon aria-hidden="false" class="search-icon" aria-label="icon" fontIcon="autorenew"></mat-icon>
+          <p class="m-0 knowledge-area">{{ LastAccessedEntry?.entry_content }}</p>
         </div>
       </div>
       <div class="right2 col-9">
