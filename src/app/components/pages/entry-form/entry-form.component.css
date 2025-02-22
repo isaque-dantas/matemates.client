@@ -9,7 +9,6 @@
   width: 100vw;
 }
 
-
 main {
   margin-top: 25px;
 }
@@ -234,10 +233,6 @@ select[formControlName="main_term_grammatical_category"] {
   content: ">";
 }
 
-#imagesCarousel .carousel-inner {
-
-}
-
 .image-card .image-content-label {
   width: 40%;
   padding: 0 !important;
@@ -328,6 +323,7 @@ input[type="submit"]:disabled {
   background: transparent;
   color: #FFFFFF !important;
   font-size: 24px;
+  font-weight: 800 !important;
   padding: 5px 15px;
   text-transform: uppercase;
   margin-top: 1rem;
@@ -342,17 +338,30 @@ input[type="submit"]:disabled {
     height: 200px;
   }
 
+  select[formControlName="main_term_gender"],
+  select[formControlName="main_term_grammatical_category"],
+  .definition-card textarea {
+    font-size: 24px !important;
+  }
+
+  .definition-card select {
+    font-size: 18px !important;
+  }
+
   .definition-card {
     height: 350px;
   }
 
   .btn-next {
     margin-top: 45px !important;
+    font-size: 32px;
+    padding: 10px 23px;
   }
 
   .image-content-label,
   .image-card textarea {
       height: 290px !important;
+    font-size: 24px !important;
   }
 
 }

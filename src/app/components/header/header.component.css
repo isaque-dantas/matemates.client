@@ -71,13 +71,17 @@
   border: 2px solid var(--page-color-6);
 }
 
-@media (min-height: 1080px) {
+@media (min-width: 1920px) {
+  .navbar {
+    padding-top: 25px;
+  }
+
   .logo {
     width: 60px;
   }
 
   .navItems {
-    font-size: 24px;
+    font-size: 24px !important;
   }
 
   .btn {

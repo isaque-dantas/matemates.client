@@ -28,7 +28,6 @@ h3 {
   border-radius: 8px;
   border-width: 1px;
   padding: 2px 8px;
-
   border-color: #606060;
   color: #606060 !important;
 }
@@ -46,8 +45,8 @@ h3 {
   border-color: #052659 !important;
 }
 
-.examples {
-  margin-top: 40px;
+.bottom-content {
+  height: 20vh;
 }
 
 .examples .example {
@@ -102,8 +101,12 @@ button:not(#validateEntry) {
 
 .carousel-inner {
   overflow: visible;
-  width: 350px !important;
-  height: 350px !important;
+  width: 300px !important;
+  height: 300px !important;
+}
+
+.carousel-control-prev, .carousel-control-next {
+  height: 300px !important;
 }
 
 .carousel-item img {
@@ -117,9 +120,10 @@ button:not(#validateEntry) {
   text-align: center;
   padding: 10px;
   width: 100%;
-  color: white;
   font-size: 20px;
+  font-weight: 500;
   transform: translateY(30px);
+  color: #052659;
   opacity: 0;
   transition: opacity 0.8s, transform 0.8s;
 }
@@ -132,10 +136,6 @@ button:not(#validateEntry) {
 .carousel-item-next .carousel-caption, .carousel-item-prev .carousel-caption {
   transform: translateY(30px);  /* O texto desce fora da tela */
   opacity: 0;  /* O texto desaparece */
-}
-
-.bottom-content {
-  height: 35vh;
 }
 
 .background{
@@ -164,9 +164,41 @@ button#editEntry, button#deleteEntry, button#validateEntry {
     font-size: 40px !important;
   }
 
+  .badge-knowledge-area {
+    font-size: 32px !important;
+    padding: 9px 20px;
+  }
+
+  #validateEntry,
+  #deleteEntry,
+  #editEntry {
+    font-size: 28px !important;
+  }
+
+  #validateEntry {
+    padding: 9px 20px;
+  }
+
+  #deleteEntry,
+  #editEntry {
+    height: 40px !important;
+    width: 40px !important;
+  }
+
+  #deleteEntry mat-icon,
+  #editEntry mat-icon {
+    height: 32px !important;
+    width: 32px !important;
+    font-size: 32px !important;
+  }
+
   .examples h3 {
     font-size: 40px !important;
     margin-bottom: 10px !important;
+  }
+
+  .definitions-container {
+    margin-top: 30px !important;
   }
 
   .definition-content {
@@ -174,9 +206,30 @@ button#editEntry, button#deleteEntry, button#validateEntry {
     margin-top: 15px !important;
   }
 
+  .bottom-content {
+    height: 30vh;
+  }
+
+  .examples {
+    margin-top: 40px;
+  }
+
   #entryCarousel {
-    width: 350px;
-    height: 500px;
+    width: 650px !important;
+    height: 650px !important;
+  }
+
+  .carousel-inner {
+    width: 500px !important;
+    height: 500px !important;
+  }
+
+  .carousel-control-prev, .carousel-control-next {
+    height: 500px !important;
+  }
+
+  .carousel-caption {
+    font-size: 24px !important;
   }
 
   .badge-knowledge-area-sm {

@@ -31,7 +31,7 @@
                 </div>
               </div>
             </div>
-            <div class="d-flex flex-column">
+            <div class="d-flex flex-column definitions-container">
               <ul class="list-unstyled d-flex flex-column gap-4">
                 <ng-container *ngIf="entryData">
                   @for (definition of this.entryData.definitions; track i; let i = $index) {
@@ -69,20 +69,21 @@
 
               <button class="carousel-control-prev h-100" type="button" data-bs-target="#entryCarousel"
                       data-bs-slide="prev">
+                <mat-icon class="carousel-control-prev-icon" aria-hidden="true">arrow_back_ios</mat-icon>
                 <span class="visually-hidden">Previous</span>
               </button>
               <button class="carousel-control-next h-100" type="button" data-bs-target="#entryCarousel"
                       data-bs-slide="next">
+                <mat-icon class="carousel-control-prev-icon" aria-hidden="true">arrow_forward_ios</mat-icon>
                 <span class="visually-hidden">Next</span>
               </button>
             </div>
-
           </div>
         </div>
         <div class="row bottom-content d-flex flex-column justify-content-end">
           <div class="examples">
             <h3 class="fw-semibold">Exemplos</h3>
-            <ul class="row row-cols-2 row-cols-lg-3 g-3 list-unstyled mt-2">
+            <ul class="row row-cols-2 row-cols-lg-3 g-3 list-unstyled">
               <li class="col" *ngFor="let question of entryData.questions">
                 <div class="example v-100">
                   <span class="fw-medium fs-5">{{ question.statement }}</span>

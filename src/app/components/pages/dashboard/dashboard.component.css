@@ -266,6 +266,30 @@ section .container {
     margin-top: 3rem;
   }
 
+  .add-new-area {
+    font-size: 24px;
+    padding: 8px 15px;
+  }
+
+  .search input{
+    font-size: 24px;
+  }
+
+  .search mat-icon {
+    height: 36px;
+    width: 36px;
+    font-size: 36px;
+  }
+
+  #createKnowledgeArea,
+  #updateKnowledgeArea {
+    height: fit-content;
+  }
+
+  #createKnowledgeArea .modal-title{
+    font-size: 48px !important;
+  }
+
   .background {
     height: 414px;
   }
@@ -327,29 +351,5 @@ section .container {
   .area-field {
     font-size: 36px;
     padding: 15px 10px;
-  }
-}
-
-@media (min-width: 993px) and (max-width: 1200px) {
-  .background {
-    height: 150px;
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1024px) {
-  nav ul {
-    display: block;
-    text-align: center;
-  }
-}
-
-@media (max-width: 767px) {
-  nav ul {
-    display: block;
-    padding: 0;
-  }
-
-  nav li {
-    margin-bottom: 10px;
   }
 }

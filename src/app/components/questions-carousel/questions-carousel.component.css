@@ -1,3 +1,7 @@
+#carousel {
+  height: fit-content;
+}
+
 .horizontal-scrollable {
   padding: 0 40px;
 }
@@ -99,21 +103,31 @@ button.next .icon {
 
 .btn-new {
   border-radius: 48px !important;
-  border: 3px solid #FFF;
-  background: transparent;
+  background: var(--page-color-6) ;
   color: #FFFFFF !important;
   font-size: 16px;
+  font-weight: 800;
   padding: 5px 15px;
   text-transform: uppercase;
   margin-top: 1rem;
+  transition: border ease-in-out .3s;
 }
 
+.btn-new:hover {
+  border: 3px solid #FFF;
+}
 @media (min-width: 1920px) {
+  #carousel {
+    margin-top: 55px;
+  }
+
   .row .custom-card {
     height:   250px;
   }
 
   .btn-new {
     margin-top: 45px !important;
+    font-size: 32px;
+    padding: 10px 23px !important;
   }
 }
