@@ -22,6 +22,10 @@ h3 {
   padding: 5px 5px;
 }
 
+.main-term {
+  color: red !important;
+}
+
 .badge-knowledge-area-sm {
   font-size: 12px;
   font-weight: 400;
