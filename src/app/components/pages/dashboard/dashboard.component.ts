@@ -10,7 +10,7 @@ import {AuthService} from "../../../services/auth.service";
 import {Router, RouterLink} from "@angular/router";
 import {FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {FormBuilder} from "@angular/forms";
-import {debounceTime} from "rxjs";
+import {ToastService} from "../../../services/toast.service";
 import {EntryAccessHistory} from "../../../interfaces/entry-access-history";
 
 @Component({
@@ -31,7 +31,7 @@ export class DashboardComponent implements OnInit {
   KnowledgeAreaEditting: boolean = false;
   LastAccessedEntry: EntryAccessHistory | null = null;
 
-  constructor(entryService: EntryService, private knowledgeAreaService: KnowledgeAreaService,
+  constructor(private toastService: ToastService, private knowledgeAreaService: KnowledgeAreaService,
               private authService: AuthService, private router: Router, private fb: FormBuilder) {
     this.KnowledgeAreaForm = this.fb.group({
       content: ['', Validators.required]
@@ -76,6 +76,20 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  navigateToHistory(): void {
+    if (this.authService.isAuthenticated()) {
+      this.router.navigate(['/user_history']);
+    } else {
+      this.toastService.showToasts([
+        {
+          title: "Acesso Negado",
+          body: "Você precisa estar logado para acessar o histórico.",
+          type: "error"
+        }
+      ]);
+    }
+  }
+
   saveKnowledgeAreaId(id: number) {
     this.knowledgeAreaId = id;
 
@@ -104,10 +118,12 @@ export class DashboardComponent implements OnInit {
     this.toggleKnowledgeAreaEditting()
     this.authService.loginEventEmitter.subscribe(this.toggleKnowledgeAreaEditting.bind(this))
 
-    const lastAccessedEntryString = localStorage.getItem("LastAccessedEntry");
-    if (lastAccessedEntryString) {
-      this.LastAccessedEntry = JSON.parse(lastAccessedEntryString);
-      console.log('Último termo acessado:', this.LastAccessedEntry);
+    if (this.authService.isAuthenticated()) {
+      const lastAccessedEntryString = localStorage.getItem("LastAccessedEntry");
+      if (lastAccessedEntryString) {
+        this.LastAccessedEntry = JSON.parse(lastAccessedEntryString);
+        console.log('Último termo acessado:', this.LastAccessedEntry);
+      }
     }
   }
 
