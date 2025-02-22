@@ -53,8 +53,6 @@ export class EntryService {
     const parsedTerms: string[] = entryData.terms.map((term) => {
       return (term.is_main_term ? "*" : "") + term.syllables.join(".") + (term.is_main_term ? "*" : "")
     })
-    // console.log(parsedTerms)
-    // console.log(parsedTerms.join(' '))
     return parsedTerms.join(' ')
   }
 

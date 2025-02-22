@@ -30,15 +30,17 @@ export class EntryViewComponent {
   knowledgeAreas!: string[]
   entryIsLoadedAlready = false
   imageFileList: string[] = []
+  genderList: string[] = []
 
   constructor(private route: ActivatedRoute, private entryService: EntryService, private router: Router, private toastService: ToastService, private imageService: ImageService) {
     route.params.subscribe(async (params) => {
       this.entryId = +params["id"];
+      this.loadEntry()
     })
 
     this.entryService.get(this.entryId).subscribe({
       next: (entry: Entry) => {
-        console.log(entry)
+        console.log('verbete:', entry)
         this.entryData = entry
 
         this.imageFileList = this.imageService.getImageFiles(entry.images)
@@ -47,7 +49,7 @@ export class EntryViewComponent {
         this.knowledgeAreas = entryService.getKnowledgeAreasContentsFromDefinitions(entry.definitions)
 
         const firstImage = document.querySelector(".carousel li.carousel-item")
-        console.log(firstImage)
+        console.log('imagem:',firstImage)
         if (firstImage) {
           firstImage.classList.add("active")
         }
@@ -69,11 +71,50 @@ export class EntryViewComponent {
 
     document.addEventListener("DOMContentLoaded", () => {
       const firstImage = document.querySelector(".carousel li.carousel-item")
-      console.log(firstImage)
+      console.log('imagem:',firstImage)
       if (firstImage) {
         firstImage.classList.add("active")
       }
     })
+  }
+
+  loadEntry(): void {
+    this.entryService.get(this.entryId).subscribe({
+      next: (entry: Entry) => {
+        this.entryData = entry;
+        this.entryIsLoadedAlready = true;
+      },
+      error: (response: HttpErrorResponse) => {
+        if (response.status === 404) {
+          this.toastService.showToasts([
+            {
+              title: "Verbete não encontrado",
+              body: "O verbete que você está tentando acessar não existe.",
+              type: "error"
+            }
+          ]);
+          this.router.navigate(['']);
+        } else if (response.status === 403) {
+          this.toastService.showToasts([
+            {
+              title: "Erro de permissão",
+              body: "Você não tem permissão para acessar este verbete.",
+              type: "error"
+            }
+          ]);
+          this.router.navigate(['']);
+        } else {
+          this.toastService.showToasts([
+            {
+              title: "Erro ao carregar verbete",
+              body: "Ocorreu um erro ao carregar o verbete. Tente novamente mais tarde.",
+              type: "error"
+            }
+          ]);
+          this.router.navigate(['']);
+        }
+      }
+    });
   }
 
   redirectToEdit(): void {
