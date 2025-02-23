@@ -273,6 +273,9 @@ export class EntryFormComponent {
       this.entryService.get(this.entryId).subscribe((entry: Entry) => {
         this.setInstanceImagesToForm(entry)
         this.setBase64Data(entry.images)
+        this.images.controls.slice(0).forEach(
+          (control, index) => this.addImageHandlingToIndex(index)
+        )
 
         console.log(entry)
 
