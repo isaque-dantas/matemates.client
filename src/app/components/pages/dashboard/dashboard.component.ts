@@ -75,7 +75,6 @@ export class DashboardComponent implements OnInit {
       this.entryHistoryService.getUserAccessHistory().subscribe({
         next: (data) => {
           this.LastAccessedEntry = data[0];
-          console.log('ultimo termo acessado:', this.LastAccessedEntry);
         }
       })
     }

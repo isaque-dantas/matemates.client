@@ -40,6 +40,7 @@ export class HistoryComponent implements OnInit {
     this.entryHistoryService.getUserAccessHistory().subscribe({
       next: (data) => {
         this.isLoading = false;
+        this.userAccessHistory = data;
       },
       error: (err) => {
         console.error('Failed to load user access history:', err);
