@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {afterNextRender, afterRender, Component, Input} from '@angular/core';
 import {Entry} from "../../interfaces/entry";
 import {EntryService} from "../../services/entry.service";
 import {HeaderComponent} from "../header/header.component";
@@ -23,14 +23,12 @@ export class EntriesCardsComponent {
 
   constructor(protected entryService: EntryService) {
   }
-
-  ngOnChanges() {
-    this.knowledgeAreasData = this.entries!.map((entry) => {
-      const contents = this.entryService.getKnowledgeAreasContentsFromDefinitions(entry.definitions)
-      return {
-        contentOfFirstKnowledgeArea: contents[0],
-        thereAreMoreThanOne: contents.length > 1
-      }
-    })
+  getFirstContentFromEntry(entry: Entry): string {
+    return this.entryService.getKnowledgeAreasContentsFromDefinitions(entry.definitions)[0]
   }
+
+  areThereManyDefinitionsInEntry(entry: Entry): boolean {
+    return this.entryService.getKnowledgeAreasContentsFromDefinitions(entry.definitions).length > 1
+  }
+
 }

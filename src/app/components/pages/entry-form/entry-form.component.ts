@@ -105,19 +105,14 @@ export class EntryFormComponent {
 
     afterRender({
       read: () => {
-        if (!this.notSetUpImagesIndexes && !this.notSelectedLastEntriesNames) return null;
-
-        this.notSetUpImagesIndexes.forEach(index => {
-          this.addImageHandlingToIndex(index)
-        })
+        if (!this.notSelectedLastEntriesNames) return;
 
         this.notSelectedLastEntriesNames.forEach(name => {
           this.selectLastItemInCarousel(name)
         })
 
-        this.notSetUpImagesIndexes = []
         this.notSelectedLastEntriesNames = []
-        return null;
+        return;
       }
     })
 
@@ -182,7 +177,6 @@ export class EntryFormComponent {
 
   addImage() {
     this.images.push(this.imageGroupFactory())
-    this.notSetUpImagesIndexes.push(this.images.length - 1)
     this.notSelectedLastEntriesNames.push("image")
   }
 
@@ -265,8 +259,6 @@ export class EntryFormComponent {
         const firstCarouselItem = document.querySelector(`${card} .carousel .carousel-item`)!
         firstCarouselItem.classList.add("active")
       })
-
-      this.addImageHandlingToIndex(0)
     })
 
     if (this.entryId) {
@@ -274,10 +266,7 @@ export class EntryFormComponent {
         this.setInstanceImagesToForm(entry)
         this.setBase64Data(entry.images)
 
-        console.log(entry)
-
         const mainTerm = this.entryService.getMainTermFromTerms(entry.terms)
-
 
         this.form.get("content")!.setValue(this.entryService.parseEditableContent(entry))
         this.form.get("main_term_gender")!.setValue(mainTerm.gender)
@@ -353,7 +342,7 @@ export class EntryFormComponent {
     images.forEach((image: Image, index: number) => {
       this.imageService.getFile(image.id!).subscribe(
         (data: Blob) => {
-          console.log(`acabou #${index}`)
+          // console.log(`acabou #${index}`)
           this.images.at(index).setValue({
             ...this.images.at(index).value,
             base64_image: URL.createObjectURL(data)
@@ -363,24 +352,19 @@ export class EntryFormComponent {
     })
   }
 
-  addImageHandlingToIndex(index: number) {
-    const imageContainer = document.querySelector(`div#image-${index}`)!
-    const imageFileInput = imageContainer.querySelector("input[type='file']") as HTMLInputElement
+  handleImageChanging(event: Event, index: number) {
+    const target = event.target as HTMLInputElement
+    const file = target.files![0] as File
 
-    imageFileInput!.addEventListener('change', (e) => {
-      const target = e.target as HTMLInputElement
-      const file = target.files![0] as File
+    const reader = new FileReader()
+    reader.onloadend = () => {
+      const base64String = reader.result! as string
+      this.images.controls.at(index)!.setValue({
+        ...this.images.controls.at(index)!.value, base64_image: base64String
+      })
+    };
 
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        const base64String = reader.result! as string
-        this.images.controls.at(index)!.setValue({
-          ...this.images.controls.at(index)!.value, base64_image: base64String
-        })
-      };
-
-      reader.readAsDataURL(file);
-    })
+    reader.readAsDataURL(file);
   }
 
   deleteQuestion(index: number) {
@@ -804,7 +788,7 @@ export class EntryFormComponent {
       mainTermGrammaticalCategory: this.form.controls.main_term_grammatical_category.dirty
     }
 
-    console.log(this.dirtyEntities)
+    // console.log(this.dirtyEntities)
   }
 
   isDirtyEntitiesEmpty() {

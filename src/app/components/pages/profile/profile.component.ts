@@ -1,4 +1,4 @@
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HeaderComponent} from "../../header/header.component";
 import {MatIconModule} from "@angular/material/icon";
 import {AuthService} from "../../../services/auth.service";
@@ -7,6 +7,8 @@ import {UserService} from "../../../services/user.service";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Subject, takeUntil} from "rxjs";
 import {NgIf} from "@angular/common";
+import {ToastService} from "../../../services/toast.service";
+import {HttpErrorResponse} from "@angular/common/http";
 
 
 @Component({
@@ -31,9 +33,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
   userDataShow: FormGroup;
   turnAdminForm: FormGroup;
 
+  profileImageBase64String?: string;
+  showSendImageButton: boolean = false
+
   constructor(public authService: AuthService,
               private router: Router,
               private userService: UserService,
+              private toastService: ToastService,
               private fb: FormBuilder) {
     this.deleteForm = this.fb.group({
       username: ['', [Validators.required]],
@@ -64,8 +70,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   confirmDeletion(): void {
     if (this.deleteForm.valid) {
-      const { username, password } = this.deleteForm.value;
-      this.authService.login({ username, password })
+      const {username, password} = this.deleteForm.value;
+      this.authService.login({username, password})
         .pipe(takeUntil(this.destroy$))
         .subscribe(
           (response) => {
@@ -101,20 +107,27 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     document.body.style.overflow = 'hidden';
-    this.userService.getUserData(this.token).subscribe(
-      (data) => {
-        this.userData = data;
-        console.log('User Data:', this.userData);
-        this.userDataShow.patchValue({
-          name: this.userData.name,
-          username: this.userData.username,
-          email: this.userData.email
-        })
-      },
-      (error) => {
-        console.error('Error fetching user data:', error);
-      }
-    );
+
+    // this.userService.getUserData(this.token).subscribe(
+    //   (data) => {
+    //     this.userData = data;
+    //     console.log('User Data:', this.userData);
+    //     this.userDataShow.patchValue({
+    //       name: this.userData.name,
+    //       username: this.userData.username,
+    //       email: this.userData.email,
+    //       is_staff: this.userData.is_staff,
+    //     })
+    //   },
+    //   (error) => {
+    //     console.error('Error fetching user data:', error);
+    //   }
+    // )
+
+    this.userData = this.authService.getLoggedUser()
+    this.userDataShow.patchValue(this.userData)
+
+    this.profileImageBase64String = this.authService.getLoggedUserProfileImage() ?? undefined;
   }
 
   toggleEdit() {
@@ -128,11 +141,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   saveChanges() {
     if (this.userDataShow.valid) {
-      const updateData = this.userDataShow.value;
-      this.userService.updateUser(this.token, updateData).subscribe(
+      const editedUserData = this.userDataShow.value;
+      this.userService.updateUser(this.token, editedUserData).subscribe(
         (response) => {
           console.log('User data update successfuly', response)
           this.toggleEdit()
+          this.authService.updateUserData(editedUserData)
         },
         (error) => {
           console.error('error updating data', error)
@@ -146,21 +160,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.logMessage = 'O nome é obrigatório'
       } else if (this.userDataShow.get('name')?.hasError('minlenght')) {
         this.logMessage = 'O nome precisa ter pelo menos 3 caracteres'
-      }
-
-      else if (this.userDataShow.get('email')?.hasError('required')) {
+      } else if (this.userDataShow.get('email')?.hasError('required')) {
         this.logMessage = 'Um email é obrigatório'
       } else if (this.userDataShow.get('email')?.hasError('email')) {
         this.logMessage = 'Email inválido'
-      }
-
-      else if (this.userDataShow.get('username')?.hasError('required')) {
+      } else if (this.userDataShow.get('username')?.hasError('required')) {
         this.logMessage = 'Um nome de usuário é obrigatório'
       } else if (this.userDataShow.get('username')?.hasError('minlenght')) {
         this.logMessage = 'O usuário precisa ter no mínimo 2 caracteres'
-      }
-
-      else if (this.userDataShow.get('password')?.hasError('required')) {
+      } else if (this.userDataShow.get('password')?.hasError('required')) {
         this.logMessage = 'A senha é obrigatória'
       } else if (this.userDataShow.get('password')?.hasError('minlenght')) {
         this.logMessage = 'A senha precisa ter pelo menos 4 caracteres'
@@ -191,5 +199,79 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.logMessage = `Convite foi enviado com sucesso para o email ${data.email}`
       }
     )
+  }
+
+  updateImage() {
+    const fileInput = document.querySelector("input[name='profile_image_base64']") as HTMLInputElement
+    const file = fileInput.files![0] as File
+
+    if (!file.type.includes("image/")) {
+      this.toastService.showToasts([{
+        title: "Edição da foto de perfil",
+        body: "O arquivo precisa ser uma imagem.",
+        type: "error"
+      }])
+
+      return;
+    }
+
+    if (!file.type.includes("jpeg") && !file.type.includes("png")) {
+      this.toastService.showToasts([{
+        title: "Edição da foto de perfil",
+        body: "A imagem precisa ser JPEG, JPG ou PNG.",
+        type: "error"
+      }])
+
+      return;
+    }
+
+    if (file.size > 100000) {
+      this.toastService.showToasts([{
+        title: "Edição da foto de perfil",
+        body: "O tamanho do arquivo excede o limite permitido de 100 KB.",
+        type: "error"
+      }])
+
+      return;
+    }
+
+    const reader = new FileReader()
+    reader.onloadend = () => {
+      this.profileImageBase64String = reader.result! as string
+      this.showSendImageButton = true
+    };
+
+    reader.readAsDataURL(file);
+  }
+
+  editProfileImage() {
+    if (!this.profileImageBase64String) return;
+
+    console.log(this.profileImageBase64String)
+
+    this.userService.editProfileImage(this.profileImageBase64String).subscribe(
+      {
+        next: () => {
+          this.toastService.showToasts([{
+            title: "Edição da foto de perfil",
+            body: "Operação realizada com sucesso!",
+            type: "success"
+          }])
+
+          this.authService.updateImage(this.profileImageBase64String!)
+        },
+        error: (err: HttpErrorResponse) => {
+          console.log(err)
+
+          this.toastService.showToasts([{
+            title: "Edição da foto de perfil",
+            body: `${err.statusText} (código ${err.status})`,
+            type: "error"
+          }])
+        },
+        complete: () => this.showSendImageButton = false
+      }
+    )
+
   }
 }

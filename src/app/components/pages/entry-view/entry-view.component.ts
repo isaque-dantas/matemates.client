@@ -37,9 +37,10 @@ export class EntryViewComponent {
   constructor(private route: ActivatedRoute, private entryService: EntryService,
               private router: Router, private toastService: ToastService,
               private imageService: ImageService, private authService: AuthService,
-  ) {
+              ) {
     route.params.subscribe(async (params) => {
       this.entryId = +params["id"];
+      this.loadEntry()
     })
 
     this.entryService.get(this.entryId).subscribe({

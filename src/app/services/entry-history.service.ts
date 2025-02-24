@@ -15,8 +15,8 @@ export class EntryHistoryService {
 
   constructor(private http: HttpClient, private entryService: EntryService) { }
 
-  getMostAccessedEntries(): Observable<EntryToAccess[]> {
-    return this.http.get<EntryToAccess[]>(this.mostAccessedUrl);
+  getMostAccessedEntries(): Observable<Entry[]> {
+    return this.http.get<Entry[]>(this.mostAccessedUrl);
   }
 
   getEntryDetails(entryId: number): Observable<Entry> {
