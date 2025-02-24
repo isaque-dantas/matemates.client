@@ -10,13 +10,11 @@
               <div class="d-flex justify-content-between align-items-center mb-3">
                 <h5 class="fw-bold entry-content m-0">{{ entry.content }}</h5>
                 <div class="d-flex gap-2 list-unstyled align-items-center">
-                  <p
-                    class="knowledge-area-pill m-0 rounded-pill">{{ this.knowledgeAreasData!.at(i)!.contentOfFirstKnowledgeArea }}</p>
-                  <p class="m-0 fs-5 lh-1" *ngIf="this.knowledgeAreasData!.at(i)!.thereAreMoreThanOne">+</p>
+                  <p class="knowledge-area-pill m-0 rounded-pill">{{ getFirstContentFromEntry(entry) }}</p>
+                  <p class="m-0 fs-5 lh-1" *ngIf="areThereManyDefinitionsInEntry(entry)">+</p>
                 </div>
               </div>
-              <p
-                class="definitions-contents lh-base">{{ this.entryService.parseDefinitionsContents(entry.definitions) }}</p>
+              <p class="definitions-contents lh-base">{{ entryService.parseDefinitionsContents(entry.definitions) }}</p>
             </div>
           </a>
         </div>

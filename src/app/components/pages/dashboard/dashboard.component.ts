@@ -116,7 +116,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.toggleKnowledgeAreaEditting()
-    this.authService.loginEventEmitter.subscribe(this.toggleKnowledgeAreaEditting.bind(this))
+    this.authService.loggedUserDataChanged.subscribe(this.toggleKnowledgeAreaEditting.bind(this))
 
     if (this.authService.isAuthenticated()) {
       const lastAccessedEntryString = localStorage.getItem("LastAccessedEntry");

@@ -37,4 +37,13 @@ export class UserService {
       tap(() => console.log(`User turn admin successfully`))
     )
   }
+
+  editProfileImage(profileImageBase64String: string) {
+    return this.http.patch<{}>(`${this.userUrl}/profile_image`, {"profile_image_base64": profileImageBase64String})
+  }
+
+  getProfileImage(): Observable<Blob> {
+    // @ts-ignore
+    return this.http.get<Blob>(`${this.userUrl}/profile_image`, {responseType: "blob"})
+  }
 }
