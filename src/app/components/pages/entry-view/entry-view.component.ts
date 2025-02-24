@@ -119,6 +119,10 @@ export class EntryViewComponent {
     this.authService.loggedUserDataChanged.subscribe(this.toggleEntryEdditing.bind(this))
   }
 
+  formatSyllables(term: any): string {
+    return term.syllables.join('.');
+  }
+
   toggleEntryEdditing() {
     this.EntryEditting = this.authService.isLoggedUserStaff();
   }

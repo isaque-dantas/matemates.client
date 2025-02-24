@@ -10,9 +10,7 @@
                 <h3 class="fw-semibold title m-0 lh-1">
                   @for (term of entryData.terms; track term.content) {
                     <span [class.main-term]="term.is_main_term">
-                      @for (syllabe of term.syllables; track syllabe; let last = $last) {
-                        {{ syllabe }}<ng-container *ngIf="!last">.</ng-container>
-                      }
+                        {{ formatSyllables(term) }}
                     </span>
                   }
                 </h3>
@@ -21,11 +19,13 @@
                   <p class="m-0 fw-medium badge-knowledge-area fw-medium">{{ gramaticalCategoryList }}</p>
                 </ng-container>
                 <div class="d-flex gap-3">
-                  <button *ngIf="EntryEditting" id="editEntry" class="d-flex justify-content-center align-items-center rounded"
+                  <button *ngIf="EntryEditting" id="editEntry"
+                          class="d-flex justify-content-center align-items-center rounded"
                           (click)="redirectToEdit()">
                     <mat-icon class="h-100 v-100">edit</mat-icon>
                   </button>
-                  <button *ngIf="EntryEditting" id="deleteEntry" class="d-flex justify-content-center align-items-center rounded"
+                  <button *ngIf="EntryEditting" id="deleteEntry"
+                          class="d-flex justify-content-center align-items-center rounded"
                           (click)="deleteEntry()">
                     <mat-icon class="h-100 v-100">delete</mat-icon>
                   </button>
