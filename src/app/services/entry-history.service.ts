@@ -19,11 +19,7 @@ export class EntryHistoryService {
     return this.http.get<Entry[]>(this.mostAccessedUrl);
   }
 
-  getEntryDetails(entryId: number): Observable<Entry> {
-    return this.entryService.get(entryId);
-  }
-
-  getUserAccessHistory(userId: number): Observable<EntryAccessHistory[]> {
-    return this.http.get<EntryAccessHistory[]>(`${this.historyUrl}?user_id=${userId}`);
+  getUserAccessHistory(): Observable<EntryAccessHistory[]> {
+    return this.http.get<EntryAccessHistory[]>(`${this.historyUrl}`);
   }
 }

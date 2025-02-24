@@ -1,3 +1,5 @@
+import {Entry} from "./entry";
+
 export interface EntryToAccess {
   id: number;
   content: string;
@@ -6,6 +8,6 @@ export interface EntryToAccess {
 
 export interface EntryAccessHistory {
   access_moment: Date;
-  entry_content: string;
-  entry_id: number;
+  entry: Entry;
 }
+

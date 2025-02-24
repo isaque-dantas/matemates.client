@@ -9,15 +9,15 @@
       <div *ngFor="let history of userAccessHistory" class="col-3 mb-3">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">{{ entryDetails[history.entry_id].content }}</h5>
+            <h5 class="card-title">{{ history.entry.content }}</h5>
             <h6 class="card-subtitle mb-2 text-body-secondary"
-                *ngFor="let item of entryDetails[history.entry_id].definitions">
+                *ngFor="let item of history.entry.definitions">
               {{ item.knowledge_area }}
             </h6>
-            <p class="card-text" *ngFor="let definition of entryDetails[history.entry_id].definitions">
+            <p class="card-text" *ngFor="let definition of history.entry.definitions">
               {{ definition.content }}
             </p>
-            <a href="#" class="card-link" [routerLink]="['/entry', history.entry_id]">Ver verbete</a>
+            <a href="#" class="card-link" [routerLink]="['/entry', history.entry.id]">Ver verbete</a>
           </div>
         </div>
       </div>

@@ -71,9 +71,10 @@
           <mat-icon aria-hidden="false" class="search-icon" aria-label="icon" fontIcon="history"></mat-icon>
           <p class="m-0 knowledge-area">Histórico</p>
         </div>
-        <div id="color-3" class="search-example d-flex align-items-center" [routerLink]="['/entry', LastAccessedEntry?.entry_id]">
+        <div id="color-3" class="search-example d-flex align-items-center"
+             [routerLink]="['/entry', LastAccessedEntry?.entry?.id]">
           <mat-icon aria-hidden="false" class="search-icon" aria-label="icon" fontIcon="autorenew"></mat-icon>
-          <p class="m-0 knowledge-area">{{ LastAccessedEntry?.entry_content ?? 'nenhum termo recente' }}</p>
+          <p class="m-0 knowledge-area">{{ LastAccessedEntry?.entry?.content ?? 'nenhum termo recente' }}</p>
         </div>
       </div>
       <div class="right2 col-9">
@@ -84,7 +85,8 @@
             <h3 class="qnt position-absolute">{{ card.amountOfEntries }}</h3>
             <div *ngIf="KnowledgeAreaEditting" class="crud-buttons position-absolute d-flex flex-column gap-2">
               <button (click)="saveKnowledgeAreaId(card.id)"
-                      class="d-flex align-items-center justify-content-center crud-button" data-bs-target="#updateKnowledgeArea" data-bs-toggle="modal">
+                      class="d-flex align-items-center justify-content-center crud-button"
+                      data-bs-target="#updateKnowledgeArea" data-bs-toggle="modal">
                 <mat-icon>edit</mat-icon>
               </button>
               <button (click)="deleteKnowledgeArea(card.id)"
@@ -145,12 +147,13 @@
                 <input type="text" id="newName" formControlName="content">
               </div>
             </div>
-              <div class="modal-footer border-0 d-flex justify-content-between">
-                <button type="button" class="cancel" data-bs-dismiss="modal">Cancelar</button>
-                <button type="submit" [disabled]="KnowledgeAreaUpdateForm.invalid" class="confirm" data-bs-dismiss="modal">
-                  Confirmar
-                </button>
-              </div>
+            <div class="modal-footer border-0 d-flex justify-content-between">
+              <button type="button" class="cancel" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" [disabled]="KnowledgeAreaUpdateForm.invalid" class="confirm"
+                      data-bs-dismiss="modal">
+                Confirmar
+              </button>
+            </div>
           </form>
         </div>
       </div>
