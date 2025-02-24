@@ -32,22 +32,20 @@ export class EntryViewComponent {
   imageFileList: string[] = []
   genderList: string[] = []
   gramaticalCategoryList: string[] = []
-  EntryEditting:  boolean = false;
+  EntryEditting: boolean = false;
 
   constructor(private route: ActivatedRoute, private entryService: EntryService,
               private router: Router, private toastService: ToastService,
               private imageService: ImageService, private authService: AuthService,
-              ) {
+  ) {
     route.params.subscribe(async (params) => {
       this.entryId = +params["id"];
-      this.loadEntry()
     })
 
     this.entryService.get(this.entryId).subscribe({
       next: (entry: Entry) => {
         console.log('verbete:', entry)
         this.entryData = entry
-
 
         this.genderList = this.entryService.getGendersFromEntry(entry.terms)
         this.gramaticalCategoryList = this.entryService.getGrammaticalCategoriesFromEntry(entry.terms);
@@ -84,46 +82,7 @@ export class EntryViewComponent {
             body: "Você não tem permissão para acessar esse verbete.",
             type: "error",
           }])
-
           this.router.navigate([''])
-        }
-      }
-    })
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const firstImage = document.querySelector(".carousel li.carousel-item")
-      console.log('imagem:', firstImage)
-      if (firstImage) {
-        firstImage.classList.add("active")
-      }
-    })
-  }
-
-  ngOnInit() {
-    this.toggleEntryEdditing()
-    this.authService.loginEventEmitter.subscribe(this.toggleEntryEdditing.bind(this))
-  }
-
-  toggleEntryEdditing() {
-    this.EntryEditting = this.authService.isLoggedUserStaff();
-  }
-
-  loadEntry(): void {
-    this.entryService.get(this.entryId).subscribe({
-      next: (entry: Entry) => {
-        this.entryData = entry;
-        this.entryIsLoadedAlready = true;
-      },
-      error: (response: HttpErrorResponse) => {
-        if (response.status === 404) {
-          this.toastService.showToasts([
-            {
-              title: "Verbete não encontrado",
-              body: "O verbete que você está tentando acessar não existe.",
-              type: "error"
-            }
-          ]);
-          this.router.navigate(['']);
         } else if (response.status === 403) {
           this.toastService.showToasts([
             {
@@ -144,7 +103,24 @@ export class EntryViewComponent {
           this.router.navigate(['']);
         }
       }
-    });
+    })
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const firstImage = document.querySelector(".carousel li.carousel-item")
+      console.log('imagem:', firstImage)
+      if (firstImage) {
+        firstImage.classList.add("active")
+      }
+    })
+  }
+
+  ngOnInit() {
+    this.toggleEntryEdditing()
+    this.authService.loginEventEmitter.subscribe(this.toggleEntryEdditing.bind(this))
+  }
+
+  toggleEntryEdditing() {
+    this.EntryEditting = this.authService.isLoggedUserStaff();
   }
 
   redirectToEdit(): void {

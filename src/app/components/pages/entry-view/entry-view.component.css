@@ -23,7 +23,7 @@ h3 {
 }
 
 .main-term {
-  color: red !important;
+  font-weight: bold;
 }
 
 .badge-knowledge-area-sm {

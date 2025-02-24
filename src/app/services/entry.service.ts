@@ -4,8 +4,6 @@ import {Observable} from "rxjs";
 import {Entry, EntryToSend} from "../interfaces/entry";
 import {Definition} from "../interfaces/definition";
 import {Term} from "../interfaces/term";
-import {Image} from "../interfaces/image";
-import {ImageService} from "./image.service";
 import {baseApiUrl} from "../app.config";
 
 @Injectable({
