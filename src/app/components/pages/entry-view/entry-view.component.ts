@@ -40,7 +40,6 @@ export class EntryViewComponent {
               ) {
     route.params.subscribe(async (params) => {
       this.entryId = +params["id"];
-      this.loadEntry()
     })
 
     this.entryService.get(this.entryId).subscribe({
@@ -117,7 +116,7 @@ export class EntryViewComponent {
 
   ngOnInit() {
     this.toggleEntryEdditing()
-    this.authService.loginEventEmitter.subscribe(this.toggleEntryEdditing.bind(this))
+    this.authService.loggedUserDataChanged.subscribe(this.toggleEntryEdditing.bind(this))
   }
 
   toggleEntryEdditing() {
