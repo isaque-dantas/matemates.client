@@ -6,42 +6,35 @@
         <div class="container">
           <div class="carousel slide carousel-fade" data-bs-ride="carousel" id="term-carousel">
             <div class="carousel-inner">
-              <div class="carousel-item active d-flex justify-content-between align-items-center">
-                <div class="left d-flex flex-column justify-content-between">
-                  <div class="title_and_definition">
-                    <div class="title-container d-flex align-items-center">
-                      <h1 class="m-0 title fw-bold">Alfa</h1>
-                      <div class="m-0 area-field">Álgebra</div>
+              @if (showcaseEntries) {
+                @for (entry of showcaseEntries; track entry.id; let i = $index) {
+                  <div class="carousel-item d-flex justify-content-between align-items-center">
+                    <div class="left d-flex flex-column justify-content-between">
+                      <div class="title_and_definition">
+                        <div class="title-container d-flex align-items-center">
+                          <h1 class="m-0 title fw-bold">{{ entry.content }}</h1>
+                          @for (area of this.entryService.getKnowledgeAreasContentsFromDefinitions(entry.definitions); track area) {
+                            <div class="m-0 area-field">{{ area }}</div>
+                          }
+                        </div>
+                        <p class="definition">{{ this.entryService.parseDefinitionsContents(entry.definitions) }}</p>
+                      </div>
+                      <div class="w-100 d-flex justify-content-end read-more" [routerLink]="['/entry', entry.id]">
+                        <p class="about position-relative">LER MAIS</p>
+                      </div>
                     </div>
-                    <p class="definition">Alfa (Α ou α; em grego: άλφα, transl.: álpha) é a primeira letra do alfabeto
-                      grego e tem um valor numérico de 1. Ela é derivada da letra fení...</p>
-                  </div>
-                  <div class="w-100 d-flex justify-content-end">
-                    <p class="about position-relative">LER MAIS</p>
-                  </div>
-                </div>
-                <div class="right">
-                  <div class="placeholder"></div>
-                </div>
-              </div>
-              <div class="carousel-item d-flex justify-content-between align-items-center">
-                <div class="left d-flex flex-column justify-content-between">
-                  <div class="title_and_definition">
-                    <div class="title-container d-flex align-items-center">
-                      <h1 class="m-0 title">Lorem</h1>
-                      <div class="m-0 area-field">Álgebra</div>
+                    <div class="right d-flex justify-content-center align-items-center">
+                      @if (entryShowcaseFirstImages) {
+                        <img [src]="entryShowcaseFirstImages.at(i)!" alt="" class="w-100 h-auto">
+                      } @else {
+                        <span class="spinner-border"></span>
+                      }
                     </div>
-                    <p class="definition">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent mattis
-                      elementum tortor id consectetur...</p>
                   </div>
-                  <div class="w-100 d-flex justify-content-end">
-                    <p class="about position-relative">LER MAIS</p>
-                  </div>
-                </div>
-                <div class="right">
-                  <div class="placeholder"></div>
-                </div>
-              </div>
+                }
+              } @else {
+                <p>Carregando informações...</p>
+              }
             </div>
           </div>
         </div>

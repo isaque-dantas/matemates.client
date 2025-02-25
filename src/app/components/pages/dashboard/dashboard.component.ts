@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {afterRender, Component, OnInit} from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {NgForOf, NgIf} from "@angular/common";
 import {HeaderComponent} from "../../header/header.component";
@@ -13,6 +13,8 @@ import {FormBuilder} from "@angular/forms";
 import {ToastService} from "../../../services/toast.service";
 import {EntryAccessHistory} from "../../../interfaces/entry-access-history";
 import {EntryHistoryService} from "../../../services/entry-history.service";
+import {Entry} from "../../../interfaces/entry";
+import {ImageService} from "../../../services/image.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -31,9 +33,17 @@ export class DashboardComponent implements OnInit {
   knowledgeAreaName: string | undefined;
   KnowledgeAreaEditting: boolean = false;
   LastAccessedEntry: EntryAccessHistory | null = null;
+  showcaseEntries?: Entry[]
+  shouldAddActiveToFirstCarouselItem: boolean = false;
+  entryShowcaseFirstImages?: string[]
 
-  constructor(private toastService: ToastService, private knowledgeAreaService: KnowledgeAreaService,
-              private authService: AuthService, private router: Router, private fb: FormBuilder,
+  constructor(private toastService: ToastService,
+              private knowledgeAreaService: KnowledgeAreaService,
+              private authService: AuthService,
+              protected entryService: EntryService,
+              protected imageService: ImageService,
+              private router: Router,
+              private fb: FormBuilder,
               private entryHistoryService: EntryHistoryService) {
     this.KnowledgeAreaForm = this.fb.group({
       content: ['', Validators.required]
@@ -48,7 +58,6 @@ export class DashboardComponent implements OnInit {
     if (saveId) {
       this.knowledgeAreaId = +saveId
     }
-
 
     knowledgeAreaService.getAll().subscribe(async (knowledgeAreas: KnowledgeArea[]) => {
       console.log("Lista de áreas:", knowledgeAreas);
@@ -65,6 +74,12 @@ export class DashboardComponent implements OnInit {
       this.allKnowledgeAreas = knowledgeAreas;
       this.contentResults = [...knowledgeAreas];
     })
+
+    afterRender(() => {
+      if (this.shouldAddActiveToFirstCarouselItem) {
+        document.querySelector(".carousel .carousel-item")!.classList.add("active")
+      }
+    })
   }
 
   ngOnInit() {
@@ -78,30 +93,41 @@ export class DashboardComponent implements OnInit {
         }
       })
     }
-  }
-    searchContent()
-    {
-      const termContent = this.KnowledgeAreaForm.get('content')?.value.trim();
-      if (!termContent) {
-        this.contentResults = [...this.allKnowledgeAreas];
-      } else {
-        const regexContent = new RegExp(termContent, 'i');
-        this.contentResults = this.allKnowledgeAreas.filter((item) =>
-          regexContent.test(item.content)
-        );
-      }
-    }
 
-    navigateToHistory()
-  :
-    void {
-      if(this.authService.isAuthenticated()
-  )
-    {
-      this.router.navigate(['/user_history']);
+    this.entryService.getAll().subscribe((data: Entry[]) => {
+      this.showcaseEntries = data.slice(0, 3)
+      this.shouldAddActiveToFirstCarouselItem = true
+      this.entryShowcaseFirstImages = []
+
+      this.showcaseEntries.forEach((entry: Entry, index: number) => {
+        if (entry.images.length == 0) return;
+
+        this.imageService.getFile(entry.images.at(0)!.id!).subscribe((data) => {
+          this.entryShowcaseFirstImages![index] = URL.createObjectURL(data)
+        })
+      })
+    })
+  }
+
+  searchContent() {
+    const termContent = this.KnowledgeAreaForm.get('content')?.value.trim();
+    if (!termContent) {
+      this.contentResults = [...this.allKnowledgeAreas];
+    } else {
+      const regexContent = new RegExp(termContent, 'i');
+      this.contentResults = this.allKnowledgeAreas.filter((item) =>
+        regexContent.test(item.content)
+      );
     }
-  else
-    {
+  }
+
+  navigateToHistory()
+    :
+    void {
+    if (this.authService.isAuthenticated()
+    ) {
+      this.router.navigate(['/user_history']);
+    } else {
       this.toastService.showToasts([
         {
           title: "Acesso Negado",
@@ -112,106 +138,100 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-    saveKnowledgeAreaId(id
-  :
-    number
-  )
-    {
-      this.knowledgeAreaId = id;
+  saveKnowledgeAreaId(id
+                      :
+                      number
+  ) {
+    this.knowledgeAreaId = id;
 
-      console.log(this.knowledgeAreaId)
-      const foundContent = this.knowledgeAreaCards?.find(area => area.id === this.knowledgeAreaId);
-      this.knowledgeAreaName = foundContent?.content;
-    }
+    console.log(this.knowledgeAreaId)
+    const foundContent = this.knowledgeAreaCards?.find(area => area.id === this.knowledgeAreaId);
+    this.knowledgeAreaName = foundContent?.content;
+  }
 
-    deleteKnowledgeArea(id
-  :
-    number
-  )
-    {
-      const confirmDelete = window.confirm("Tem certeza que deseja excluir esta área do conhecimento?");
+  deleteKnowledgeArea(id
+                      :
+                      number
+  ) {
+    const confirmDelete = window.confirm("Tem certeza que deseja excluir esta área do conhecimento?");
 
-      if (confirmDelete) {
-        this.knowledgeAreaService.delete(id).subscribe({
-          next: () => {
-            this.knowledgeAreaCards = this.knowledgeAreaCards?.filter(card => card.id !== id);
-            this.contentResults = this.contentResults.filter(card => card.id !== id);
-          },
-          error: (err) => {
-            console.error('Erro ao excluir área do conhecimento:', err);
-          }
-        });
-      }
-    }
-
-    toggleKnowledgeAreaEditting()
-    {
-      this.KnowledgeAreaEditting = this.authService.isLoggedUserStaff();
-    }
-
-    postKnowledgeArea()
-    {
-      console.log('tentando enviar forms...');
-      if (this.KnowledgeAreaForm.invalid) {
-        alert('formulário inválido!');
-        console.log(this.KnowledgeAreaForm.get('content')!.errors)
-      } else {
-        this.knowledgeAreaService.post(this.KnowledgeAreaForm.value).subscribe({
-          next: (res) => {
-            console.log("Sucesso:", res)
-
-            const newKnowledgeArea = {
-              id: res.id,
-              content: res.content,
-              amountOfEntries: res.entries ? res.entries.length : 0
-            };
-
-            this.knowledgeAreaCards?.push(newKnowledgeArea);
-            this.allKnowledgeAreas.push(res);
-            this.contentResults.push(res);
-
-          },
-          error: (err) => console.error("erro:", err)
-        });
-        this.KnowledgeAreaForm.reset();
-      }
-    }
-
-    updateKnowledgeArea()
-    {
-      this.knowledgeAreaService.put(this.knowledgeAreaId, this.KnowledgeAreaUpdateForm.value).subscribe({
-        next: (res) => {
-          console.log("Área do conhecimento atualizada:", res);
-
-          if (this.knowledgeAreaCards) {
-            const index = this.knowledgeAreaCards.findIndex(k => k.id === this.knowledgeAreaId);
-            if (index !== -1) {
-              this.knowledgeAreaCards[index] = {
-                ...this.knowledgeAreaCards[index],
-                content: this.KnowledgeAreaUpdateForm.value.content
-              };
-            }
-          }
+    if (confirmDelete) {
+      this.knowledgeAreaService.delete(id).subscribe({
+        next: () => {
+          this.knowledgeAreaCards = this.knowledgeAreaCards?.filter(card => card.id !== id);
+          this.contentResults = this.contentResults.filter(card => card.id !== id);
         },
-        error: (err) => console.error("Erro ao atualizar:", err)
+        error: (err) => {
+          console.error('Erro ao excluir área do conhecimento:', err);
+        }
       });
     }
-
-
-    searchEntries(event
-  :
-    KeyboardEvent
-  )
-    {
-      console.log(event)
-      console.log((event.target as HTMLInputElement).value)
-      if (event.key == "Enter")
-        this.router.navigate(
-          ['/entries'],
-          {
-            queryParams: {search_query: (event.target as HTMLInputElement).value}
-          }
-        )
-    }
-
   }
+
+  toggleKnowledgeAreaEditting() {
+    this.KnowledgeAreaEditting = this.authService.isLoggedUserStaff();
+  }
+
+  postKnowledgeArea() {
+    console.log('tentando enviar forms...');
+    if (this.KnowledgeAreaForm.invalid) {
+      alert('formulário inválido!');
+      console.log(this.KnowledgeAreaForm.get('content')!.errors)
+    } else {
+      this.knowledgeAreaService.post(this.KnowledgeAreaForm.value).subscribe({
+        next: (res) => {
+          console.log("Sucesso:", res)
+
+          const newKnowledgeArea = {
+            id: res.id,
+            content: res.content,
+            amountOfEntries: res.entries ? res.entries.length : 0
+          };
+
+          this.knowledgeAreaCards?.push(newKnowledgeArea);
+          this.allKnowledgeAreas.push(res);
+          this.contentResults.push(res);
+
+        },
+        error: (err) => console.error("erro:", err)
+      });
+      this.KnowledgeAreaForm.reset();
+    }
+  }
+
+  updateKnowledgeArea() {
+    this.knowledgeAreaService.put(this.knowledgeAreaId, this.KnowledgeAreaUpdateForm.value).subscribe({
+      next: (res) => {
+        console.log("Área do conhecimento atualizada:", res);
+
+        if (this.knowledgeAreaCards) {
+          const index = this.knowledgeAreaCards.findIndex(k => k.id === this.knowledgeAreaId);
+          if (index !== -1) {
+            this.knowledgeAreaCards[index] = {
+              ...this.knowledgeAreaCards[index],
+              content: this.KnowledgeAreaUpdateForm.value.content
+            };
+          }
+        }
+      },
+      error: (err) => console.error("Erro ao atualizar:", err)
+    });
+  }
+
+
+  searchEntries(event
+                :
+                KeyboardEvent
+  ) {
+    console.log(event)
+    console.log((event.target as HTMLInputElement).value)
+    if (event.key == "Enter")
+      this.router.navigate(
+        ['/entries'],
+        {
+          queryParams: {search_query: (event.target as HTMLInputElement).value}
+        }
+      )
+  }
+
+}

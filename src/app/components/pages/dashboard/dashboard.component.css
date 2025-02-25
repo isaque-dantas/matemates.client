@@ -43,6 +43,11 @@ section .container {
   max-width: 774px;
   line-height: normal;
   margin-top: 15px;
+  text-overflow: ellipsis;
+}
+
+.read-more {
+  cursor: pointer;
 }
 
 .about {
@@ -60,12 +65,13 @@ section .container {
   border-radius: 15px;
 }
 
-.placeholder {
+.right {
   background-color: var(--page-color-1);
   opacity: 1;
   height: 200px;
   width: 200px;
-  border-radius: 19px;
+  border-radius: 20px;
+  overflow: hidden;
 }
 
 .bottom-content {
