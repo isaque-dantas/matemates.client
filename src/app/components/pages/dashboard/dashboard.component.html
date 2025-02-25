@@ -8,7 +8,7 @@
             <div class="carousel-inner">
               @if (showcaseEntries) {
                 @for (entry of showcaseEntries; track entry.id; let i = $index) {
-                  <div class="carousel-item d-flex justify-content-between align-items-center">
+                  <div class="carousel-item d-flex justify-content-between align-items-center" data-bs-interval="10000">
                     <div class="left d-flex flex-column justify-content-between">
                       <div class="title_and_definition">
                         <div class="title-container d-flex align-items-center">
