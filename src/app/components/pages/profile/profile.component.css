@@ -98,6 +98,10 @@
   background-color: var(--danger-color);
 }
 
+.modal-body {
+  height: fit-content;
+}
+
 .user_info {
   gap: 28px;
   width: 43%;

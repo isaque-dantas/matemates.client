@@ -61,17 +61,17 @@ body {
 }
 
 .modal {
-  left: 50%;
-  top: 50%;
+  left: 50% !important;
+  top: 50% !important;
   transform: translate(-50%, -50%);
+  width: 60vw !important;
+  height: fit-content !important;
+  overflow: hidden;
 }
 
 .modal-dialog {
   max-width: 100%;
-}
-
-.modal-header {
-  margin-top: 30px;
+  min-width: 100%;
 }
 
 .modal-title{
@@ -87,17 +87,12 @@ body {
 }
 
 .modal-content {
-  padding: 0 50px;
+  padding: 32px 50px;
   background: rgba(255, 255, 255, 0.90);
 }
 
 .modal-body {
   flex: 0;
-}
-
-.modal {
-  width: 60vw;
-  height: 65vh;
 }
 
 .modal-short {
