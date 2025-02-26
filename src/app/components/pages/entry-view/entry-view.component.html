@@ -89,19 +89,21 @@
             </div>
           </div>
         </div>
-        <div class="row bottom-content d-flex flex-column justify-content-end">
-          <div class="examples">
-            <h3 class="fw-semibold">Exemplos</h3>
-            <ul class="row row-cols-2 row-cols-lg-3 g-3 list-unstyled">
-              <li class="col" *ngFor="let question of entryData.questions">
-                <div class="example v-100">
-                  <span class="fw-medium fs-5">{{ question.statement }}</span>
-                  <p class="mb-0 mt-2">{{ question.answer }}</p>
-                </div>
-              </li>
-            </ul>
+        @if (entryData.questions.length > 0) {
+          <div class="row bottom-content d-flex flex-column justify-content-end">
+            <div class="examples">
+              <h3 class="fw-semibold">Exemplos</h3>
+              <ul class="row row-cols-2 row-cols-lg-3 g-3 list-unstyled">
+                <li class="col" *ngFor="let question of entryData.questions">
+                  <div class="example v-100">
+                    <span class="fw-medium fs-5">{{ question.statement }}</span>
+                    <p class="mb-0 mt-2">{{ question.answer }}</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
+        }
       </section>
     } @else {
       <h3 class="position-absolute top-50 start-50 translate-middle">Carregando as informações do verbete...</h3>
